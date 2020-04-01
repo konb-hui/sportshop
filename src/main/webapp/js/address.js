@@ -1,5 +1,8 @@
 $(document).ready(function (){
-    var addresId;
+    var aid;
+    var detailaddressflag = 1;
+    var nameflag = 1;
+    var telephoneflag = 1;
     $("[name='changeAddr']").click(function (){
         $("#update-addr").modal({
             backdrop:'static'
@@ -8,14 +11,14 @@ $(document).ready(function (){
         $("#name").val($(this).parents("#parent").find("#conname").text());
         $("#telephone").val($(this).parents("#parent").find("#contel").text());
         $("#detailaddress").val($(this).parents("#parent").find("#detailaddr").text());
-         addresId=$(this).parents("#parent").find("#table").attr("address-id");
+         aid=$(this).parents("#parent").find("#table").attr("address-id");
 
     });
 
 
     $("#saveAddr").click(function (){
         var saveAddr={};
-        saveAddr.addressid=addresId;
+        saveAddr.aid=aid;
          saveAddr.province=$("#provinceUpdate").val();
          saveAddr.city=$("#cityUpdate").val();
          saveAddr.county=$("#countyUpdate").val();
@@ -25,14 +28,14 @@ $(document).ready(function (){
 
         $.ajax({
             type: "POST",
-            url: "/shop/saveAddr",
+            url: "./addressAction_updateAddress",
             contentType:"application/x-www-form-urlencoded; charset=utf-8",
             data:saveAddr,
             dateType:"json",
             success: function(result){
-                if (result.msg=="更新失败")
+                if (result=="更新失败")
                 {
-                    swal(result.msg);
+                    swal(result);
                 }
                 else {
                     $("#update-info").modal('hide');
@@ -49,17 +52,17 @@ $(document).ready(function (){
     });
 
     $("[name='deleteAddr']").click(function (){
-        addresId=$(this).parents("#parent").find("#table").attr("address-id");
+        aid=$(this).parents("#parent").find("#table").attr("address-id");
         var address={};
-        address.addressid=addresId;
+        address.aid=aid;
         $.ajax({
             type: "POST",
-            url: "/shop/deleteAddr",
+            url: "./addressAction_deleteAddress",
             contentType:"application/x-www-form-urlencoded; charset=utf-8",
             data:address,
             dateType:"json",
             success:function (result){
-                swal(result.msg);
+                swal(result);
                 $("button").click(function (){
                     location.reload();
                 });
@@ -75,33 +78,85 @@ $(document).ready(function (){
             backdrop:'static'
         });
     });
-
+    $("#nameInsert").blur(function (){
+        if ($("#nameInsert").val().length == 0)
+        {
+        	$("#nameLabel").html("收货人不能为空！");
+        	nameflag=0;
+            $("#nameError").show();
+        }else if($("#nameInsert").val().length > 10){
+        	$("#nameLabel").html("收货人不能太长！");
+        	nameflag=0;
+            $("#nameError").show();
+        }
+        else
+        {
+            $("nameError").hide();
+            nameflag=1;
+        }
+    })
+        $("#detailaddressInsert").blur(function (){
+        if ($("#detailaddressInsert").val().length == 0)
+        {
+        	$("#detailaddressLabel").html("详细地址不能为空！");
+        	detailaddressflag=0;
+            $("#detailaddressError").show();
+        }else if($("#detailaddressInsert").val().length > 16){
+        	$("#detailaddressLabel").html("详细地址不能太长！");
+        	detailaddressflag=0;
+            $("#detailaddressError").show();
+        }
+        else
+        {
+            $("#detailaddressError").hide();
+            detailaddressflag=1;
+        }
+    })
+        $("#telephoneInsert").blur(function (){
+        if ($("#telephoneInsert").val().length == 0)
+        {
+        	$("#telephoneLabel").html("联系电话不能为空！");
+        	telephoneflag=0;
+            $("#telephoneError").show();
+        }else if($("#telephoneInsert").val().length != 10){
+        	$("#telephoneLabel").html("联系电话不正确！");
+        	telephoneflag=0;
+            $("#telephoneError").show();
+        }
+        else
+        {
+            $("telephoneError").hide();
+            telephoneflag=1;
+        }
+    })
     $("#insertAddr").click(function (){
-        var insertAddr={};
-        insertAddr.addressid={};
-        insertAddr.userid={};
-       insertAddr.province=$("#provinceInsert").val();
-       insertAddr.city=$("#cityInsert").val();
-        insertAddr.county=$("#countyInsert").val();
-        insertAddr.detailaddr=$("#detailaddressInsert").val();
-        insertAddr.conname=$("#nameInsert").val();
-       insertAddr.contel=$("#telephoneInsert").val();
-       $.ajax({
-           type:"POST",
-           url:"/shop/insertAddr",
-           contentType:"application/x-www-form-urlencoded; charset=utf-8",
-           data:insertAddr,
-           dataType:"json",
-           success:function (result){
-               swal(result.msg);
-               $("button").click(function (){
-                   location.reload();
-               });
-           },
-           error:function (){
-               alert("添加失败");
-           }
-       });
+    	if(detailaddressflag==1&&nameflag==1&&telephoneflag==1){
+            var insertAddr={};
+            insertAddr.addressid={};
+            insertAddr.userid={};
+           insertAddr.province=$("#provinceInsert").val();
+           insertAddr.city=$("#cityInsert").val();
+            insertAddr.county=$("#countyInsert").val();
+            insertAddr.detailaddr=$("#detailaddressInsert").val();
+            insertAddr.conname=$("#nameInsert").val();
+           insertAddr.contel=$("#telephoneInsert").val();
+           $.ajax({
+               type:"POST",
+               url:"./addressAction_addAddress",
+               contentType:"application/x-www-form-urlencoded; charset=utf-8",
+               data:insertAddr,
+               dataType:"json",
+               success:function (result){
+            	   swal(result);
+                   $("button").click(function (){
+                       location.reload();
+                   });
+               },
+               error:function (){
+                   alert("添加失败");
+               }
+           });
+    	}
 
     });
 });

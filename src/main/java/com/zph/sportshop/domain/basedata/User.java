@@ -1,6 +1,10 @@
 package com.zph.sportshop.domain.basedata;
 
-public class User {
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.Set;
+
+public class User implements Serializable{
 	private Long uid;
 	private String username;
 	private String password;
@@ -8,7 +12,21 @@ public class User {
 	private String sex;
 	private String email;
 	private String phone;
-	private Integer isvip;
+	private String isvip = "否";
+	private Date regTime;
+	private Set<Address> addresses;
+	public Set<Address> getAddresses() {
+		return addresses;
+	}
+	public void setAddresses(Set<Address> addresses) {
+		this.addresses = addresses;
+	}
+	public Date getRegTime() {
+		return regTime;
+	}
+	public void setRegTime(Date regTime) {
+		this.regTime = regTime;
+	}
 	public Long getUid() {
 		return uid;
 	}
@@ -51,10 +69,10 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public Integer getIsvip() {
+	public String getIsvip() {
 		return isvip;
 	}
-	public void setIsvip(Integer isvip) {
+	public void setIsvip(String isvip) {
 		this.isvip = isvip;
 	}
 	

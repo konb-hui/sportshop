@@ -31,9 +31,17 @@
 		<property name="sex" length="10"></property>
 		<property name="username" length="20"></property>
 		<property name="account" length="20"></property>
-		<property name="isvip" length="1" type="java.lang.Integer">
-			<column name="isvip" default="0"/>
+		<property name="isvip" length="1">
 		</property>
+		<property name="regTime" length="20">
+			<column name="regTime" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
+		</property>
+		<set name="addresses" inverse="true" lazy="false">
+			<key>
+				<column name="uid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.basedata.Address"/>
+		</set>
 		
 	</class>
 </hibernate-mapping>

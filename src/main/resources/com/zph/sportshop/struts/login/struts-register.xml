@@ -6,7 +6,8 @@
 <struts>
 	<package name="register" namespace="/" extends="struts-default">
 		<action name="registerAction_*" method="{1}" class="registerAction">
-			<result name="index">index.jsp</result>
+			<result name="homepage">main.jsp</result>
+			<result name="action2action" type="redirectAction">register.jsp</result>
 			<result name="register">register.jsp</result>
 		</action>
 	</package>

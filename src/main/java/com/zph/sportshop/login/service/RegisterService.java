@@ -1,5 +1,9 @@
 package com.zph.sportshop.login.service;
 
-public interface RegisterService {
+import com.zph.sportshop.domain.basedata.User;
 
+public interface RegisterService {
+	public boolean isExistAccount(String account);
+	public boolean isExistUsername(String username);
+	public void addUser(User user);
 }

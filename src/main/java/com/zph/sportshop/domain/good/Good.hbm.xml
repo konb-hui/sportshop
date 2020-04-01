@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 
+		class代表持久化类
+		   name持久化类的全名
+		   table 持久化类对应的表名  默认类名
+		   catalog 数据库的名字  一般不写
+	 -->
+	<class name="com.zph.sportshop.domain.good.Good" table="good">
+		<!-- 
+			主键
+			   name为属性的名称
+			   type为类型
+			   length指的是数据库中相应的字段的长度
+			   column为对应的列的名称   可以不写，默认就是属性的名称
+		 -->
+		<id name="gid" length="5" type="java.lang.Long">
+			<!-- 
+				主键的生成器
+			 -->
+			<generator class="increment"></generator>
+		</id>
+		<!-- 
+			一般字段
+		 -->
+		<property name="gname" length="10"></property>
+		<property name="introduce" length="50"></property>
+		<property name="price" type="java.lang.Double"></property>
+		<property name="vipPrice" type="java.lang.Double"></property>
+		<property name="images" length="20"></property>
+		<many-to-one name="category" column="cid" class="com.zph.sportshop.domain.good.Category"></many-to-one>
+		<many-to-one name="brand" column="bid" class="com.zph.sportshop.domain.good.Brand"></many-to-one>
+		<set name="colors" table="good_color">
+			<key>
+				<column name="gid"></column>
+			</key>
+			<many-to-many class="com.zph.sportshop.domain.good.Color" column="coid"></many-to-many>
+		</set>
+		<set name="sizes" table="good_size">
+			<key>
+				<column name="gid"></column>
+			</key>
+			<many-to-many class="com.zph.sportshop.domain.good.Size" column="sid"></many-to-many>
+		</set>
+	</class>
+</hibernate-mapping>

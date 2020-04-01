@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 
+		class代表持久化类
+		   name持久化类的全名
+		   table 持久化类对应的表名  默认类名
+		   catalog 数据库的名字  一般不写
+	 -->
+	<class name="com.zph.sportshop.domain.good.Category" table="category">
+		<!-- 
+			主键
+			   name为属性的名称
+			   type为类型
+			   length指的是数据库中相应的字段的长度
+			   column为对应的列的名称   可以不写，默认就是属性的名称
+		 -->
+		<id name="cid" length="5">
+			<!-- 
+				主键的生成器
+			 -->
+			<generator class="increment"></generator>
+		</id>
+		<!-- 
+			一般字段
+		 -->
+		<property name="cname" length="10"></property>
+		<many-to-one name="bigCategory" column="bcid" class="com.zph.sportshop.domain.good.BigCategory"></many-to-one>
+		
+		<set name="goods" inverse="true">
+			<key>
+				<column name="cid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.good.Good"/>
+		</set>
+		
+	</class>
+</hibernate-mapping>

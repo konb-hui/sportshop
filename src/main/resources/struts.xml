@@ -11,5 +11,26 @@
 	  	注册
 	   -->
 	   <include file="com/zph/sportshop/struts/login/struts-register.xml"></include>
+	   		<!-- 
+	  	登录
+	   -->
+	   <include file="com/zph/sportshop/struts/login/struts-login.xml"></include>
+	   <!--
+	   	跳转
+	   -->
+	   <include file="com/zph/sportshop/struts/forward/struts-forward.xml"></include>
+	   	   <!--
+	   	user
+	   -->
+	   <include file="com/zph/sportshop/struts/user/struts-user.xml"></include>
+	   	   <!--
+	   	address
+	   -->
+	   <include file="com/zph/sportshop/struts/user/struts-address.xml"></include>
+	   	 <!--
+	   	good
+	   -->
+	   <include file="com/zph/sportshop/struts/good/struts-good.xml"></include>
+	   
 </struts>
 	

@@ -6,7 +6,7 @@
 
         <ul class="nav nav-pills">
             <c:if test="${empty sessionScope.user}">
-                <li><a href="${pageContext.request.contextPath}/login" style="color: #F22E00">请登录</a></li>
+                <li><a href="loginAction_login" style="color: #F22E00">请登录</a></li>
             </c:if>
             <c:if test="${!empty sessionScope.user}">
                 <li class="info-a">
@@ -16,19 +16,19 @@
                     </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="${pageContext.request.contextPath}/information">账户管理</a></li>
+                        <li><a href="userAction_information">账户管理</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="${pageContext.request.contextPath}/logout" class="login-out">退出登录</a></li>
                     </ul>
                 </li>
             </c:if>
 
-            <li><a href="${pageContext.request.contextPath}/register">注册</a></li>
+            <li><a href="registerAction_register">注册</a></li>
         </ul>
     </div>
     <div class="col-md-8">
         <ul class="nav nav-pills pull-right">
-            <li><a href="${pageContext.request.contextPath}/chat"> <i
+            <li><a href="goodAction_addGood"> <i
                     class="fa fa-comment"></i> 会员
             </a></li>
             <li><a href="${pageContext.request.contextPath}/showcart"> <i
@@ -61,8 +61,8 @@
             <div class="collapse navbar-collapse"
                  id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a class="a-color" href="${pageContext.request.contextPath}/main">首页</a></li>
-                    <li><a class="a-color" href="${pageContext.request.contextPath}/information">个人信息</a></li>
+                    <li><a class="a-color" href="${pageContext.request.contextPath}/main.jsp">首页</a></li>
+                    <li><a class="a-color" href="userAction_information">个人信息</a></li>
                     <li class="dropdown"><a class="a-color" href="${pageContext.request.contextPath}/info/list"
                                             class="dropdown-toggle" data-toggle="dropdown" role="button"
                                             aria-haspopup="true" aria-expanded="false">我的订单 <span

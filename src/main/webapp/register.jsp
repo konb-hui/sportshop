@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>淘一淘-个人注册</title>
+    <title>体育商城-个人注册</title>
     <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
@@ -33,13 +33,13 @@
             <div class="col-md-5 form-register">
                 <div>
                     <!-- <h2 class="login-h2">登录</h2> -->
-                    <form class="form-horizontal" id="form" action="${pageContext.request.contextPath}/registerresult"
+                    <form class="form-horizontal" id="form" action="registerAction_checkRegister"
                           method="post">
 				        <div class="form-group">
                             <!-- <label for="inputName" class="col-sm-2 control-label">账号</label> -->
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="account"
-                                       name="account" placeholder="账号">
+                                       name="account" placeholder="账号" value="${account}">
                             </div>
                         </div>
                         
@@ -47,35 +47,44 @@
                             <!-- <label for="inputPassword" class="col-sm-2 control-label">密码</label> -->
                             <div class="col-sm-10">
                                 <input type="password" class="form-control" id="password"
-                                       name="password" placeholder="密码">
+                                       name="password" placeholder="密码" value="${password}">
                             </div>
                         </div>
                         <div class="form-group">
                             <!-- <label for="confirmPassword" class="col-sm-2 control-label">确认密码</label> -->
                             <div class="col-sm-10">
                                 <input type="password" class="form-control"
-                                       id="confirmPassword" name="confirmPassword" placeholder="确认密码">
+                                       id="confirmPassword" name="confirmPassword" placeholder="确认密码" value="${password}">
                             </div>
                         </div>
                         <div class="form-group">
                             <!-- <label for="inputName" class="col-sm-2 control-label">昵称</label> -->
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="username"
-                                       name="username" placeholder="昵称">
+                                       name="username" placeholder="昵称" value="${username}">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <!-- <label for="inputTel" class="col-sm-2 control-label">联系方式</label> -->
+                            <div class="col-sm-10">
+                                   性别：       <select id="sex" name="sex">
+							<option value="男" ${sex=="男"?'selected':''}>男</option>
+							<option value="女" ${sex=="女"?'selected':''}>女</option>
+					</select>
                             </div>
                         </div>
                         <div class="form-group">
                             <!-- <label for="inputTel" class="col-sm-2 control-label">联系方式</label> -->
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="email"
-                                       name="email" placeholder="邮箱">
+                                       name="email" placeholder="邮箱" value="${email }">
                             </div>
                         </div>
                         <div class="form-group">
                             <!-- <label for="inputTel" class="col-sm-2 control-label">联系方式</label> -->
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="telephone"
-                                       name="phone" placeholder="手机号码">
+                                       name="phone" placeholder="手机号码" value="${phone}">
                             </div>
                         </div>
 

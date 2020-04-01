@@ -12,7 +12,11 @@ $(document).ready(function() {
 			password: {
 				required: true,
 			},
-			confirmlogo: "required",
+			confirmlogo: {
+				required:true,
+				minlength:4,
+				maxlength:4,
+			},
 		},
 		messages: {
 			username: "用户名输入不能为空",
@@ -20,7 +24,11 @@ $(document).ready(function() {
 			password: {
 				required: "密码输入不能为空",
 			},
-			confirmlogo: "验证码输入不能为空",
+			confirmlogo: {
+				required:"验证码输入不能为空",
+				minlength:"验证码不对1",
+				maxlength:"验证码不对2",
+			}
 		}
 	});
 });
