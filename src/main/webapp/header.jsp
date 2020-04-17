@@ -10,7 +10,7 @@
             </c:if>
             <c:if test="${!empty sessionScope.user}">
                 <li class="info-a">
-                    <a href="${pageContext.request.contextPath}/information" style="color: #F22E00">
+                    <a href="userAction_information" style="color: #F22E00">
                         ${sessionScope.user.username}
                     <span class="glyphicon glyphicon-triangle-bottom" style="font-size: 5px;margin-left: 7px;" aria-hidden="true">
                     </span>
@@ -18,7 +18,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="userAction_information">账户管理</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="${pageContext.request.contextPath}/logout" class="login-out">退出登录</a></li>
+                        <li><a href="loginAction_logout" class="login-out">退出登录</a></li>
                     </ul>
                 </li>
             </c:if>
@@ -28,14 +28,14 @@
     </div>
     <div class="col-md-8">
         <ul class="nav nav-pills pull-right">
-            <li><a href="goodAction_addGood"> <i
+            <li><a href="userAction_VIP"> <i
                     class="fa fa-comment"></i> 会员
             </a></li>
-            <li><a href="${pageContext.request.contextPath}/showcart"> <i
+            <li><a href="shopCartAction_goCart"> <i
                     class="fa fa-shopping-cart" style="color: #F22E00"></i>
                 购物车
             </a></li>
-            <li><a href="${pageContext.request.contextPath}/info/favorite"> <i
+            <li><a href="userAction_listFavorite"> <i
                     class="fa fa-star"></i> 收藏夹
             </a></li>
         </ul>
@@ -54,7 +54,7 @@
                         class="icon-bar"></span> <span class="icon-bar"></span> <span
                         class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${pageContext.request.contextPath}/main"><!-- <img alt="Brand" style="display: inline-block;" src="./image/tao.jpg" width="20" height="20"> --><span class="logo-word">淘身边</span></a>
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/main.jsp"><!-- <img alt="Brand" style="display: inline-block;" src="./image/tao.jpg" width="20" height="20"> --><span class="logo-word">体育商城</span></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -63,19 +63,17 @@
                 <ul class="nav navbar-nav">
                     <li><a class="a-color" href="${pageContext.request.contextPath}/main.jsp">首页</a></li>
                     <li><a class="a-color" href="userAction_information">个人信息</a></li>
-                    <li class="dropdown"><a class="a-color" href="${pageContext.request.contextPath}/info/list"
+                    <li class="dropdown"><a class="a-color" href="myorderAction_listOrder"
                                             class="dropdown-toggle" data-toggle="dropdown" role="button"
                                             aria-haspopup="true" aria-expanded="false">我的订单 <span
                             class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="${pageContext.request.contextPath}/info/address">地址管理</a></li>
-                            <li><a href="${pageContext.request.contextPath}/order">交易中</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="${pageContext.request.contextPath}/chatrobot">小淘</a></li>
+                            <li><a href="userAction_address">地址管理</a></li>
+                            <li><a href="myorderAction_listOrder">交易中</a></li>
                         </ul></li>
                 </ul>
 
-                <form class="navbar-form navbar-right" role="search" method="get" action="${pageContext.request.contextPath}/search">
+                <form class="navbar-form navbar-right" role="search" method="get" action="goodAction_searchGood">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search" name="keyword">
                     </div>

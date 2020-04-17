@@ -26,7 +26,7 @@
 			一般字段
 		 -->
 		<property name="email" length="20"></property>
-		<property name="password" length="20"></property>
+		<property name="password" length="50"></property>
 		<property name="phone" length="11"></property>
 		<property name="sex" length="10"></property>
 		<property name="username" length="20"></property>
@@ -36,12 +36,53 @@
 		<property name="regTime" length="20">
 			<column name="regTime" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
 		</property>
-		<set name="addresses" inverse="true" lazy="false">
+		<property name="buyTime" length="20">
+			<column name="buyTime" sql-type="timestamp"/>
+		</property>
+		<property name="endTime" length="20">
+			<column name="endTime" sql-type="timestamp" />
+		</property>
+		<set name="addresses" inverse="true">
 			<key>
 				<column name="uid"></column>
 			</key>
 			<one-to-many class="com.zph.sportshop.domain.basedata.Address"/>
 		</set>
-		
+		<set name="favoritegoods" table="favorite" lazy="false">
+			<key>
+				<column name="uid"></column>
+			</key>
+			<many-to-many class="com.zph.sportshop.domain.good.Good" column="gid"></many-to-many>
+		</set>
+		<set name="comments" inverse="true" order-by="ctime asc">
+			<key>
+				<column name="uid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.good.Comment"/>
+		</set>
+		<set name="shopCarts" inverse="true" order-by="scid asc">
+			<key>
+				<column name="uid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.basedata.ShopCart"/>
+		</set>
+		<set name="discounts" table="user_discount" lazy="false">
+			<key>
+				<column name="uid"></column>
+			</key>
+			<many-to-many class="com.zph.sportshop.domain.good.Discount" column="did"></many-to-many>
+		</set>
+		<set name="myorders" inverse="true" order-by="oid asc">
+			<key>
+				<column name="uid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.basedata.Myorder"/>
+		</set>
+		<set name="histories" inverse="true" order-by="hid asc">
+			<key>
+				<column name="uid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.basedata.History"/>
+		</set>
 	</class>
 </hibernate-mapping>

@@ -26,7 +26,7 @@
 			一般字段
 		 -->
 		<property name="adminName" length="16"></property>
-		<property name="password" length="20"></property>
+		<property name="password" length="50"></property>
 		<property name="phone" length="11"></property>
 		<property name="sex" length="2"></property>
 		<property name="trueName" length="10"></property>
@@ -35,6 +35,11 @@
 			<column name="regTime" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
 		</property>
 		<many-to-one name="Role" column="rid" class="com.zph.sportshop.domain.privilege.Role"></many-to-one>
-		
+				<set name="infos" inverse="true" order-by="infoId desc">
+			<key>
+				<column name="adminId"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.system.Info"/>
+		</set>
 	</class>
 </hibernate-mapping>

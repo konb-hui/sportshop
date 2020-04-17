@@ -68,9 +68,9 @@ public class BaseDaoImpl<T> implements BaseDao<T>{
 					 *    "where xsyddzhub.xsyddzhubid=:xsyddzhubid"
 					 */
 					if(entry.getKey().contains(".")){
-						stringBuffer.append("and "+entry.getKey()+"=:"+entry.getKey().split("\\.")[1]);
+						stringBuffer.append(" and "+entry.getKey()+"=:"+entry.getKey().split("\\.")[1]);
 					}else{
-						stringBuffer.append("and "+entry.getKey()+"=:"+entry.getKey());
+						stringBuffer.append(" and "+entry.getKey()+"=:"+entry.getKey());
 					}
 				}
 				//根据拼凑的hql语句产生一个Query对象
@@ -186,9 +186,9 @@ public class BaseDaoImpl<T> implements BaseDao<T>{
 					 *    "where xsyddzhub.xsyddzhubid=:xsyddzhubid"
 					 */
 					if(entry.getKey().contains(".")){
-						stringBuffer.append("and "+entry.getKey()+"=:"+entry.getKey().split("\\.")[1]);
+						stringBuffer.append(" and "+entry.getKey()+"=:"+entry.getKey().split("\\.")[1]);
 					}else{
-						stringBuffer.append("and "+entry.getKey()+"=:"+entry.getKey());
+						stringBuffer.append(" and "+entry.getKey()+"=:"+entry.getKey());
 					}
 				}
 				System.out.println(stringBuffer.toString());

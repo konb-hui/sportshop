@@ -7,7 +7,6 @@ $(document).ready(function (){
         $("#update-addr").modal({
             backdrop:'static'
         });
-
         $("#name").val($(this).parents("#parent").find("#conname").text());
         $("#telephone").val($(this).parents("#parent").find("#contel").text());
         $("#detailaddress").val($(this).parents("#parent").find("#detailaddr").text());
@@ -118,7 +117,7 @@ $(document).ready(function (){
         	$("#telephoneLabel").html("联系电话不能为空！");
         	telephoneflag=0;
             $("#telephoneError").show();
-        }else if($("#telephoneInsert").val().length != 10){
+        }else if($("#telephoneInsert").val().length != 11){
         	$("#telephoneLabel").html("联系电话不正确！");
         	telephoneflag=0;
             $("#telephoneError").show();

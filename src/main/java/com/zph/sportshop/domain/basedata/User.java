@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
+import com.zph.sportshop.domain.good.Comment;
+import com.zph.sportshop.domain.good.Discount;
+import com.zph.sportshop.domain.good.Good;
+
 public class User implements Serializable{
 	private Long uid;
 	private String username;
@@ -14,7 +18,63 @@ public class User implements Serializable{
 	private String phone;
 	private String isvip = "否";
 	private Date regTime;
+	private Date buyTime;
+	private Date endTime;
 	private Set<Address> addresses;
+	private Set<Good> favoritegoods;
+	private Set<Comment> comments;
+	private Set<ShopCart> shopCarts;
+	private Set<Discount> discounts;
+	private Set<Myorder> myorders;
+	private Set<History> histories;
+	public Set<History> getHistories() {
+		return histories;
+	}
+	public void setHistories(Set<History> histories) {
+		this.histories = histories;
+	}
+	public Set<Myorder> getMyorders() {
+		return myorders;
+	}
+	public void setMyorders(Set<Myorder> myorders) {
+		this.myorders = myorders;
+	}
+	public Set<Discount> getDiscounts() {
+		return discounts;
+	}
+	public void setDiscounts(Set<Discount> discounts) {
+		this.discounts = discounts;
+	}
+	public Set<ShopCart> getShopCarts() {
+		return shopCarts;
+	}
+	public void setShopCarts(Set<ShopCart> shopCarts) {
+		this.shopCarts = shopCarts;
+	}
+	public Date getBuyTime() {
+		return buyTime;
+	}
+	public void setBuyTime(Date buyTime) {
+		this.buyTime = buyTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+	public Set<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+	public Set<Good> getFavoritegoods() {
+		return favoritegoods;
+	}
+	public void setFavoritegoods(Set<Good> favoritegoods) {
+		this.favoritegoods = favoritegoods;
+	}
 	public Set<Address> getAddresses() {
 		return addresses;
 	}

@@ -6,14 +6,7 @@ import java.util.Set;
 public class Category implements Serializable{
 	private int cid;
 	private String cname;
-	private BigCategory bigCategory;
 	private Set<Good> goods;
-	public BigCategory getBigCategory() {
-		return bigCategory;
-	}
-	public void setBigCategory(BigCategory bigCategory) {
-		this.bigCategory = bigCategory;
-	}
 	public Set<Good> getGoods() {
 		return goods;
 	}

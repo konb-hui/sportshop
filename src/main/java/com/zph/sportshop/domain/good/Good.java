@@ -3,10 +3,14 @@ package com.zph.sportshop.domain.good;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.zph.sportshop.domain.basedata.History;
+import com.zph.sportshop.domain.basedata.ShopCart;
+import com.zph.sportshop.domain.basedata.User;
+
 public class Good implements Serializable{
 	private Long gid;
+	private Integer salesvolume=0;
 	private String gname;
-	private String introduce;
 	private String images;
 	private Double price;
 	private Double vipPrice;
@@ -14,6 +18,47 @@ public class Good implements Serializable{
 	private Brand brand;
 	private Set<Color> colors;
 	private Set<Size> sizes;
+	private Set<Discount> discounts;
+	private Set<User> favoriteusers;
+	private Set<Comment> comments;
+	private Set<ShopCart> shopCarts;
+	private Set<History> histories;
+	public Set<History> getHistories() {
+		return histories;
+	}
+	public void setHistories(Set<History> histories) {
+		this.histories = histories;
+	}
+	public Set<ShopCart> getShopCarts() {
+		return shopCarts;
+	}
+	public void setShopCarts(Set<ShopCart> shopCarts) {
+		this.shopCarts = shopCarts;
+	}
+	public Set<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+	public Integer getSalesvolume() {
+		return salesvolume;
+	}
+	public void setSalesvolume(Integer salesvolume) {
+		this.salesvolume = salesvolume;
+	}
+	public Set<User> getFavoriteusers() {
+		return favoriteusers;
+	}
+	public void setFavoriteusers(Set<User> favoriteusers) {
+		this.favoriteusers = favoriteusers;
+	}
+	public Set<Discount> getDiscounts() {
+		return discounts;
+	}
+	public void setDiscounts(Set<Discount> discounts) {
+		this.discounts = discounts;
+	}
 	public Set<Color> getColors() {
 		return colors;
 	}
@@ -37,12 +82,6 @@ public class Good implements Serializable{
 	}
 	public void setGname(String gname) {
 		this.gname = gname;
-	}
-	public String getIntroduce() {
-		return introduce;
-	}
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
 	}
 	public String getImages() {
 		return images;

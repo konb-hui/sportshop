@@ -13,20 +13,11 @@
     <script src="${pageContext.request.contextPath}/css/bootstrap/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/sort.js"></script>
     <script src="${pageContext.request.contextPath}/js/holder.js"></script>
-    <!-- 	<script>
+     	<script>
             $(document).ready(function(){
-                $(".list-group-item").hover(function(){
-                    $(this).children("div.sort-detail").show();
-                },function(){
-                    $(this).children("div.sort-detail").hide();
-                });
+            	window.location.href="goodAction_listNewGood";
             })
-        </script> -->
-    <script>
-        /*$(document).ready(function () {
-            $(".data-item-li").children("div").addClass("to-big");
-        });*/
-    </script>
+        </script>
 </head>
 <body>
 <div id="main" class="container">
@@ -43,18 +34,18 @@
                             <div class="sort-detail">
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=手机壳">跑步鞋</a> 
-                                        <a href="${pageContext.request.contextPath}/category?cate=充电器">篮球鞋</a> 
-                                        <a href="${pageContext.request.contextPath}/category?cate=充电器">休闲鞋</a> 
-                                        <a href="${pageContext.request.contextPath}/category?cate=耳机">板鞋</a>
+                                        <a href="goodAction_findGoodByCid?cid=1">跑步鞋</a> 
+                                        <a href="goodAction_findGoodByCid?cid=2">篮球鞋</a> 
+                                        <a href="goodAction_findGoodByCid?cid=3">休闲鞋</a> 
+                                        <a href="goodAction_findGoodByCid?cid=4">板鞋</a>
                                     </dd>
                                 </dl>
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=镜头">帆布鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=单反">足球鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=胶片">拖鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=摄像">训练鞋</a>
+                                        <a href="goodAction_findGoodByCid?cid=5">帆布鞋</a> <a
+                                            href="goodAction_findGoodByCid?cid=6">足球鞋</a> <a
+                                            href="goodAction_findGoodByCid?cid=7">拖鞋</a> <a
+                                            href="goodAction_findGoodByCid?cid=8">训练鞋</a>
                                     </dd>
                                 </dl>
                             </div>
@@ -63,18 +54,18 @@
                             <div class="sort-detail">
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=羽绒服">健身服</a> <a
+                                        <a href="${pageContext.request.contextPath}/category?cate=健身服">健身服</a> <a
                                             href="${pageContext.request.contextPath}/category?cate=运动套装">运动套装</a> 
-                                            <a href="">运动裤</a> 
-                                            <a href="">卫衣</a>
+                                            <a href="${pageContext.request.contextPath}/category?cate=运动裤">运动裤</a> 
+                                            <a href="${pageContext.request.contextPath}/category?cate=卫衣">卫衣</a>
                                     </dd>
                                 </dl>
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=面膜">夹克风衣</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=口红">紧身衣</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=防嗮">棉服</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=香水">运动背心</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=夹克风衣">夹克风衣</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=紧身衣">紧身衣</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=棉服">棉服</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=运动背心">运动背心</a>
                                     </dd>
                                 </dl>
                             </div>
@@ -83,9 +74,9 @@
                             <div class="sort-detail">
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=四六级">运动袜子</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=充电器">运动包</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=听力">运动帽子</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=运动袜子">运动袜子</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=运动包">运动包</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=运动帽子">运动帽子</a>
                                     </dd>
                                 </dl>
                             </div>
@@ -94,18 +85,18 @@
                             <div class="sort-detail">
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=连衣裙">冲锋衣</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=充电器"> 徒步鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate= T恤"> 抓绒衣裤</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=卫衣">羽绒服</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=冲锋衣">冲锋衣</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=徒步鞋"> 徒步鞋</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate= 抓绒衣裤"> 抓绒衣裤</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=羽绒服">羽绒服</a>
                                     </dd>
                                 </dl>
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=外套">越野跑鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=衬衫">登山鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=夹克">滑雪服</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=运动外套">军迷服饰</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=越野跑鞋">越野跑鞋</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=登山鞋">登山鞋</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=滑雪服">滑雪服</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=军迷服饰">军迷服饰</a>
                                     </dd>
                                 </dl>
                             </div>
@@ -114,18 +105,18 @@
                             <div class="sort-detail">
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=腰带">背包</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=皮带">帐篷</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=帽子">户外帐篷</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=围巾">野餐用品</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=背包">背包</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=帐篷">帐篷</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=户外帐篷">户外帐篷</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=野餐用品">野餐用品</a>
                                     </dd>
                                 </dl>
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=机械表">望远镜</a><a
-                                            href="${pageContext.request.contextPath}/category?cate=石英表">智能手环</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=电子表">滑雪装备</a><a
-                                            href="${pageContext.request.contextPath}/category?cate=石英表">冲浪滑雪</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=望远镜">望远镜</a><a
+                                            href="${pageContext.request.contextPath}/category?cate=智能手环">智能手环</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=滑雪装备">滑雪装备</a><a
+                                            href="${pageContext.request.contextPath}/category?cate=冲浪滑雪">冲浪滑雪</a>
                                     </dd>
                                 </dl>
                             </div>
@@ -134,18 +125,18 @@
                             <div class="sort-detail">
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=Java">篮球</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=PHP">网球</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=C">台球</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=Python">排球</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=篮球">篮球</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=网球">网球</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=台球">台球</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=排球">排球</a>
                                     </dd>
                                 </dl>
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=驾照">羽毛球拍</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=考研">乒乓球拍</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=计算机证书">网球拍</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=四六级">高尔夫</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=羽毛球拍">羽毛球拍</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=乒乓球拍">乒乓球拍</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=网球拍">网球拍</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=高尔夫">高尔夫</a>
                                     </dd>
                                 </dl>
                             </div>
@@ -154,18 +145,18 @@
                             <div class="sort-detail">
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=鱼竿">钓竿鱼线</a> <a
+                                        <a href="${pageContext.request.contextPath}/category?cate=钓竿鱼线">钓竿鱼线</a> <a
                                             href="${pageContext.request.contextPath}/category?cate=钓箱钓椅">钓箱钓椅</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=浮漂鱼饵">浮漂鱼饵</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=浮漂鱼饵<">浮漂鱼饵</a> <a
                                             href="${pageContext.request.contextPath}/category?cate=钓鱼配件">钓鱼配件</a>
                                     </dd>
                                 </dl>
                                 <dl class="dl-hor">
                                     <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=餐盘">浮潜三宝</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=保温杯">泳镜</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=饭盒">游泳圈</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=餐具套装">泳帽</a>
+                                        <a href="${pageContext.request.contextPath}/category?cate=浮潜三宝">浮潜三宝</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=泳镜">泳镜</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=游泳圈">游泳圈</a> <a
+                                            href="${pageContext.request.contextPath}/category?cate=泳帽">泳帽</a>
                                     </dd>
                                 </dl>
                             </div>
@@ -212,43 +203,29 @@
     </div>
     <div class="content">
 
-        <c:if test="${!empty digGoods}">
+        <c:if test="${!empty newGoods}">
             <div class="module">
                 <div class="hd">
-                    <h2>数码</h2>
+                    <h2>新品</h2>
                     <hr>
                 </div>
 
                 <div class="bd">
                     <div class="data">
                         <ul>
-                            <c:forEach items="${digGoods}" var="goods">
+                            <c:forEach items="${newGoods}" var="goods">
                                 <li class="data-item-li">
                                     <div class="to-big">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${goods.goodsid}"><img src="/shopimage/${goods.imagePaths[0].path}" alt=""
+                                        <a href="goodAction_showDetail?gid=${goods.gid}"><img src="${pageContext.request.contextPath}/${good.images}/1.jpg" alt=""
                                                         width="200" height="200"/>
                                         </a>
                                     </div>
                                     <p class="text-right">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${goods.goodsid}">${goods.goodsname}</a>
+                                        <a href="goodAction_showDetail?gid=${goods.gid}"">${goods.gname}</a>
                                     </p>
                                     <div class="text-right">
-                                        <b>￥${goods.price}</b>
-                                    </div>
-                                    <div>
-                                        <c:if test="${goods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart btn btn-default"
-                                                    data-id="${goods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <c:if test="${!goods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart-empty btn btn-default"
-                                                    data-id="${goods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <!-- <button class="like-button1 glyphicon glyphicon-heart-empty btn btn-default "></button> -->
+                                        <b>普通价：￥${goods.price}</b>
+                                    <b>VIP价：￥${goods.vipPrice}</b>
                                     </div>
                                 </li>
                             </c:forEach>

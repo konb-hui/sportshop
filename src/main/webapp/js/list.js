@@ -22,62 +22,60 @@ $(document).ready(function (){
    });
 
     $("[name='finishList']").click(function (){
-        var orderid=$(this).parents("[name='parent']").find("[name='orderid']").text();
-        var order={};
-        order.orderid=orderid;
-        $.ajax({
-            type:"POST",
-            url:"/shop/finishList",
-            contentType:"application/x-www-form-urlencoded; charset=utf-8",
-            data:order,
-            dataType:"json",
-            success:function (result){
-                swal(result.msg);
-                $("button").click(function (){
-                    location.reload();
-                });
-            },
-            error:function (){
-                alert("点击失败");
-            }
-        });
+        var oid=$(this).siblings("#oid").val();
+		if(window.confirm("您确认收货吗?")){
+		    $.ajax({
+		        url: "myorderAction_completedOrder",
+		        type: "post",
+		        data: {
+		        	oid:oid
+		        },
+		        success: function (result) {
+					swal("收货成功！");
+					location.reload();
+		        },
+		        error: function (result) {
+		            swal("收货失败");
+		        }
+		    });
+		}else{
+			return false;//如果返回的是false,则表单不提交
+		}
     })
 
-    var goodsId={};
-
+    var gid;
+    var hid;
     $("[name='evaluate']").click(function (){
         $("#evaluate").modal({
             backdrop:'static'
         });
-        goodsId=$(this).parents(".table-bordered").find(".col-lg-1").eq(0).text();
-
+        gid=$(this).siblings("#gid").val();
+        hid = $(this).siblings("#hid").val();
     })
 
-    $("#star").raty({path: '../image/img'});
+    $("#star").raty({path: '/sportshop/image/img'});
 
     $("#saveEvaluate").click(function (){
-        var score=$("[name='score']").val();
+        var rank=$("[name='score']").val();
         var content=$("#description").val();
-        var comment={};
-        comment.commentid={};
-        comment.userid={};
-        comment.goodsid=goodsId;
-        comment.point=score;
-        comment.content=content;
-        $.ajax({
-            type:"POST",
-            url:"/shop/comment",
-            contentType:"application/x-www-form-urlencoded; charset=utf-8",
-            data:comment,
-            dataType:"json",
-            success:function (result){
-                $("#evaluate").modal('hide');
-                swal(result.msg);
-            },
-            error:function (){
-                alert("评论失败");
-            }
-        });
+	    $.ajax({
+	        url: "commentAction_addComment",
+	        type: "post",
+	        data: {
+	        	gid:gid,
+	        	hid:hid,
+	        	rank:rank,
+	        	content:content,
+	        },
+	        success: function (result) {
+				swal("评论成功！");
+				location.reload();
+				
+	        },
+	        error: function (result) {
+	            swal("评论失败");
+	        }
+	    });
 
 
     })

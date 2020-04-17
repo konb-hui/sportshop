@@ -24,11 +24,11 @@
         <div class="square"></div>
         <h1>管理员登录</h1>
     </header>
-    <form action="${pageContext.request.contextPath}/admin/confirmLogin" class="templatemo-login-form" method="post">
+    <form action="adminAction_login" class="templatemo-login-form" method="post">
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-user fa-fw"></i></div>
-                <input type="text" class="form-control" placeholder="用户名" name="adminname">
+                <input type="text" class="form-control" placeholder="用户名" name="adminName">
             </div>
         </div>
         <div class="form-group">

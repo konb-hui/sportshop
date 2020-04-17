@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.zph.sportshop.domain.basedata.User;
 import com.zph.sportshop.login.service.RegisterService;
+import com.zph.sportshop.util.encryption.EncryptionPsw;
 import com.opensymphony.xwork2.ActionContext;
 import com.zph.sportshop.base.action.BaseAction;
 
@@ -33,9 +34,12 @@ public class RegisterAction extends BaseAction<User>{
 		}else if(this.getModel().getAccount() != null &&
 				this.getModel().getPassword() != null &&
 				this.getModel().getUsername() != null){
-			registerService.addUser(this.getModel());
+			User user = new User();
+			user = this.getModel();
+			user.setPassword(EncryptionPsw.getPassword(this.getModel().getPassword()));
+			registerService.addUser(user);
 		     Map session = ActionContext.getContext().getSession();  
-		     session.put("user", this.getModel());
+		     session.put("user", user);
 			return "homepage";
 		}else return action2action;
 	}

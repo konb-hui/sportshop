@@ -26,7 +26,6 @@
 			一般字段
 		 -->
 		<property name="cname" length="10"></property>
-		<many-to-one name="bigCategory" column="bcid" class="com.zph.sportshop.domain.good.BigCategory"></many-to-one>
 		
 		<set name="goods" inverse="true">
 			<key>

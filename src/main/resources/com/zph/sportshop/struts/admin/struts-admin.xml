@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="admin" namespace="/" extends="interceptor">
+		<action name="adminAction_*" method="{1}" class="adminAction">
+			<result name="login">WEB-INF/jsp/sportshop/basedata/admin/adminLogin.jsp</result>
+			<result name="admin">WEB-INF/jsp/sportshop/basedata/admin/admin.jsp</result>
+			<result name="listAdmin">WEB-INF/jsp/sportshop/basedata/admin/adminManage.jsp</result>
+			<result name="showSelf">WEB-INF/jsp/sportshop/basedata/admin/adminSelf.jsp</result>
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+</struts>

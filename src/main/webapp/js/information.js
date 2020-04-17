@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var oldPswflag=0;
     var newPswflag=0;
+    var sameNewPswflag=0;
     var usernameflag = 1;
     var emailflag = 1;
     var phoneflag = 1;
@@ -97,7 +98,7 @@ $(document).ready(function(){
     });
 
     $("#oldPsw").blur(function (){
-        if ($("#oldPsw").val()!=$("#Psw").attr("Psw"))
+        if ($("#oldPsw").val().trim()=="")
         {
             $("#oldPswError").show();
         }
@@ -107,14 +108,6 @@ $(document).ready(function(){
             oldPswflag=1;
         }
     })
-
-   /* $("#newPsw").focus(function (){
-        if ($("#oldPsw").val()==$("#Psw").attr("Psw"))
-        {
-            $("#oldPswError").hide();
-            oldPswflag=1;
-        }
-    });*/
 
     $("#newPsw").blur(function (){
         if($("#newPsw").val().length<8)
@@ -126,24 +119,38 @@ $(document).ready(function(){
             newPswflag=1;
         }
     });
-
+    $("#sameNewPsw").blur(function(){
+    	if($("#sameNewPsw").val() != $("#newPsw").val()){
+    		$("#sameNewPswError").show();
+    	}else{
+    		$("#sameNewPswError").hide();
+    		sameNewPswflag=1;
+    	}
+    });
     $("#savePsw").click(function (){
-        if (oldPswflag==1&&newPswflag==1)
+        if (oldPswflag==1&&newPswflag==1&&sameNewPswflag==1)
         {
-            var Psw={};
-            Psw.password=$("#newPsw").val();
+            var newPsw=$("#newPsw").val();
+            var oldPsw=$("#oldPsw").val();
             $.ajax({
                 type: "POST",
                 url: "./userAction_updatePsw",
                 contentType:"application/x-www-form-urlencoded; charset=utf-8",
-                data:Psw,
+                data:{
+                	newPsw:newPsw,
+                	oldPsw:oldPsw,
+                },
                 dateType:"json",
-                success: function(){
+                success: function(result){
+                	if(result == "更新成功"){
                         $("#update-info").modal('hide');
                         swal("修改成功", "", "success");
                         $("button").click(function (){
                             location.reload();
                         });
+                	}else{
+                		swal(result);
+                	}
                 },
                 error:function (){
                     alert("更新失败");

@@ -8,15 +8,22 @@
 		<param-value>classpath:com/zph/sportshop/spring/applicationContext.xml</param-value>
 	</context-param>
 	
+    <filter>  
+       <filter-name>OpenSessionInViewFilter</filter-name>  
+    <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>  
+    </filter>  
+    <filter-mapping>  
+       <filter-name>OpenSessionInViewFilter</filter-name>  
+       <url-pattern>*.action</url-pattern>  
+    </filter-mapping>  
 	<filter>
-		<filter-name>OpenSessionInViewFilter</filter-name>
-		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>OpenSessionInViewFilter</filter-name>
-		<url-pattern>*.action</url-pattern>
-	</filter-mapping>
- 
+ 	        <filter-name>hibernateFilter</filter-name> 
+             <filter-class>  org.springframework.orm.hibernate3.support.OpenSessionInViewFilter </filter-class> 
+    </filter>
+    <filter-mapping> 
+             <filter-name>hibernateFilter</filter-name> 
+             <url-pattern>/*</url-pattern> 
+     </filter-mapping> 
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>

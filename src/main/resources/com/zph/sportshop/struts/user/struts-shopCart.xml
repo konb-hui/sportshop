@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="shopCart" namespace="/" extends="struts-default,json-default">
+		<action name="shopCartAction_*" method="{1}" class="shopCartAction">
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+			<result name="showcart" type="json">
+				<param name="root">cart</param>
+			</result>
+			<result name="login">login.jsp</result>
+			<result name="gocart">shopcart.jsp</result>
+		</action>
+	</package>
+</struts>

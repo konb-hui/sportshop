@@ -1,6 +1,7 @@
 package com.zph.sportshop.domain.basedata;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class Address implements Serializable{
 	private Long aid;
@@ -10,7 +11,14 @@ public class Address implements Serializable{
 	private String detailaddr;
 	private String conname;
 	private String contel;
-	private User user;
+	private User user; 
+	private Set<Myorder> myorders;
+	public Set<Myorder> getMyorders() {
+		return myorders;
+	}
+	public void setMyorders(Set<Myorder> myorders) {
+		this.myorders = myorders;
+	}
 	public Long getAid() {
 		return aid;
 	}

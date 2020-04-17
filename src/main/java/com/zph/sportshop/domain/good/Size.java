@@ -3,15 +3,17 @@ package com.zph.sportshop.domain.good;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.zph.sportshop.domain.basedata.ShopCart;
+
 public class Size implements Serializable{
 	private Long sid;
 	private String sname;
-	private Set<Good> goods;
-	public Set<Good> getGoods() {
-		return goods;
+	private Good good;
+	public Good getGood() {
+		return good;
 	}
-	public void setGoods(Set<Good> goods) {
-		this.goods = goods;
+	public void setGood(Good good) {
+		this.good = good;
 	}
 	public Long getSid() {
 		return sid;

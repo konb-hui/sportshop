@@ -6,7 +6,11 @@
 <struts>
 	<constant name="struts.ui.theme" value="simple"></constant>
 	<constant name="struts.devMode" value="true"/>
-
+		
+      <!--
+	   	拦截器
+	   -->
+	   <include file="com/zph/sportshop/struts/interceptor/struts-interceptor.xml"></include>
 		<!-- 
 	  	注册
 	   -->
@@ -31,6 +35,58 @@
 	   	good
 	   -->
 	   <include file="com/zph/sportshop/struts/good/struts-good.xml"></include>
-	   
+	   	   	 <!--
+	   	category
+	   -->
+	   <include file="com/zph/sportshop/struts/good/struts-category.xml"></include>
+	   	   	   	 <!--
+	   	brand
+	   -->
+	   <include file="com/zph/sportshop/struts/good/struts-brand.xml"></include>
+	   	   	   	 <!--
+	   	discount
+	   -->
+	   <include file="com/zph/sportshop/struts/good/struts-discount.xml"></include>
+	   	   	   	 <!--
+	   	color
+	   -->
+	   <include file="com/zph/sportshop/struts/good/struts-color.xml"></include>
+	   	   	   	 <!--
+	   	comment
+	   -->
+	   <include file="com/zph/sportshop/struts/good/struts-comment.xml"></include>
+	   	   	   	 <!--
+	   	size
+	   -->
+	   <include file="com/zph/sportshop/struts/good/struts-size.xml"></include>
+	   	   	   	 <!--
+	   	shopCart
+	   -->
+	   <include file="com/zph/sportshop/struts/user/struts-shopCart.xml"></include>
+	   	   	   	   	 <!--
+	   	myorder
+	   -->
+	   <include file="com/zph/sportshop/struts/user/struts-myorder.xml"></include>
+	   	   	   	   	   	 <!--
+	   	history
+	   -->
+	   <include file="com/zph/sportshop/struts/user/struts-history.xml"></include>
+	   <!--
+	   	admin
+	   -->
+	   <include file="com/zph/sportshop/struts/admin/struts-admin.xml"></include>
+	   	   <!--
+	   	logistics
+	   -->
+	   <include file="com/zph/sportshop/struts/admin/struts-logistics.xml"></include>
+	   	   <!--
+	   	role
+	   -->
+	   <include file="com/zph/sportshop/struts/privilege/struts-role.xml"></include>
+	   	   <!--
+	   	info
+	   -->
+	   <include file="com/zph/sportshop/struts/system/struts-info.xml"></include>
+
 </struts>
 	

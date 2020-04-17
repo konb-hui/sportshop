@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.zph.sportshop.base.action.BaseAction;
 import com.zph.sportshop.domain.basedata.User;
 import com.zph.sportshop.login.service.LoginService;
+import com.zph.sportshop.util.encryption.EncryptionPsw;
 import com.zph.sportshop.util.verificate.Verificate;
 
 @Controller("loginAction")
@@ -38,10 +39,10 @@ public class LoginAction extends BaseAction<User>{
 		User saveUser = (User) map.get("user");
 		if(saveUser != null) return "homepage";
 		String account = this.getModel().getAccount();
-		String password = this.getModel().getPassword();
+		String password = EncryptionPsw.getPassword(this.getModel().getPassword());
 		if(!codeStr.equals(confirmlogo)) {
 			ActionContext.getContext().put("account", account);
-			ActionContext.getContext().put("password", password);
+			ActionContext.getContext().put("password", this.getModel().getPassword());
 			ActionContext.getContext().put("errorMsg", "验证码错误");
 			return "login";
 		}else {
@@ -74,6 +75,10 @@ public class LoginAction extends BaseAction<User>{
 	}
 	public String login() {
 		
+		return "login";
+	}
+	public String logout() {
+		ActionContext.getContext().getSession().clear(); 
 		return "login";
 	}
 }

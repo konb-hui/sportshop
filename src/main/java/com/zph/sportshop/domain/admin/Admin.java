@@ -2,8 +2,10 @@ package com.zph.sportshop.domain.admin;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
 import com.zph.sportshop.domain.privilege.Role;
+import com.zph.sportshop.domain.system.Info;
 
 public class Admin implements Serializable{
 	private Long adminId;
@@ -15,6 +17,13 @@ public class Admin implements Serializable{
 	private String sex;
 	private Date regTime;
 	private Role role;
+	private Set<Info> infos;
+	public Set<Info> getInfos() {
+		return infos;
+	}
+	public void setInfos(Set<Info> infos) {
+		this.infos = infos;
+	}
 	public Role getRole() {
 		return role;
 	}

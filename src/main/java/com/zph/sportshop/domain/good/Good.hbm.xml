@@ -25,24 +25,54 @@
 		<!-- 
 			一般字段
 		 -->
-		<property name="gname" length="10"></property>
-		<property name="introduce" length="50"></property>
+		<property name="gname" length="100"></property>
+		<property name="salesvolume" type="java.lang.Integer"></property>
 		<property name="price" type="java.lang.Double"></property>
 		<property name="vipPrice" type="java.lang.Double"></property>
 		<property name="images" length="20"></property>
 		<many-to-one name="category" column="cid" class="com.zph.sportshop.domain.good.Category"></many-to-one>
 		<many-to-one name="brand" column="bid" class="com.zph.sportshop.domain.good.Brand"></many-to-one>
-		<set name="colors" table="good_color">
+		<set name="colors" inverse="true" lazy="false" order-by="coid asc">
 			<key>
 				<column name="gid"></column>
 			</key>
-			<many-to-many class="com.zph.sportshop.domain.good.Color" column="coid"></many-to-many>
+			<one-to-many class="com.zph.sportshop.domain.good.Color"/>
 		</set>
-		<set name="sizes" table="good_size">
+		<set name="sizes" inverse="true" order-by="sid asc">
 			<key>
 				<column name="gid"></column>
 			</key>
-			<many-to-many class="com.zph.sportshop.domain.good.Size" column="sid"></many-to-many>
+			<one-to-many class="com.zph.sportshop.domain.good.Size"/>
+		</set>
+		<set name="discounts" inverse="true" order-by="did asc">
+			<key>
+				<column name="gid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.good.Discount"/>
+		</set>
+		<set name="favoriteusers" table="favorite">
+			<key>
+				<column name="gid"></column>
+			</key>
+			<many-to-many class="com.zph.sportshop.domain.basedata.User" column="uid"></many-to-many>
+		</set>
+		<set name="comments" inverse="true" order-by="ctime asc">
+			<key>
+				<column name="gid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.good.Comment"/>
+		</set>
+		<set name="shopCarts" inverse="true" order-by="scid asc">
+			<key>
+				<column name="gid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.basedata.ShopCart"/>
+		</set>
+		<set name="histories" inverse="true" order-by="hid asc">
+			<key>
+				<column name="gid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.basedata.History"/>
 		</set>
 	</class>
 </hibernate-mapping>

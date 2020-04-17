@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 
+		class代表持久化类
+		   name持久化类的全名
+		   table 持久化类对应的表名  默认类名
+		   catalog 数据库的名字  一般不写
+	 -->
+	<class name="com.zph.sportshop.domain.basedata.Myorder" table="myorder">
+		<!-- 
+			主键
+			   name为属性的名称
+			   type为类型
+			   length指的是数据库中相应的字段的长度
+			   column为对应的列的名称   可以不写，默认就是属性的名称
+		 -->
+		<id name="oid" type="java.lang.Long" length="5">
+			<!-- 
+				主键的生成器
+			 -->
+			<generator class="increment"></generator>
+		</id>
+		<!-- 
+			一般字段
+		 -->
+		<property name="price" type="java.lang.Double"></property>
+		<property name="status" length = "10"></property>
+		<property name="newprice" type="java.lang.Double"></property>
+		<property name="time" length="20">
+			<column name="time" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
+		</property>
+		<many-to-one name="user" column="uid" class="com.zph.sportshop.domain.basedata.User"></many-to-one>
+		<many-to-one name="address" column="aid" class="com.zph.sportshop.domain.basedata.Address"></many-to-one>
+		<many-to-one name="logistics" column="lid" class="com.zph.sportshop.domain.admin.Logistics"></many-to-one>
+		<set name="histories" inverse="true" order-by="hid asc">
+			<key>
+				<column name="oid"></column>
+			</key>
+			<one-to-many class="com.zph.sportshop.domain.basedata.History"/>
+		</set>
+	</class>
+</hibernate-mapping>

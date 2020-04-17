@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 
+		class代表持久化类
+		   name持久化类的全名
+		   table 持久化类对应的表名  默认类名
+		   catalog 数据库的名字  一般不写
+	 -->
+	<class name="com.zph.sportshop.domain.good.Discount" table="discount">
+		<!-- 
+			主键
+			   name为属性的名称
+			   type为类型
+			   length指的是数据库中相应的字段的长度
+			   column为对应的列的名称   可以不写，默认就是属性的名称
+		 -->
+		<id name="did" length="5" type="java.lang.Long">
+			<!-- 
+				主键的生成器
+			 -->
+			<generator class="increment"></generator>
+		</id>
+		<!-- 
+			一般字段
+		 -->
+		<property name="fullprice" type="java.lang.Double"></property>
+		<property name="reduceprice" type="java.lang.Double"></property>
+		<many-to-one name="good" column="gid" class="com.zph.sportshop.domain.good.Good"></many-to-one>
+		<set name="users" table="user_discount" lazy="false">
+			<key>
+				<column name="did"></column>
+			</key>
+			<many-to-many class="com.zph.sportshop.domain.basedata.User" column="uid"></many-to-many>
+		</set>
+		<set name="shopCarts" table="cart_discount" lazy="false">
+			<key>
+				<column name="did"></column>
+			</key>
+			<many-to-many class="com.zph.sportshop.domain.basedata.ShopCart" column="scid"></many-to-many>
+		</set>
+	</class>
+</hibernate-mapping>

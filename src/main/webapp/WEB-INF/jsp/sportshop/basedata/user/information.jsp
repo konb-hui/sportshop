@@ -148,7 +148,7 @@ limitations under the License
                     <div class="form-group" style="display: none" id="oldPswError">
                         <label for="name" class="col-sm-2 control-label"></label>
                         <div class="col-sm-9">
-                            <label style="color: #BD1F3B">密码错误</label>
+                            <label style="color: #BD1F3B">请输入密码</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -163,7 +163,18 @@ limitations under the License
                             <label style="color: #BD1F3B">密码应长度大于8</label>
                         </div>
                     </div>
-
+					<div class="form-group">
+                        <label for="sameNewPsw" class="col-sm-2 control-label">确认密码</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" name="sameNewPsw" id="sameNewPsw">
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none" id="sameNewPswError">
+                        <label for="name" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-9">
+                            <label style="color: #BD1F3B">两次密码不一致</label>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -186,7 +197,7 @@ limitations under the License
         <header class="demo-drawer-header">
            <%-- <img src="images/user.jpg" class="demo-avatar">--%>
             <div class="demo-avatar-dropdown">
-                <h1>淘一淘</h1>
+                <h1>体育商城</h1>
                <%-- <span>hello@example.com</span>--%>
                 <div class="mdl-layout-spacer">
                 </div>
@@ -204,9 +215,9 @@ limitations under the License
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
             <a class="mdl-navigation__link" href="${pageContext.request.contextPath}/main.jsp"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>主页</a>
             <a class="mdl-navigation__link" href="userAction_information"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>个人信息</a>
-            <a class="mdl-navigation__link" href="${pageContext.request.contextPath}/info/list"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>订单管理</a>
+            <a class="mdl-navigation__link" href="myorderAction_listOrder"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>订单管理</a>
             <a class="mdl-navigation__link" href="userAction_address"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_offer</i>地址管理</a>
-            <a class="mdl-navigation__link" href="userAction_favorite"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>我的收藏</a>
+            <a class="mdl-navigation__link" href="userAction_listFavorite"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>我的收藏</a>
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
@@ -248,7 +259,6 @@ limitations under the License
                                 <th style="border: 0px solid transparent" class="tl">手机号</th>
                                 <td style="border: 0px solid transparent" class="tr" id="telephoneVal">${user.phone}</td>
                             </tr>
-                            <i Psw="${user.password}" id="Psw"></i>
                             </tbody>
                         </table>
                     </div>

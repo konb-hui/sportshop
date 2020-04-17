@@ -26,11 +26,6 @@
 			一般字段
 		 -->
 		<property name="sname" length="10"></property>
-		<set name="goods" table="good_size">
-			<key>
-				<column name="sid"></column>
-			</key>
-			<many-to-many class="com.zph.sportshop.domain.good.Good" column="gid"></many-to-many>
-		</set>
+		<many-to-one name="good" column="gid" class="com.zph.sportshop.domain.good.Good"></many-to-one>
 	</class>
 </hibernate-mapping>

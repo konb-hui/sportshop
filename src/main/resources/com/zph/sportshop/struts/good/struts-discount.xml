@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="discount" namespace="/" extends="struts-default,json-default">
+		<action name="discountAction_*" method="{1}" class="discountAction">
+			<result name="listDiscount">WEB-INF/jsp/sportshop/basedata/admin/adminDiscount.jsp</result>
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+</struts>

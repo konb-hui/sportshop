@@ -1,18 +1,26 @@
 package com.zph.sportshop.base.action;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.zph.sportshop.domain.admin.Admin;
+import com.zph.sportshop.domain.system.Info;
+import com.zph.sportshop.system.service.InfoService;
 
 public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 	
 	private Class classt;
 	private T t;
+	@Resource(name="infoService")
+	private InfoService infoService;
 	public BaseAction() {
 		ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
 		this.classt = (Class) type.getActualTypeArguments()[0];
@@ -23,7 +31,14 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 			e.printStackTrace();
 		}
 	}
-	
+	public void addInfo(String content) {
+		Map session = ActionContext.getContext().getSession();
+		Admin admin = (Admin) session.get("admin");
+		Info info = new Info();
+		info.setContent(content);
+		info.setAdmin(admin);
+		infoService.saveEntry(info);
+	}
 	public T getModel() {
 		// TODO Auto-generated method stub
 		return this.t;

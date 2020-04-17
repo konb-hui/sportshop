@@ -131,7 +131,7 @@
         <header class="demo-drawer-header">
             <%-- <img src="images/user.jpg" class="demo-avatar">--%>
             <div class="demo-avatar-dropdown">
-                <h1>淘一淘</h1>
+                <h1>体育商城</h1>
                 <div class="mdl-layout-spacer"></div>
 
             </div>
@@ -139,9 +139,9 @@
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
             <a class="mdl-navigation__link" href="${pageContext.request.contextPath}/main.jsp"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>主页</a>
             <a class="mdl-navigation__link" href="userAction_information"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>个人信息</a>
-            <a class="mdl-navigation__link" href="${pageContext.request.contextPath}/info/list"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>订单管理</a>
+            <a class="mdl-navigation__link" href="myorderAction_listOrder"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>订单管理</a>
             <a class="mdl-navigation__link" href="userAction_address"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>地址管理</a>
-            <a class="mdl-navigation__link" href="userAction_favorite"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>我的收藏</a>
+            <a class="mdl-navigation__link" href="userAction_listFavorite"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>我的收藏</a>
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
@@ -151,25 +151,24 @@
                     <div class="bd">
                         <div class="data">
                             <ul>
-                                <c:forEach items="${pageInfo.list}" var="goods">
+                                <c:forEach items="${goods}" var="good">
                                     <li class="data-item-li">
                                         <div class="to-big">
-                                            <a href="${pageContext.request.contextPath}/detail?goodsid=${goods.goodsid}"> <img src="/shopimage/${goods.imagePaths[0].path}" width="240px" height="240px" alt=""/>
+                                            <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="240px" height="240px" alt=""/>
                                             </a>
                                         </div>
                                         <p class="text-right">
-                                            <a href="${pageContext.request.contextPath}/detail?goodsid=${goods.goodsid}">${goods.goodsname}</a>
+                                            <a href="goodAction_showDetail?gid=${good.gid}">${good.gname}</a>
                                         </p>
                                         <div class="text-right">
-                                            <b>￥${goods.price}</b>
+                                            <b>普通价：￥${good.price}</b>
+                                            <b>VIP价：￥${good.price}</b>
                                         </div>
                                         <div>
-                                            <c:if test="${goods.fav}">
                                                 <button
                                                         class="like-button glyphicon glyphicon-trash btn btn-default"
-                                                        data-id="${goods.goodsid}"
+                                                        data-id="${good.gid}"
                                                         style="display: none;"></button>
-                                            </c:if>
 
                                             <!-- <button class="like-button1 glyphicon glyphicon-heart-empty btn btn-default "></button> -->
                                         </div>
@@ -178,59 +177,6 @@
 
                                 <div class="clear-float" style="clear: both;"></div>
                             </ul>
-                        </div>
-                        <div class="row page-div">
-                            <div class="col-md-5 page-info">
-                                当前第${pageInfo.pageNum}页，共${pageInfo.pages}页，总共${pageInfo.size}条记录
-                            </div>
-                            <div class="col-md-6">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination pagination-lg">
-
-                                        <c:if test="${pageInfo.hasPreviousPage}">
-                                            <li>
-                                                <a href="${pageContext.request.contextPath}/search?keyword=${keyword}&page=${pageInfo.prePage}" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
-
-                                        <c:if test="${!pageInfo.hasPreviousPage}">
-                                            <li class="disabled">
-                                                <a href="${pageContext.request.contextPath}/search?keyword=${keyword}&page=${pageInfo.prePage}" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
-
-                                        <c:forEach items="${pageInfo.navigatepageNums}" var="pageNums">
-                                            <c:if test="${pageNums == pageInfo.pageNum}">
-                                                <li class="active"><a href="${pageContext.request.contextPath}/info/favorite?page=${pageNums}">${pageNums}</a></li>
-                                            </c:if>
-                                            <c:if test="${pageNums != pageInfo.pageNum}">
-                                                <li><a href="${pageContext.request.contextPath}/info/favorite?page=${pageNums}">${pageNums}</a></li>
-                                            </c:if>
-                                        </c:forEach>
-
-                                        <c:if test="${pageInfo.hasNextPage}">
-                                            <li>
-                                                <a href="${pageContext.request.contextPath}/info/favorite?page=${pageInfo.nextPage}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
-
-                                        <c:if test="${!pageInfo.hasNextPage}">
-                                            <li class="disabled">
-                                                <a href="${pageContext.request.contextPath}/info/favorite?page=${pageInfo.nextPage}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
-
-                                    </ul>
-                                </nav>
-                            </div>
                         </div>
                     </div>
                 </div>
