@@ -1,13 +1,13 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/jsp/sportshop/common/common.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>淘一淘类别</title>
+    <title>体育商城类别</title>
     <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/css/bootstrap.min.css">
@@ -58,11 +58,11 @@
                         <c:forEach items="${goods.rows}" var="good">
                             <li class="data-item-li">
                                 <div class="to-big">
-                                    <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="260px" height="260px" alt=""/>
+                                    <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="250px" height="250px" alt=""/>
                                     </a>
                                 </div>
                                 <p class="text-right">
-                                    <a href="goodAction_showDetail/detail?gid=${good.gid}">${good.gname}</a>
+                                    <a href="goodAction_showDetail/detail?gid=${good.gid}" style="font-size:15px">${fn:substring(good.gname,0,18)}</a>
                                 </p>
                                 <div class="text-right">
                                 	<b>普通价：￥${good.price}</b>
@@ -79,9 +79,9 @@
                     </ul>
                 </div>
                 <div class="row page-div">
-                    <div class="col-md-5 page-info">
+                    <div class="col-md-10 page-info">
                        	<span class="page" style="float:right">
-		<input type="button" param="1" flag="firstPage" value="首页"/>&nbsp;<input type="button" flag="prePage" param="${goods.currentPage-1}" value="上一页" />&nbsp;<input type="button" param="${goods.currentPage+1}" flag="nextPage" last="${goods.totalPages}" value="下一页"/>&nbsp;<input type="button" param="${goods.totalPages}" flag="lastPage" value="尾页"/>&nbsp;<span>转到第<input name="basedataQuery.currentPage" id="pageNo" type="text" value="${goods.currentPage}" size="4" style="height:16px; width:28px; border:1px solid #999999; background:#FFF; border-radius:0;" />页 </span>&nbsp;&nbsp;<input type="button" id="jump" value="转" style=" padding:0 10px;"/>
+		<input type="button" class="btn btn-default" param="1" flag="firstPage" value="首页"/>&nbsp;<input type="button" class="btn btn-default" flag="prePage" param="${goods.currentPage-1}" value="上一页" />&nbsp;<input type="button" class="btn btn-default" param="${goods.currentPage+1}" flag="nextPage" last="${goods.totalPages}" value="下一页"/>&nbsp;<input type="button" param="${goods.totalPages}" class="btn btn-default" flag="lastPage" value="尾页"/>&nbsp;<span>转到第<input name="basedataQuery.currentPage" size="3" id="pageNo" type="text" value="${goods.currentPage}" />页 </span>&nbsp;&nbsp;<input type="button" class="btn btn-default" id="jump" value="转"/>
 	</span>&nbsp;&nbsp;共有${goods.totalSize}条记录，当前第 ${goods.currentPage}/${goods.totalPages}页</p>
                     </div>
                 </div>

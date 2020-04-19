@@ -1,5 +1,7 @@
 package com.zph.sportshop.basedata.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +22,11 @@ public class HistoryDaoImpl extends BaseServiceImpl<History> implements HistoryS
 	public BaseDao getbaseDao() {
 		// TODO Auto-generated method stub
 		return this.historyDao;
+	}
+
+	public List<History> findByOid(Long oid) {
+		// TODO Auto-generated method stub
+		return this.historyDao.findByOid(oid);
 	}
 
 }

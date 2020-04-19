@@ -16,10 +16,13 @@
     <script src="${pageContext.request.contextPath}/js/sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/sweetalert.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/order.css">
-    <script src="${pageContext.request.contextPath}/js/order.js"></script>
+    <script src="${pageContext.request.contextPath}/js/buyorder.js"></script>
 </head>
 <script type="text/javascript">
 $(document).ready(function(){
+	$("#total-old").text($("#firstprice").val());
+	$("#totalprice").val($("#firstprice").val());
+	$("#newPrice").text($("#firstprice").val());
 	$("table tr").each(function(){
 		 $(this).find('td').eq(6).children().change(function(){
 			 var reduce = $(this).children('option:selected').val();
@@ -101,61 +104,58 @@ function changetotalp() {
                                 </thead>
                                 <tbody>
                                 <%--<c:set var="oldTotalPrice" value="0"/>--%>
-                                <c:forEach items="${shopcarts}" var="goods">
                                     <tr>
                                         <td class="product-thumbnail product-thumbnail-2"><a
-                                                href="goodAction_showDetail?gid=${goods.good.gid}"><img
-                                                src="/sportshop/${goods.good.images}/1.jpg"
+                                                href="goodAction_showDetail?gid=${shopcart.good.gid}"><img
+                                                src="/sportshop/${shopcart.good.images}/1.jpg"
                                                 alt=""/></a></td>
                                         <td class="product-name product-name_2"><a
-                                                href="goodAction_showDetail?gid=${goods.good.gid}">${goods.good.gname}</a>
+                                                href="goodAction_showDetail?gid=${shopcart.good.gid}">${shopcart.good.gname}</a>
                                         </td>
                                         <td class="product-color">
-                                        	<span class="amount-list amount-list-2">${goods.shopcolor}</span>
+                                        	<span class="amount-list amount-list-2">${shopcart.shopcolor}</span>
                                         </td>
                                         <td class="product-size">
-                          					<span class="amount-list amount-list-2">${goods.shopsize}</span>              
+                          					<span class="amount-list amount-list-2">${shopcart.shopsize}</span>              
                                         </td>
-                                        <c:if test="${goods.user.isvip eq '否'}">
+                                        <c:if test="${shopcart.user.isvip eq '否'}">
                                         <td class="product-price"><span
-                                                class="amount-list amount-list-2">普通价￥${goods.good.price}</span></td>
+                                                class="amount-list amount-list-2">普通价￥${shopcart.good.price}</span></td>
                                         </c:if>
-                                        <c:if test="${goods.user.isvip eq '是'}">
+                                        <c:if test="${shopcart.user.isvip eq '是'}">
                                         <td class="product-price">
-                                        <span class="amount-list amount-list-2">会员价￥${goods.good.vipPrice}</span></td>
+                                        <span class="amount-list amount-list-2">会员价￥${shopcart.good.vipPrice}</span></td>
                                         </c:if>
                                         <td class="product-stock-status">
                                             <div class="latest_es_from_2">
-                                                <span>${goods.goodsnum}</span>
+                                                <span>${shopcart.goodsnum}</span>
                                             </div>
                                         </td>
                                          <td class="product-discount">
                                     				<select class="form-control" id="discount-select">
                                     				<option value="0">不使用</option>
-                                        				<c:forEach items="${goods.discounts}" var="discount">
-                                        				<c:if test="${goods.user.isvip eq '否'}">
-                                        					<c:if test="${discount.fullprice < (goods.good.price*goods.goodsnum)}">
+                                        				<c:forEach items="${shopcart.discounts}" var="discount">
+                                        				<c:if test="${shopcart.user.isvip eq '否'}">
+                                        					<c:if test="${discount.fullprice < (shopcart.good.price*shopcart.goodsnum)}">
                                         						<option value="${discount.reduceprice}">满${discount.fullprice}减${discount.reduceprice}</option>
                                         					</c:if>
                                         				</c:if>
-                                        				<c:if test="${goods.user.isvip eq '是'}">
-                                        					<c:if test="${discount.fullprice < (goods.good.vipPrice*goods.goodsnum)}">
+                                        				<c:if test="${shopcart.user.isvip eq '是'}">
+                                        					<c:if test="${discount.fullprice < (shopcart.good.vipPrice*shopcart.goodsnum)}">
                                         						<option value="${discount.reduceprice}">满${discount.fullprice}减${discount.reduceprice}</option>
                                         					</c:if>
                                         				</c:if>	
                                         				</c:forEach>
                                     				</select>
                             				</td>
-                                        <c:if test="${goods.user.isvip eq '否'}">
-                                        <td class="product-totalprice"><span class="amount-list amount-list-2">￥${goods.good.price*goods.goodsnum}</span><input type = "hidden" value="${goods.good.price*goods.goodsnum}" id="firstprice"></td>
+                                        <c:if test="${shopcart.user.isvip eq '否'}">
+                                        <td class="product-totalprice"><span class="amount-list amount-list-2">￥${shopcart.good.price*shopcart.goodsnum}</span><input type = "hidden" value="${shopcart.good.price*shopcart.goodsnum}" id="firstprice"></td>
                                         </c:if>
-                                        <c:if test="${goods.user.isvip eq '是'}">
-                                        <td class="product-totalprice"><span class="amount-list amount-list-2" >￥${goods.good.vipPrice*goods.goodsnum}</span>
-                                        <input type = "hidden" value="${goods.good.vipPrice*goods.goodsnum}" id="firstprice"></td>
+                                        <c:if test="${shopcart.user.isvip eq '是'}">
+                                        <td class="product-totalprice"><span class="amount-list amount-list-2" >￥${shopcart.good.vipPrice*shopcart.goodsnum}</span>
+                                        <input type = "hidden" value="${shopcart.good.vipPrice*shopcart.goodsnum}" id="firstprice"></td>
                                         </c:if>
-                                        <%--<c:set value="${oldTotalPrice+goods.price*goods.num*goods.activity.discount}" var="oldTotalPrice"/>--%>
                                     </tr>
-                                </c:forEach>
 
                                 </tbody>
                             </table>
@@ -171,7 +171,7 @@ function changetotalp() {
                                             <td data-title="Subtotal"><span
                                                     class="woocommerce-Price-amount amount">￥<span
                                                     class="woocommerce-Price-currencySymbol"
-                                                    id="total-old">${totalPrice}</span>
+                                                    id="total-old"></span>
 													</span></td>
                                         </tr>
                                         
@@ -180,13 +180,13 @@ function changetotalp() {
                                             <td data-title="Total"><strong> <span
                                                     class="woocommerce-Price-amount amount">￥<span
                                                     class="woocommerce-Price-currencySymbol"
-                                                    id="total-new"></span><span id="newPrice">${newPrice}</span>
+                                                    id="total-new"></span><span id="newPrice"></span>
 														</span>
                                             </strong></td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <input type="hidden" value="${totalPrice}" id="totalprice" name="totalprice">
+                                    <input type="hidden" value="" id="totalprice" name="totalprice">
                                     <div class="wc-proceed-to-checkout">
                                         <%--<input type="submit" class="button_act button_act-tc confirm-orders" value="结算"/>--%>
                                         <button id="confirm-orders"

@@ -139,7 +139,6 @@ public class GoodAction extends BaseAction<Good>{
 	public String deleteFavorite() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
-		System.out.println("asdasd");
 		for (Iterator iterator = user.getFavoritegoods().iterator(); iterator.hasNext();) {
 			Good good = (Good) iterator.next();
 			if(good.getGid()==this.getModel().getGid()) iterator.remove();

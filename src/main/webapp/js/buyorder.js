@@ -11,7 +11,7 @@ $(document).ready(function () {
         var oldPrice = $('#total-old').text();
         var newPrice = $('#newPrice').text();
         $.ajax({
-            url: "myorderAction_addOrder",
+            url: "myorderAction_addBuyOrder",
             type: "POST",
             data: {
                 price: oldPrice,

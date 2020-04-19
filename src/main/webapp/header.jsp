@@ -22,8 +22,10 @@
                     </ul>
                 </li>
             </c:if>
-
-            <li><a href="registerAction_register">注册</a></li>
+			<c:if test="${empty sessionScope.user}">
+                <li><a href="registerAction_register">注册</a></li>
+            </c:if>
+            
         </ul>
     </div>
     <div class="col-md-8">

@@ -1,24 +1,24 @@
 $(document).ready(function (){
    $("[name='deleteList']").click(function (){
-       var orderid=$(this).parents("[name='parent']").find("[name='orderid']").text();
-       var order={};
-       order.orderid= parseInt(orderid);
-       $.ajax({
-           type:"POST",
-           url:"/shop/deleteList",
-           contentType:"application/x-www-form-urlencoded; charset=utf-8",
-           data:order,
-           dataType:"json",
-           success:function (result){
-               swal(result.msg);
-               $("button").click(function (){
-                   location.reload();
-               });
-           },
-           error:function (){
-               alert("删除失败");
-           }
-       });
+       var oid = $(this).siblings("#oid").val();
+		if(window.confirm("您确认删除吗?")){
+		    $.ajax({
+		        url: "myorderAction_deleteOrder",
+		        type: "post",
+		        data: {
+		        	oid:oid
+		        },
+		        success: function (result) {
+					swal("删除成功");
+					location.reload();
+		        },
+		        error: function (result) {
+		            swal("删除失败");
+		        }
+		    });
+		}else{
+			return false;//如果返回的是false,则表单不提交
+		}
    });
 
     $("[name='finishList']").click(function (){
@@ -51,8 +51,31 @@ $(document).ready(function (){
         });
         gid=$(this).siblings("#gid").val();
         hid = $(this).siblings("#hid").val();
-    })
-
+    });
+    $("[name='pay']").click(function() {
+    	$("#pay").modal({
+            backdrop:'static'
+        });
+    	$("#paymoney").text($(this).siblings("#money").val()+"元");
+    	var oid = $(this).siblings("#oid").val();
+    	$("#savePay").click(function(){
+    	    $.ajax({
+    	        url: "myorderAction_payOrder",
+    	        type: "post",
+    	        data: {
+    	        	oid:oid
+    	        },
+    	        success: function (result) {
+    				swal("付款成功！");
+    				location.reload();
+    				
+    	        },
+    	        error: function (result) {
+    	            swal("付款失败");
+    	        }
+    	    });
+    	});
+	});
     $("#star").raty({path: '/sportshop/image/img'});
 
     $("#saveEvaluate").click(function (){

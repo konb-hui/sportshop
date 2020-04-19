@@ -75,8 +75,11 @@ public class MyorderAction extends BaseAction<Myorder>{
 	}
 
 	public String confirmOrder() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
 		ActionContext.getContext().put("totalPrice", this.getTotalPrice());
 		ActionContext.getContext().put("newPrice", this.getTotalPrice());
+		ActionContext.getContext().put("shopcarts", this.shopCartService.getShopCartsByUid(user.getUid()));
 		return "confirmorder";
 	}
 	public String addOrder() {
@@ -118,6 +121,40 @@ public class MyorderAction extends BaseAction<Myorder>{
 			ShopCart shopCart = (ShopCart) iterator.next();
 			shopCartService.deleteEntryById(shopCart.getScid());
 		}
+		map.put("oid", myorder.getOid());
+		return SUCCESS;
+	}
+	public String addBuyOrder() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		Set<History> histories = new HashSet<History>();
+		Myorder myorder = new Myorder();
+		ShopCart shopCart = (ShopCart) map.get("shopcart");
+		History history = new History();
+		Good good = shopCart.getGood();
+		Integer sv = good.getSalesvolume();
+		sv++;
+		good.setSalesvolume(sv);
+		this.goodService.updateEntry(good);
+		history.setGood(good);
+		history.setGoodsnum(shopCart.getGoodsnum());
+		history.setShopcolor(shopCart.getShopcolor());
+		history.setShopsize(shopCart.getShopsize());
+		history.setUser(user);
+		this.historyService.saveEntry(history);
+		histories.add(history);
+		Address address = addressService.getEntry(this.getAid());
+		myorder.setAddress(address);
+		myorder.setHistories(histories);
+		myorder.setUser(user);
+		myorder.setPrice(this.getModel().getPrice());
+		myorder.setNewprice(this.getModel().getNewprice());
+		myorder.setStatus(this.getModel().getStatus());
+		this.myorderService.saveEntry(myorder);
+		history.setMyorder(myorder);
+		this.historyService.saveEntry(history);
+		map.put("oid", myorder.getOid());
+		map.put("shopcart", null);
 		return SUCCESS;
 	}
 	public String listOrder() {
@@ -127,6 +164,30 @@ public class MyorderAction extends BaseAction<Myorder>{
 		List<Myorder> orderList = myorderService.listOrderByUid(user.getUid());
 		ActionContext.getContext().put("orderList", orderList);
 		return "listorder";
+	}
+	public String listOrder2() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		if(user == null) return "login";
+		List<Myorder> orderList = myorderService.listOrderByUid(user.getUid());
+		ActionContext.getContext().put("orderList", orderList);
+		return "listorder2";
+	}
+	public String listOrder3() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		if(user == null) return "login";
+		List<Myorder> orderList = myorderService.listOrderByUid(user.getUid());
+		ActionContext.getContext().put("orderList", orderList);
+		return "listorder3";
+	}
+	public String listOrder4() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		if(user == null) return "login";
+		List<Myorder> orderList = myorderService.listOrderByUid(user.getUid());
+		ActionContext.getContext().put("orderList", orderList);
+		return "listorder4";
 	}
 	@PrivilegeInfo(name="订单管理")
 	public String listOrderForAdmin() {
@@ -173,5 +234,31 @@ public class MyorderAction extends BaseAction<Myorder>{
 		PageResult<Myorder> orders = this.myorderService.findPageResult(baseQuery);
 		ActionContext.getContext().put("orders", orders);
 		return "listCompletedOrder";
+	}
+	public String deleteOrder() {
+		List<History> histories = this.historyService.findByOid(this.getModel().getOid());
+		for (Iterator iterator = histories.iterator(); iterator.hasNext();) {
+			History history = (History) iterator.next();
+			history.setMyorder(null);
+			this.historyService.updateEntry(history);
+		}
+		this.myorderService.deleteEntryById(this.getModel().getOid());
+		return SUCCESS;
+	}
+	public String payOrder() {
+		Myorder myorder = this.myorderService.getEntry(this.getModel().getOid());
+		myorder.setStatus("未发货");
+		this.myorderService.updateEntry(myorder);
+		return SUCCESS;
+	}
+	public String toPay() {
+		Map map = ActionContext.getContext().getSession();
+		Long oid = (Long) map.get("oid");
+		if(oid != null) {
+			ActionContext.getContext().put("oid", oid);
+			ActionContext.getContext().put("money", this.myorderService.getEntry(oid).getNewprice());
+			return "pay";
+		}
+		return SUCCESS;
 	}
 }

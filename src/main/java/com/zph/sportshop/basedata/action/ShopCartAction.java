@@ -1,5 +1,6 @@
 package com.zph.sportshop.basedata.action;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -32,16 +33,8 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 	@Resource(name="userService")
 	private UserService userService;
 	private Long gid;
+	private Map<String, Object> cart = new HashMap<String, Object>();
 	private String result;
-	private List<ShopCart> cart;
-	public List<ShopCart> getCart() {
-		return cart;
-	}
-
-	public void setCart(List<ShopCart> cart) {
-		this.cart = cart;
-	}
-
 	public String getResult() {
 		return result;
 	}
@@ -50,6 +43,13 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 		this.result = result;
 	}
 
+	public Map<String, Object> getCart() {
+		return cart;
+	}
+
+	public void setCart(Map<String, Object> cart) {
+		this.cart = cart;
+	}
 	public Long getGid() {
 		return gid;
 	}
@@ -62,7 +62,7 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
 		if(user == null) {
-			this.setResult("请登录");
+			this.result="请登录";
 			return SUCCESS;
 		}
 		ShopCart shopCart = new ShopCart();
@@ -74,7 +74,6 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 			}
 			shopCart.setDiscounts(discounts);
 		}
-		System.out.println("asdasd");
 		shopCart.setGood(goodService.getEntry(this.getGid()));
 		shopCart.setUser(user);
 		shopCart.setShopcolor(this.getModel().getShopcolor());
@@ -82,20 +81,57 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 		shopCart.setGoodsnum(this.getModel().getGoodsnum());
 		shopCartService.saveEntry(shopCart);
 		ActionContext.getContext().put("addShopCart", "添加成功");
-		this.setResult("添加成功！");
+		this.result = "添加成功";
 		return SUCCESS;
+	}
+	public String addBuy() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		ShopCart shopCart2 = (ShopCart) map.get("shopcart");
+		if(user == null) {
+			return SUCCESS;
+		}
+		ShopCart shopCart = new ShopCart();
+		if(user.getDiscounts() != null) {
+			Set<Discount> discounts = new HashSet<Discount>();
+			for (Iterator iterator = user.getDiscounts().iterator(); iterator.hasNext();) {
+				Discount discount = (Discount) iterator.next();
+				if(discount.getGood().getGid() == this.getGid()) discounts.add(discount);
+			}
+			shopCart.setDiscounts(discounts);
+		}
+		shopCart.setGood(goodService.getEntry(this.getGid()));
+		shopCart.setUser(user);
+		shopCart.setShopcolor(this.getModel().getShopcolor());
+		shopCart.setShopsize(this.getModel().getShopsize());
+		shopCart.setGoodsnum(this.getModel().getGoodsnum());
+		map.put("shopcart", shopCart);
+		return SUCCESS;
+	}
+	public String confirmBuy() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		ShopCart shopCart = (ShopCart) map.get("shopcart");
+		ActionContext.getContext().put("shopcart", shopCart);
+		ActionContext.getContext().put("user", this.userService.getEntry(user.getUid()));
+		return "confirmBuy";
 	}
 	public String showShopCart() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
-		User u = userService.getEntry(user.getUid());
-		map.put("user", u);
-		this.cart = this.shopCartService.getShopCartsByUid(user.getUid());
+		System.out.println("a");
+		this.cart.put("shopcart", this.shopCartService.getShopCartsByUid(user.getUid()));
+		System.out.println("b");
+		this.cart.put("vip", user.getIsvip());
+		System.out.println("c");
 		return "showcart";
 	}
 	public String goCart() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
+		this.cart.put("shopcart", this.shopCartService.getShopCartsByUid(user.getUid()));
+		this.cart.put("vip", user.getIsvip());
+		ActionContext.getContext().put("shopcarts", cart);
 		if(user == null) return "login";
 		return "gocart";
 	}

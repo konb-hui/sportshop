@@ -35,17 +35,43 @@
         	var flag1 = 0;
         	var flag2 = 0;
 			  $("#color").children().click(function(){
-				  $(this).css("background","black");
-				  $(this).siblings().css("background","white");
+				  $(this).attr("class","btn btn-default btn-lg active");
+				  $(this).siblings().attr("class","btn btn-default btn-lg");
 				  $('#shopcolor').val($(this).val());
 				  flag1 = 1;
 				});
 			  $("#size").children().click(function(){
-				  $(this).css("background","black");
-				  $(this).siblings().css("background","white");
+				  $(this).attr("class","btn btn-default btn-lg active");
+				  $(this).siblings().attr("class","btn btn-default btn-lg");
 				  $('#shopsize').val($(this).val());
 				  flag2 = 1;
 				});
+			  $("#buy").click(function(){
+				  if(flag1 == 0 || flag2 == 0){
+					  alert("请选择颜色和尺码");
+				  }else{
+					  var shopcolor = $('#shopcolor').val();
+					  var shopsize = $('#shopsize').val();
+					  var gid = $('#gid').val();
+					  var goodsnum = $('#goodsnum').val();
+	                  $.ajax({
+	                      url:"shopCartAction_addBuy",
+	                      type:"POST",
+	                      data:{
+	                          gid:gid,
+	                          shopcolor:shopcolor,
+	                          shopsize:shopsize,
+	                          goodsnum:goodsnum,
+	                      },
+	                      success:function (result) {
+	                    	  window.location.href="shopCartAction_confirmBuy";
+	                      },
+	                      error:function () {
+	                          alert("添加失败");
+	                      }
+	                  });
+				  }
+			  });
 			  $("#addCart").click(function(){
 				  if(flag1 == 0 || flag2 == 0){
 					  alert("请选择颜色和尺码");
@@ -135,22 +161,6 @@
                 $(this).addClass("now");
 
             });
-
-            /*$("#chatto").click(function () {
-                $.ajax({
-                    url: "/shop/chat/", //把表单数据发送到ajax.jsp
-                    type: "POST",
-                    data: {
-                        sendto: 5
-                    },
-                    error: function (request) {
-                        alert(result.msg);
-                    },
-                    success: function (result) {
-                    }
-                });
-            });*/
-
             $('.fav-button').click(function(){
                 //$(this).removeClass("glyphicon-heart-empty");
                 var goodsId = $(this).attr('data-id');
@@ -267,7 +277,7 @@
     							<c:if test="${status.index % 4 == 0}">
         						<br /> <!-- 是表格就加个<tr></tr> -->
     							</c:if>
-    							<button value="${color.coname}" style="color:#ff0000;background-color:white;">${color.coname}</button>
+    							<button value="${color.coname}" class="btn btn-default btn-lg">${color.coname}</button>
 								</c:forEach>
 								
                             </span>
@@ -276,10 +286,8 @@
     							<c:if test="${status.index % 4 == 0}">
         						<br /> <!-- 是表格就加个<tr></tr> -->
     							</c:if>
-    							<button value="${size.sname}" style="color:#ff0000;background-color:white;">${size.sname}</button>
+    							<button value="${size.sname}" class="btn btn-default btn-lg">${size.sname}</button>
 								</c:forEach>
-
-                                <span class="sku"></span>
                             </span>
                     </div>
 
@@ -289,7 +297,7 @@
                                     <c:if test="${!empty good.discounts}">
                                         <span class="span-block">
                                          <c:forEach var="discount" items="${good.discounts}" varStatus="status">
-    										<button style="color:#ffffff;background-color:#ff0000;" id="discount" value="${discount.did}">满${discount.fullprice}减${discount.reduceprice}</button>
+    										<button class="quan-item" id="discount" value="${discount.did}">满${discount.fullprice}减${discount.reduceprice}</button>
 								</c:forEach>
                                             
                                         </span>
@@ -323,8 +331,17 @@
                         	<input type="hidden" name="shopsize" id="shopsize" value="">
                         	<input type="hidden" name="shopcolor" id="shopcolor" value="">
                             <input type="hidden" value="${good.gid}" name="gid" id="gid"/>
-                            <input type="number" value="1" name="goodsnum" id=goodsnum>
+                            <input type="number" value="1" name="goodsnum" id="goodsnum" onchange="f(this)">
+                            <script type="text/javascript">
+                        	function f(obj) {
+                				if($(obj).val()<1){
+                					$(obj).val(1);
+                					alert("最少为1！");
+                				}
+                			}
+                            </script>
                             <button class="add-tocart cart_zpf" type="submit" id="addCart">加入购物车</button>
+                            <button class="add-tocart cart_zpf" type="button" id="buy">立即购买</button>
                         </div>
 
                     </div>
@@ -415,63 +432,6 @@
                                                     </c:forEach>
                                                 </ol>
                                             </div>
-                    <!-- Tab panes 评论-->
-
-                                            <%--<div class="review_form_area">
-                                                <div class="review_form">
-                                                    <div class="revew_form_content">
-                                                        <h3 id="reply-title" class="comment-reply-title">
-                                                            Add a review
-                                                            <small>
-                                                                <a id="cancel-comment-reply-link" style="display:none;" href="#" rel="nofollow">Cancel reply</a>
-                                                            </small>
-                                                        </h3>
-                                                        <form id="commentform" class="comment-form" method="post" action="form">
-                                                            <div class="comment-form-rating">
-                                                                <label class="comment">Your Rating</label>
-                                                                <div class="price_rating price_rating_2 price_rating_3">
-                                                                    <a href="#">
-                                                                        <i class="fa fa-star-o"></i>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <i class="fa fa-star-o"></i>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <i class="fa fa-star-o"></i>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <i class="fa fa-star-o"></i>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <i class="fa fa-star-o"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="comment-form-comment">
-                                                                <label class="comment">Your Review</label>
-                                                                <textarea id="comment" aria-required="true" rows="8" cols="45" name="comment"></textarea>
-                                                            </div>
-                                                            <div class="comment-form-author">
-                                                                <label class="comment">
-                                                                    Name
-                                                                    <span class="required required_menu">*</span>
-                                                                </label>
-                                                                <input id="author" class="mix_type" type="text" aria-required="true" size="30" value="" name="author">
-                                                            </div>
-                                                            <div class="comment-form-email">
-                                                                <label class="comment">
-                                                                    Email
-                                                                    <span class="required required_menu">*</span>
-                                                                </label>
-                                                                <input id="email" class="mix_type" type="text" aria-required="true" size="30" value="" name="email">
-                                                            </div>
-                                                            <div class="form-submit">
-                                                                <input id="sub" class="submt" type="submit" value="Submit" name="submit">
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>--%>
                                         </div>
                                     </div>
                                 </div>
@@ -483,11 +443,7 @@
         </div>
     </div>
 </div>
-<!--tab area end-->
-<!-- jquery latest version -->
-<!-- <script src="js/vendor/jquery-1.12.0.min.js"></script> -->
-<!-- bootstrap js -->
-<!-- <script src="js/bootstrap.min.js"></script> -->
+
 
 </body>
 </html>

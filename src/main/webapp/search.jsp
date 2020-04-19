@@ -1,13 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 文辉
-  Date: 2017/7/25
-  Time: 22:54
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,19 +49,23 @@
                         <c:forEach items="${goods}" var="good">
                             <li class="data-item-li">
                                 <div class="to-big">
-                                    <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="260px" height="260px" alt=""/>
+                                    <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="250px" height="250px" alt=""/>
                                     </a>
                                 </div>
                                 <p class="text-right">
-                                    <a href="goodAction_showDetail?gid=${good.gid}">${good.gname}</a>
+                                    <a href="goodAction_showDetail/detail?gid=${good.gid}" style="font-size:15px">${fn:substring(good.gname,0,18)}</a>
                                 </p>
                                 <div class="text-right">
-                                    <b>普通价：￥${good.price}</b><b>会员价￥${good.vipPrice}</b>
+                                	<b>普通价：￥${good.price}</b>
+                                    <b>VIP价：￥${good.vipPrice}</b>
+                                </div>
+                                <div>
+ 
+                                    <!-- <button class="like-button1 glyphicon glyphicon-heart-empty btn btn-default "></button> -->
                                 </div>
                             </li>
                         </c:forEach>
 
-                        <div class="clear-float" style="clear: both;"></div>
                     </ul>
                 </div>
             </div>

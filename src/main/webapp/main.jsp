@@ -221,7 +221,7 @@
                                         </a>
                                     </div>
                                     <p class="text-right">
-                                        <a href="goodAction_showDetail?gid=${goods.gid}"">${goods.gname}</a>
+                                        <a href="goodAction_showDetail?gid=${goods.gid}">${goods.gname}</a>
                                     </p>
                                     <div class="text-right">
                                         <b>普通价：￥${goods.price}</b>

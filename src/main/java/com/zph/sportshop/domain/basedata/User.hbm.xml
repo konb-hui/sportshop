@@ -42,7 +42,7 @@
 		<property name="endTime" length="20">
 			<column name="endTime" sql-type="timestamp" />
 		</property>
-		<set name="addresses" inverse="true">
+		<set name="addresses" inverse="true" lazy="false">
 			<key>
 				<column name="uid"></column>
 			</key>

@@ -1,6 +1,6 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!doctype html>
 
 <html lang="en">
@@ -79,19 +79,16 @@
                 $(this).find(".like-button").hide();
             });
             $(".like-button").click(function () {
-                var goodsId = $(this).attr("data-id");
+                var gid = $(this).attr("data-id");
                 //取消收藏
                 $.ajax({
-                    url:"/shop/deleteCollect",
+                    url:"goodAction_deleteFavorite",
                     type:"POST",
                     data:{
-                        goodsid:goodsId
+                        gid:gid
                     },
                     success:function (result) {
-                        //取消收藏成功
-                        if(result.code === 100){
                             location.reload();
-                        }
                     },
                     error:function () {
                         alert("取消收藏失败");
@@ -146,19 +143,17 @@
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-            <div class="content">
-                <div class="module">
                     <div class="bd">
                         <div class="data">
                             <ul>
                                 <c:forEach items="${goods}" var="good">
                                     <li class="data-item-li">
                                         <div class="to-big">
-                                            <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="240px" height="240px" alt=""/>
+                                            <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="250px" height="250px" alt=""/>
                                             </a>
                                         </div>
                                         <p class="text-right">
-                                            <a href="goodAction_showDetail?gid=${good.gid}">${good.gname}</a>
+                                            <a  href="goodAction_showDetail?gid=${good.gid}" style="font-size:15px">${fn:substring(good.gname,0,18)}</a>
                                         </p>
                                         <div class="text-right">
                                             <b>普通价：￥${good.price}</b>
@@ -166,7 +161,7 @@
                                         </div>
                                         <div>
                                                 <button
-                                                        class="like-button glyphicon glyphicon-trash btn btn-default"
+                                                        class="like-button glyphicon glyphicon-heart btn btn-default"
                                                         data-id="${good.gid}"
                                                         style="display: none;"></button>
 
@@ -179,8 +174,6 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
         </div>
     </main>
 </div>

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 文辉
-  Date: 2017/7/19
-  Time: 9:08
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,12 +12,12 @@
     <link href="${pageContext.request.contextPath}/css/templatemo-style.css" rel="stylesheet">
 </head>
 <body class="light-gray-bg">
-<div class="templatemo-content-widget templatemo-login-widget white-bg">
+<div class="templatemo-content-widget templatemo-login-widget white-bg" style="margin-top: 100px;">
     <header class="text-center">
         <div class="square"></div>
         <h1>管理员登录</h1>
-    </header>
-    <form action="adminAction_login" class="templatemo-login-form" method="post">
+    </header>   
+     <form action="adminAction_login" class="templatemo-login-form" method="post" >
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-user fa-fw"></i></div>
@@ -48,6 +41,7 @@
             <button type="submit" class="templatemo-blue-button width-100">登录</button>
         </div>
     </form>
+
 </div>
 <!-- <div class="templatemo-content-widget templatemo-login-widget templatemo-register-widget white-bg">
     <p>Not a registered user yet? <strong><a href="#" class="blue-text">Sign up now!</a></strong></p>

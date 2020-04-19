@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.zph.sportshop.admin.service.PrivilegeService;
 import com.zph.sportshop.admin.service.RoleService;
 import com.zph.sportshop.base.action.BaseAction;
+import com.zph.sportshop.domain.admin.Admin;
 import com.zph.sportshop.domain.privilege.Privilege;
 import com.zph.sportshop.domain.privilege.Role;
 import com.zph.sportshop.domain.privilege.annotation.PrivilegeInfo;
@@ -45,7 +46,7 @@ public class RoleAction extends BaseAction<Role>{
 	public void setResult(Map<String, Object> result) {
 		this.result = result;
 	}
-	@PrivilegeInfo(name="角色管理")
+	@PrivilegeInfo(name="管理员管理")
 	public String listRole() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setPageSize(6);
@@ -55,7 +56,7 @@ public class RoleAction extends BaseAction<Role>{
 		ActionContext .getContext().put("roles", roles);
 		return "listRole";
 	}
-	@PrivilegeInfo(name="角色管理")
+	@PrivilegeInfo(name="管理员管理")
 	public String updateRole() {
 		Role role1 = this.roleService.findByName(this.getModel().getRname());
 		if(role1 != null) this.result.put("msg", "该角色已经存在");
@@ -69,7 +70,7 @@ public class RoleAction extends BaseAction<Role>{
 		}
 		return SUCCESS;
 	}
-	@PrivilegeInfo(name="角色管理")
+	@PrivilegeInfo(name="管理员管理")
 	public String addRole() {
 		Role role1 = this.roleService.findByName(this.getModel().getRname());
 		if(role1 != null) this.result.put("msg", "该角色已经存在");
@@ -83,7 +84,7 @@ public class RoleAction extends BaseAction<Role>{
 		}
 		return SUCCESS;
 	}
-	@PrivilegeInfo(name="角色管理")
+	@PrivilegeInfo(name="管理员管理")
 	public String deleteRole() {
 		String content = "更新了角色：" + this.getModel().getRid();
 		this.addInfo(content);
@@ -95,7 +96,7 @@ public class RoleAction extends BaseAction<Role>{
 		this.result.put("list", role.getPrivileges());
 		return SUCCESS;
 	}
-	@PrivilegeInfo(name="角色管理")
+	@PrivilegeInfo(name="管理员管理")
 	public String updatePrivilege() {
 		Role role = this.roleService.getEntry(this.getModel().getRid());
 		Set<Privilege> privileges = new HashSet<Privilege>();
@@ -107,6 +108,9 @@ public class RoleAction extends BaseAction<Role>{
 		}
 		role.setPrivileges(privileges);
 		this.roleService.updateEntry(role);
+		Map session1 = ActionContext.getContext().getSession();
+		Admin admin1 = (Admin) session1.get("admin");
+		session1.put("functions", admin1.getRole().getPrivileges());
 		String content = "修改了角色的权限：" + role.getRid();
 		this.addInfo(content);
 		return SUCCESS;

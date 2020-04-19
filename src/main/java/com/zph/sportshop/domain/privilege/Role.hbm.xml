@@ -32,7 +32,7 @@
 			</key>
 			<one-to-many class="com.zph.sportshop.domain.admin.Admin"/>	
 		</set>
-		<set name="privileges" table="role_privilege" lazy="false">
+		<set name="privileges" table="role_privilege" lazy="false" order-by="pid asc">
 			<key>
 				<column name="rid"></column>
 			</key>

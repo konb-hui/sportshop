@@ -8,7 +8,11 @@
 		<action name="myorderAction_*" method="{1}" class="myorderAction">
 			<result name="confirmorder">orderConfirm.jsp</result>
 			<result name="login">login.jsp</result>
+			<result name="pay">pay.jsp</result>
 			<result name="listorder">WEB-INF/jsp/sportshop/basedata/user/list.jsp</result>
+			<result name="listorder2">WEB-INF/jsp/sportshop/basedata/user/list2.jsp</result>
+			<result name="listorder3">WEB-INF/jsp/sportshop/basedata/user/list3.jsp</result>
+			<result name="listorder4">WEB-INF/jsp/sportshop/basedata/user/list4.jsp</result>
 			<result name="listOrderForAdmin">WEB-INF/jsp/sportshop/basedata/admin/adminAllOrder.jsp</result>
 			<result name="listReceivedOrder">WEB-INF/jsp/sportshop/basedata/admin/adminReceivedOrder.jsp</result>
 			<result name="listCompletedOrder">WEB-INF/jsp/sportshop/basedata/admin/adminCompletedOrder.jsp</result>

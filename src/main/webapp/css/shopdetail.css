@@ -40,7 +40,21 @@
 #showsum span.sel {
 	border:1px solid #f60;
 }
-
+.quan-item {
+    position: relative;
+    float: left;
+    height: 16px;
+    padding-left: 2px;
+    line-height: 15px;
+    text-align: center;
+    border-top: 1px solid #df3033;
+    border-bottom: 1px solid #df3033;
+    background: #ffdedf;
+    font-size: 14px;
+    white-space: nowrap;
+    margin-right: 13px;
+    cursor: pointer;
+}
 .showpage {
 	width:400px;
 	position:relative;

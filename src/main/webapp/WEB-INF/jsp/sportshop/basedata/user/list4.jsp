@@ -90,40 +90,42 @@
     </style>
 </head>
 <body>
-<div class="modal fade" id="pay" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPsw">
+
+<%--修改商品信息模态框--%>
+<!-- Modal -->
+<div class="modal fade" id="evaluate" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPsw">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabelPsw">支付界面</h4>
+                <h4 class="modal-title" id="myModalLabelPsw">商品评价</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="updatePsw-form" name="update-form" method="post">
                     <div class="form-group">
-                        <label for="star" class="col-sm-2 control-label">支付方式</label>
+                        <label for="star" class="col-sm-2 control-label">商品评分</label>
                         <div class="col-sm-9">
-                            <select class="form-control">
-                            	<option>微信</option>
-                            	<option>支付宝</option>
-                            	<option>银联</option>
-                            </select>
+                            <div id="star" data-num="3.5"></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="star" class="col-sm-2 control-label">需支付：</label>
+                        <label for="description" class="col-sm-2 control-label">详细描述</label>
                         <div class="col-sm-9">
-                           <span id="paymoney" class="form-control"></span>
+                            <textarea class="form-control" rows="3" id="description"></textarea>
                         </div>
                     </div>
+
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="savePay" >保存</button>
+                <button type="button" class="btn btn-primary" id="saveEvaluate" >保存</button>
             </div>
         </div>
     </div>
 </div>
+
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
@@ -154,9 +156,20 @@
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
+            <%-- <img src="images/user.jpg" class="demo-avatar">--%>
             <div class="demo-avatar-dropdown">
                 <h1>体育商城</h1>
+                <%-- <span>hello@example.com</span>--%>
                 <div class="mdl-layout-spacer"></div>
+                <%--<button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Accounts</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item">hello@example.com</li>
+                    <li class="mdl-menu__item">info@example.com</li>
+                    <li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>
+                </ul>--%>
             </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
@@ -170,27 +183,27 @@
     <main class="mdl-layout__content mdl-color--grey-100">
             <div class="mdl-grid demo-content" id="parent">
                 <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-                    <h3>未付款</h3><%--未收到货--%>
+                    <h3>已完成</h3><%--已完成--%>
                     <c:forEach items="${orderList}" var="order">
-                        <c:if test="${order.status eq '未付款'}">
+                        <c:if test="${order.status eq '已收货'}">
                             <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid" name="parent">
-                            <div class="tab-content col-lg-12">
-                                <table class="table " cellpadding="6" cellspacing="1" ><%--订单信息--%>
-                                    <tbody>
-                                    <td class="no-border col-lg-9" >
-                                        订单号：<i name="oid">${order.oid}</i>
-                                        &nbsp;
-                                        &nbsp;
-                                        订单日期:
-                                            ${order.time.year+1900} 年
-                                            ${order.time.month+1} 月
-                                            ${order.time.date} 日
-                                        &nbsp;
-                                        收货地址:
-                                            ${order.address.province}
-                                            ${order.address.city}
-                                            ${order.address.county}
-                                         
+                                <div class="tab-content col-lg-12">
+                                    <table class="table " cellpadding="6" cellspacing="1" ><%--订单信息--%>
+                                        <tbody>
+                                        <tr>
+                                            <td class="no-border col-lg-9" >
+                                                订单号：<i name="oid">${order.oid}</i>
+                                                &nbsp;
+                                                &nbsp;
+                                                订单日期:
+                                                    ${order.time.year+1900} 年
+                                                    ${order.time.month+1} 月
+                                                    ${order.time.date} 日
+                                                &nbsp;
+                                                收货地址:
+                                                    ${order.address.province}
+                                                    ${order.address.city}
+                                                    ${order.address.county}
                                     </td>
                                      <td  class="no-border col-lg-3">
                                         收货人: ${order.address.conname}
@@ -199,9 +212,9 @@
                                         原价:${order.price}&nbsp;&nbsp;&nbsp;实付款:${order.newprice}
                                     </td>
                                     </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table " cellpadding="6" cellspacing="1" ><%--商品描述--%>
+                                        </tbody>
+                                    </table>
+                                 <table class="table " cellpadding="6" cellspacing="1" ><%--商品描述--%>
                                     <tbody>
                                     <tr>
                                         <td class="col-lg-1">
@@ -252,22 +265,32 @@
                                             <td class="col-lg-2">
                                                     ${good.good.category.cname}
                                             </td>
+                                            <td class="col-lg-1">
+                                            <c:if test="${good.iscomment eq '否'}">
+                                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect font-color" name="evaluate" ><h5>评价</h5></button>
+                                            <input type="hidden" id="hid" value="${good.hid}">
+                                            <input type="hidden" id="gid" value="${good.good.gid}">
+                                            </c:if>
+                                             <c:if test="${good.iscomment eq '是'}">
+                                             <span class="mdl-button mdl-js-button mdl-js-ripple-effect font-color"><h5>已评价</h5></span>
+                                             </c:if>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
                             </c:forEach>
                                  <div class="mdl-card__actions mdl-card--border">
-                                    <button class="templatemo-blue-button" name="pay"><h5>继续付款</h5></button>
                                     <button class="templatemo-blue-button finish-btn" name="deleteList"><h5>删除订单</h5></button>
                                     <input type="hidden" id="oid" value="${order.oid}">	
-                                    <input type="hidden" id="money" value="${order.newprice}">	
                                 </div>
                         </div>
                         </c:if>
                     </c:forEach>
                 </div>
-                </div>
-                </main>
+            </div>
+    </main>
+</div>
+
 <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </body>
 </html>

@@ -13,6 +13,7 @@
 				<param name="root">cart</param>
 			</result>
 			<result name="login">login.jsp</result>
+			<result name="confirmBuy">buyConfirm.jsp</result>
 			<result name="gocart">shopcart.jsp</result>
 		</action>
 	</package>

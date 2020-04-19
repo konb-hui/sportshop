@@ -26,6 +26,8 @@
 			一般字段
 		 -->
 		<property name="functionName" length="10"></property>
+		<property name="link" length="20"></property>
+		<property name="icon" length="40"></property>
 		<set name="roles" table="role_privilege">
 			<key>
 				<column name="pid"></column>
