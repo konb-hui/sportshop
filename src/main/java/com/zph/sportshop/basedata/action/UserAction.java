@@ -168,13 +168,22 @@ public class UserAction extends BaseAction<User>{
 	}
 	@PrivilegeInfo(name="用户管理")
 	public String userManage() {
+		if(this.getKey() != null) searchByKey();
 		baseQuery.setPageSize(6);
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setSex(this.getModel().getSex());
-		baseQuery.setUsername(this.getModel().getUsername());
 		if(this.getModel().getSex() != null) ActionContext.getContext().put("sex", this.getModel().getSex());
-		if(this.getModel().getUsername() != null) ActionContext.getContext().put("username", this.getModel().getUsername());
 		PageResult<User> users = this.userService.findPageResult(baseQuery);
+		ActionContext.getContext().put("users", users);
+		return "manageUser";
+	}
+	@PrivilegeInfo(name="用户管理")
+	public String searchByKey() {
+		baseQuery.setPageSize(6);
+		baseQuery.setCurrentPage(this.getCurrentPage());
+		baseQuery.setKey(this.getKey());
+		if(this.getKey() != null) ActionContext.getContext().put("key", this.getKey());
+		PageResult<User> users = this.userService.findPageResultByKey(baseQuery);
 		ActionContext.getContext().put("users", users);
 		return "manageUser";
 	}

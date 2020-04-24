@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/jsp/sportshop/common/common.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,16 @@
 
 <script type="text/javascript">
 	$().ready(function(){
+	    //设置分页要跳转到的url
+		$("body").data("url","logisticsAction_listLogistics.action");
+		map = new Map();
+	    if($("#key").val().trim()!=""){
+	    	map.set("key",$("#key").val())
+	    }
+	  //声明分页的事件
+		SportShopUtils.basedata.initEvent();
 		adminLogistics.updateLogistics();
+		adminLogistics.searchForName();
 		adminLogistics.addLogistics();
 		adminLogistics.deleteLogistics();
 	});
@@ -105,6 +115,12 @@
                     <ul class="text-uppercase">
                         <li><a href="#" class="active" id="add">添加物流</a></li>
                     </ul>
+                    <span>&nbsp;</span>
+                    <input type="text" placeholder="输入关键词查找" id="key" name="key" value="${key}">
+                    <span>&nbsp;</span>
+                    <button class="btn btn-default" id="search">
+                        <span>搜索</span>
+                    </button>
                 </nav>
             </div>
         </div>
@@ -119,15 +135,15 @@
                             <td>删除</td>
                             <td>编辑</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${logisticses.rows}" var="logistics" varStatus="num">
                             <tr>
                                 <td id="lid">${logistics.lid}</td>
                                 <td id="lname">${logistics.lname}</td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
-                                <td><button class="templatemo-delete-btn" name="update">编辑</button></td>
+                                <td><button class="templatemo-edit-btn" name="update">编辑</button></td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

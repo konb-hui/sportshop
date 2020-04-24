@@ -38,6 +38,14 @@ var adminLogistics = {
 	        });
 		});
 	},
+	searchForName:function(){
+		$('#search').click(function(){
+			var key = $('#key').val();
+			if(key.trim() != ""){
+				 window.location.href = "logisticsAction_listLogistics?key=" + key;
+			}
+		});
+	},
 	addLogistics:function(){
 		$('#add').click(function(){
 			 $("#add-logistics").modal({

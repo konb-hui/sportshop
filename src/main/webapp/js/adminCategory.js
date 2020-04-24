@@ -40,9 +40,9 @@ var adminCategory = {
 	},
 	searchForName:function(){
 		$('#search').click(function(){
-			var cname = $('#cname').val();
-			if(cname != ""){
-				 window.location.href = "categoryAction_listCategory?cname=" + cname;
+			var key = $('#key').val();
+			if(key.trim() != ""){
+				 window.location.href = "categoryAction_listCategory?key=" + key;
 			}
 		});
 	},

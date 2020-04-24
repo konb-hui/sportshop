@@ -7,19 +7,11 @@ import java.util.List;
 public class PageResult<T> {
 	//主表的当前页码
 	private int currentPage;
-	//子表的当前页码
-	private int currentPage_zhib;
 	public int getCurrentPage() {
 		return currentPage;
 	}
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
-	}
-	public int getCurrentPage_zhib() {
-		return currentPage_zhib;
-	}
-	public void setCurrentPage_zhib(int currentPage_zhib) {
-		this.currentPage_zhib = currentPage_zhib;
 	}
 	//一页显示的条数
 	private int pageSize;

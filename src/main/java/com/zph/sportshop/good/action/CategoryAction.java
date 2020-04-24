@@ -33,8 +33,14 @@ public class CategoryAction extends BaseAction<Category>{
 	public String listCategory() {
 		baseQuery.setPageSize(6);
 		baseQuery.setCurrentPage(this.getCurrentPage());
-		baseQuery.setCname(this.getModel().getCname());
-		PageResult<Category> categories = categoryService.findPageResult(baseQuery);
+		PageResult<Category> categories;
+		if(this.getKey() != null) {
+			baseQuery.setKey(this.getKey());
+			categories = categoryService.findPageResultByKey(baseQuery);
+			ActionContext.getContext().put("key", this.getKey());
+		}else {
+			categories = categoryService.findPageResult(baseQuery);
+		}
 		ActionContext.getContext().put("categories", categories);
 		return "listCategory";
 	}

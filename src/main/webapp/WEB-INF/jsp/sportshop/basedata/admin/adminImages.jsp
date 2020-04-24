@@ -75,6 +75,7 @@
                             <td>删除</td>
                             <td>编辑</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${images}" var="path" varStatus="num">
                             <tr>
 								<td><img src="${pageContext.request.contextPath}/${path}" width="100" height="100"/></td>
@@ -88,7 +89,6 @@
                                 </c:if>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

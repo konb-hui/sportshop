@@ -211,4 +211,70 @@ public class BaseDaoImpl<T> implements BaseDao<T>{
 		});
 	}
 
+	public int getCountByKey(final BaseQuery baseQuery) {
+		// TODO Auto-generated method stub
+		return this.hibernateTemplate.execute(new HibernateCallback<Integer>() {
+
+			public Integer doInHibernate(Session session) throws HibernateException, SQLException {
+				// TODO Auto-generated method stub
+				StringBuffer stringBuffer = new StringBuffer();
+				stringBuffer.append("select count("+classMetadata.getIdentifierPropertyName()+") from " + classt.getSimpleName());
+				stringBuffer.append(" where ");
+				//遍历模糊查询的列
+				if(baseQuery.getSearchColum().size() != 0) {
+					for (int i = 0; i < baseQuery.getSearchColum().size(); i++) {
+						if(i == 0) {
+							stringBuffer.append(baseQuery.getSearchColum().get(i) + " like '%" + baseQuery.getKey() + "%'");
+						}else {
+							stringBuffer.append(" or " + baseQuery.getSearchColum().get(i) + " like '%" + baseQuery.getKey() + "%'");
+						}
+					}
+				}else {
+					stringBuffer.append("1=1");
+				}
+				Query query = session.createQuery(stringBuffer.toString());
+				Long count = (Long)query.uniqueResult();
+				return count.intValue();
+			}
+		});
+	}
+
+	public PageResult<T> findPageResultByKey(final BaseQuery baseQuery) {
+		// TODO Auto-generated method stub
+		return this.hibernateTemplate.execute(new HibernateCallback<PageResult<T>>() {
+
+			public PageResult<T> doInHibernate(Session session) throws HibernateException, SQLException {
+				// TODO Auto-generated method stub
+				int totalSize = getCountByKey(baseQuery);
+				PageResult<T> pageResult = new PageResult<T>(baseQuery.getCurrentPage(), baseQuery.getPageSize(), totalSize);
+				StringBuffer stringBuffer = new StringBuffer();
+				stringBuffer.append("from " + classt.getSimpleName());
+				stringBuffer.append(" where ");
+				if(baseQuery.getSearchColum().size() != 0) {
+					for (int i = 0; i < baseQuery.getSearchColum().size(); i++) {
+						if(i == 0) {
+							stringBuffer.append(baseQuery.getSearchColum().get(i) + " like '%" + baseQuery.getKey() + "%'");
+						}else {
+							stringBuffer.append(" or " + baseQuery.getSearchColum().get(i) + " like '%" + baseQuery.getKey() + "%'");
+						}
+					}
+				}else {
+					stringBuffer.append("1=1");
+				}
+				Query query = session.createQuery(stringBuffer.toString());
+				//设置当前页的第一行在集合中的位置
+				int firstResult = (baseQuery.getCurrentPage() - 1) * baseQuery.getPageSize();
+				//设置每页显示最多的行数
+				int maxResults = baseQuery.getPageSize();
+				//用hibernate的方式设置分页
+				query.setFirstResult(firstResult).setMaxResults(maxResults);
+				//返回枫叶的结果集
+				List<T> rows = query.list();
+				//把结果是指到pageResult里
+				pageResult.setRows(rows);
+				return pageResult;
+			}
+		});
+	}
+
 }

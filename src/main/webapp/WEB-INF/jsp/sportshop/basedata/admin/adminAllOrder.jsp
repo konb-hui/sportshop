@@ -93,7 +93,7 @@ $().ready(function(){
                 <div class="templatemo-flex-row flex-content-row">
                     <div class="col-1">
                         <div class="panel panel-default margin-10">
-                            <div class="panel-heading"><h2>${order.address.conname}</h2></div>
+                            <div class="panel-heading"><h2>${order.status}</h2></div>
                             <div class="panel-body">
                                 <div>
                                     <div class="order-info margin-bottom-10">

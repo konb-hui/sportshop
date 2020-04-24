@@ -41,8 +41,8 @@ public class GoodAction extends BaseAction<Good>{
 	@Resource(name="userService")
 	private UserService userService;
 	private GoodQuery baseQuery = new GoodQuery();
-	private Integer cid;
-	private Integer bid;
+	private Long cid;
+	private Long bid;
 	private String result;
 	private String path;//图片路径
 	private File image;//上传的图片
@@ -53,10 +53,10 @@ public class GoodAction extends BaseAction<Good>{
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	public Integer getBid() {
+	public Long getBid() {
 		return bid;
 	}
-	public void setBid(Integer bid) {
+	public void setBid(Long bid) {
 		this.bid = bid;
 	}
 	public File getImage() {
@@ -77,16 +77,18 @@ public class GoodAction extends BaseAction<Good>{
 	public void setResult(String result) {
 		this.result = result;
 	}
-	public Integer getCid() {
+	public Long getCid() {
 		return cid;
 	}
-	public void setCid(Integer cid) {
+	public void setCid(Long cid) {
 		this.cid = cid;
 	}
 	public String findGoodByCid() {
 		baseQuery.setCid(this.cid);
 		baseQuery.setCurrentPage(this.getCurrentPage());
+		baseQuery.setPageSize(16);
 		PageResult<Good> goods = goodService.findPageResult(baseQuery);
+		ActionContext.getContext().put("cid", this.cid);
 		ActionContext.getContext().put("cate", categoryService.getEntry(this.cid).getCname());
 		ActionContext.getContext().put("goods", goods);
 		return listAction;
@@ -95,7 +97,7 @@ public class GoodAction extends BaseAction<Good>{
 		boolean fav = false;
 		Good good = goodService.getEntry(this.getModel().getGid());
 		//获取项目路径
-		String classpath = this.getClass().getResource("/").getPath().replaceFirst("/", "").replaceAll("WEB-INF/classes/", "");
+		String classpath = this.getClass().getResource("/").getPath().replaceAll("WEB-INF/classes/", "");
 		//获得每个商品的图片的绝对路径
 		classpath = classpath+good.getImages();
 		File file = new File(classpath);
@@ -148,21 +150,39 @@ public class GoodAction extends BaseAction<Good>{
 	}
 	@PrivilegeInfo(name="商品管理")
 	public String listGood() {
+		if(this.getKey() != null) listGoodByKey();
+		else {
+			baseQuery.setCurrentPage(this.getCurrentPage());
+			baseQuery.setPageSize(6);
+			baseQuery.setCid(this.cid);
+			baseQuery.setBid(this.bid);
+			PageResult<Good> goods = goodService.findPageResult(baseQuery);
+			List<Category> categories = this.categoryService.findAll();
+			List<Brand> brands = this.brandService.findAll();
+			ActionContext.getContext().put("categories", categories);
+			ActionContext.getContext().put("brands", brands);
+			ActionContext.getContext().put("good", goods);
+		}
+		return "listgood";
+	}
+	@PrivilegeInfo(name="商品管理")
+	public void listGoodByKey() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setPageSize(6);
-		PageResult<Good> goods = goodService.findPageResult(baseQuery);
+		baseQuery.setKey(this.getKey());
+		ActionContext.getContext().put("key", this.getKey());
+		PageResult<Good> goods = this.goodService.findPageResultByKey(baseQuery);
 		List<Category> categories = this.categoryService.findAll();
 		List<Brand> brands = this.brandService.findAll();
 		ActionContext.getContext().put("categories", categories);
 		ActionContext.getContext().put("brands", brands);
 		ActionContext.getContext().put("good", goods);
-		return "listgood";
 	}
 	@PrivilegeInfo(name="商品管理")
 	public String listImages() {
 		Good good = goodService.getEntry(this.getModel().getGid());
 		//获取项目路径
-		String classpath = this.getClass().getResource("/").getPath().replaceFirst("/", "").replaceAll("WEB-INF/classes/", "");
+		String classpath = this.getClass().getResource("/").getPath().replaceAll("WEB-INF/classes/", "");
 		//获得每个商品的图片的绝对路径
 		classpath = classpath+good.getImages();
 		File file = new File(classpath);
@@ -187,7 +207,7 @@ public class GoodAction extends BaseAction<Good>{
 		File file2 = new File(filepath2);
 		Good good = goodService.getEntry(this.getModel().getGid());
 		//获取项目路径
-		String classpath = this.getClass().getResource("/").getPath().replaceFirst("/", "").replaceAll("WEB-INF/classes/", "");
+		String classpath = this.getClass().getResource("/").getPath().replaceAll("WEB-INF/classes/", "");
 		//获得每个商品的图片的绝对路径
 		classpath = classpath+good.getImages();
 		new File(classpath + "/" + file1.getName()).renameTo(new File(classpath + "/abc.jpg"));
@@ -201,7 +221,7 @@ public class GoodAction extends BaseAction<Good>{
 		File file1 = new File(filepath1);
 		Good good = goodService.getEntry(this.getModel().getGid());
 		//获取项目路径
-		String classpath = this.getClass().getResource("/").getPath().replaceFirst("/", "").replaceAll("WEB-INF/classes/", "");
+		String classpath = this.getClass().getResource("/").getPath().replaceAll("WEB-INF/classes/", "");
 		//获得每个商品的图片的绝对路径
 		classpath = classpath+good.getImages() + "/";
 		File file2 = new File(classpath + file1.getName());
@@ -213,7 +233,7 @@ public class GoodAction extends BaseAction<Good>{
 	public String addImage() {
 		Good good = goodService.getEntry(this.getModel().getGid());
 		//获取项目路径
-		String classpath = this.getClass().getResource("/").getPath().replaceFirst("/", "").replaceAll("WEB-INF/classes/", "");
+		String classpath = this.getClass().getResource("/").getPath().replaceAll("WEB-INF/classes/", "");
 		//获得每个商品的图片的绝对路径
 		classpath = classpath+good.getImages();
 		File file1 = new File(classpath);

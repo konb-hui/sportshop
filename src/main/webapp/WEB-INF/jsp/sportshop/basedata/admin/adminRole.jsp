@@ -35,6 +35,7 @@
 	$().ready(function(){
 	    //设置分页要跳转到的url
 		$("body").data("url","RoleAction_listRole.action");
+		map = new Map();
 		//声明分页的事件
 		SportShopUtils.basedata.initEvent();
 		adminRole.updateRole();
@@ -156,16 +157,16 @@
                             <td>编辑</td>
                             <td>配置权限</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${roles.rows}" var="role" varStatus="num">
                             <tr>
                                 <td id="rid">${role.rid}</td>
                                 <td id="rname">${role.rname}</td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
-                                <td><button class="templatemo-delete-btn" name="update">编辑</button></td>
-                                <td><button class="templatemo-delete-btn" name="updateprivilege">配置权限</button></td>
+                                <td><button class="templatemo-edit-btn" name="update">编辑</button></td>
+                                <td><button class="templatemo-edit-btn" name="updateprivilege">配置权限</button></td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

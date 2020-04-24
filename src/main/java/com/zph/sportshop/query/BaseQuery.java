@@ -1,5 +1,6 @@
 package com.zph.sportshop.query;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,25 @@ public abstract class BaseQuery {
 	
 	//一页显示的条数
 	private int pageSize = 2;
+	
+	//模糊查询关键词
+	private String key;
+	
+	//模糊查询的列
+	private ArrayList<String> searchColum = new ArrayList<String>();
 			
+	public ArrayList<String> getSearchColum() {
+		return searchColum;
+	}
+	public void setSearchColum(ArrayList<String> searchColum) {
+		this.searchColum = searchColum;
+	}
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 	public int getCurrentPage() {
 		return currentPage;
 	}

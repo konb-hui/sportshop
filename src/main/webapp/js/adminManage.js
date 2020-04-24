@@ -105,4 +105,42 @@ var adminManage = {
 			}
 		});
 	},
+	changesex:function(){
+		$("#changesex").change(function(){
+			var sex = $(this).val();
+			var rid = $("#changerole").val();
+			if(sex != "选择"){
+				if(rid != "选择"){
+					window.location.href = $("body").data("url") + "?sex=" + sex + "&rid=" + rid;
+				}else{
+					window.location.href = $("body").data("url") + "?sex=" + sex;
+				}
+			}else{
+				window.location.href = $("body").data("url");
+			}
+		});
+	},
+	changerole:function(){
+		$("#changerole").change(function(){
+			var rid = $(this).val();
+			var sex = $("#changesex").val();
+			if(rid != "选择"){
+				if(sex != "选择"){
+					window.location.href = $("body").data("url") + "?sex=" + sex + "&rid=" + rid;
+				}else{
+					window.location.href = $("body").data("url") + "?rid=" + rid;
+				}
+			}else{
+				window.location.href = $("body").data("url");
+			}
+		});
+	},
+	search:function(){
+		$("#search").click(function() {
+			var key = $("#key").val();
+			if(key.trim() != ""){
+				window.location.href = $("body").data("url") + "?key=" + key;
+			}
+		});
+	},
 };

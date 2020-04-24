@@ -55,4 +55,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	public Set<T> getEntriesByIds(Serializable[] ids){
 		return this.getbaseDao().getEntriesByIds(ids);
 	}
+	public PageResult<T> findPageResultByKey(BaseQuery baseQuery){
+		return this.getbaseDao().findPageResultByKey(baseQuery);
+	}
 }

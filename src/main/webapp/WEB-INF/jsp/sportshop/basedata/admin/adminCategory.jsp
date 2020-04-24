@@ -35,6 +35,10 @@
 	$().ready(function(){
 	    //设置分页要跳转到的url
 		$("body").data("url","categoryAction_listCategory.action");
+		map = new Map();
+	    if($("#key").val().trim()!=""){
+	    	map.set("key",$("#key").val())
+	    }
 		//声明分页的事件
 		SportShopUtils.basedata.initEvent();
 		adminCategory.updateCategory();
@@ -115,7 +119,7 @@
                         <li><a href="#" class="active" id="add">添加类别</a></li>
                     </ul>
                     <span>&nbsp;</span>
-                    <input type="text" placeholder="输入类名查找" id="cname" name="cname" value="${cname}">
+                    <input type="text" placeholder="输入关键字查找" id="key" name="key" value="${key}">
                     <span>&nbsp;</span>
                     <button class="btn btn-default" id="search">
                         <span>搜索</span>
@@ -134,15 +138,15 @@
                             <td>删除</td>
                             <td>编辑</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${categories.rows}" var="category" varStatus="num">
                             <tr>
                                 <td id="cid">${category.cid}</td>
                                 <td id="cname">${category.cname}</td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
-                                <td><button class="templatemo-delete-btn" name="update">编辑</button></td>
+                                <td><button class="templatemo-edit-btn" name="update">编辑</button></td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

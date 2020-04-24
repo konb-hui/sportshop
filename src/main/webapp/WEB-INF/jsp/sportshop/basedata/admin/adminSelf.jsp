@@ -177,6 +177,10 @@
                                 <td style="border: 0px solid transparent" class="tr" id="trueNameVal">${admin.trueName}</td>
                             </tr>
                             <tr>
+                                <th style="border: 0px solid transparent" class="tl">角色</th>
+                                <td style="border: 0px solid transparent" class="tr" id="roleNameVal">${admin.role.rname}</td>
+                            </tr>
+                            <tr>
                                 <th style="border: 0px solid transparent" class="tl">添加时间</th>
                                 <td style="border: 0px solid transparent" class="tr" id="regTimeVal">
                                     ${admin.regTime.year+1900} 年

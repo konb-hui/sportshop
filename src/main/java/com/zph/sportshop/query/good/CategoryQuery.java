@@ -8,20 +8,13 @@ import com.zph.sportshop.query.BaseQuery;
 
 public class CategoryQuery extends BaseQuery{
 	
-	private String cname;
-			
-	public String getCname() {
-		return cname;
-	}
-	public void setCname(String cname) {
-		this.cname = cname;
+	public CategoryQuery() {
+		// TODO Auto-generated constructor stub
+		this.getSearchColum().add("cname");
 	}
 	@Override
 	public Map<String, Object> buildWhere() {
 		// TODO Auto-generated method stub
-		if(StringUtils.isNotBlank(this.cname)) {
-			this.getKeyValues().put("cname", this.cname);
-		}
 		return this.getKeyValues();
 	}
 }

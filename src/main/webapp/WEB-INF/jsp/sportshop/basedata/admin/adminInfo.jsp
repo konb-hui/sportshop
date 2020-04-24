@@ -34,6 +34,7 @@
 	$().ready(function(){
 		//设置分页要跳转到的url
 		$("body").data("url","infoAction_listInfo.action");
+		map = new Map();
 		//声明分页的事件
 		SportShopUtils.basedata.initEvent();
 	});
@@ -64,13 +65,13 @@
                             <td><a href="" class="white-text templatemo-sort-by">操作<span class="caret"></span></a></td>
                             <td><a href="" class="white-text templatemo-sort-by">时间<span class="caret"></span></a></td>
                         </tr>
+                        </thead>
                         <c:forEach items="${infos.rows}" var="info" varStatus="num">
                             <tr>
                                 <td>${info.content}</td>
                                 <td>${info.time}</td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

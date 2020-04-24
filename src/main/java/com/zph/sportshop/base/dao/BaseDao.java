@@ -34,4 +34,10 @@ public interface BaseDao<T> {
 	
 	//查询某一张表的记录数
 	public int getCount(final BaseQuery baseQuery);
+	
+	//模糊查询某张表的记录数
+	public int getCountByKey(final BaseQuery baseQuery);
+	
+	//模糊查询某张表的记录
+	public PageResult<T> findPageResultByKey(final BaseQuery baseQuery);
 }

@@ -39,11 +39,24 @@
 $().ready(function(){
     //设置分页要跳转到的url
 	$("body").data("url","goodAction_listGood.action");
+	map = new Map();
+	if($("#changecategory").val() != "选择"){
+		map.set("cid",$("#changecategory").val())
+	}
+	if($("#changebrand").val() != "选择"){
+		map.set("bid",$("#changebrand").val())
+	}
+	if($("#key").val().trim() != ""){
+		map.set("key",$("#key").val())
+	}
 	//声明分页的事件
 	SportShopUtils.basedata.initEvent();
 	adminAllGoods.updateGood();
 	adminAllGoods.addGood();
 	adminAllGoods.deleteGood();
+	adminAllGoods.changecategory();
+	adminAllGoods.changebrand();
+	adminAllGoods.search();
 });
 </script>
 <body>

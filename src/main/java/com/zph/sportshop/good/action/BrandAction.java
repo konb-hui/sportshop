@@ -33,8 +33,14 @@ public class BrandAction extends BaseAction<Brand>{
 	public String listBrand() {
 		baseQuery.setPageSize(6);
 		baseQuery.setCurrentPage(this.getCurrentPage());
-		baseQuery.setBname(this.getModel().getBname());
-		PageResult<Brand> brands = this.brandService.findPageResult(baseQuery);
+		PageResult<Brand> brands;
+		if(this.getKey() != null) {
+			baseQuery.setKey(this.getKey());
+			brands = this.brandService.findPageResultByKey(baseQuery);
+			ActionContext.getContext().put("key", this.getKey());
+		}else {
+			brands = this.brandService.findPageResult(baseQuery);
+		}
 		ActionContext.getContext().put("brands", brands);
 		return "listBrand";
 	}

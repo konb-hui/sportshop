@@ -23,7 +23,15 @@
 <script type="text/javascript">
 	$().ready(function(){
 	    //设置分页要跳转到的url
-		$("body").data("url","userAction_userManage.action");
+	    map = new Map();
+	    if($("#sex").val().trim()!=""){
+	    	map.set("sex",$("#sex").val());
+	    }
+	    if($("#key").val().trim()!=""){
+	    	map.set("key",$("#key").val())
+	    }
+	    
+	    $("body").data("url","userAction_userManage");
 		//声明分页的事件
 		SportShopUtils.basedata.initEvent();
 		UserManage.changeSex();
@@ -74,7 +82,7 @@
                     	<option value="女" ${sex == "女" ?"selected":"" }>女</option>
                     </select>
                     <span>&nbsp;</span>
-                    <input type="text" placeholder="输入用户名查找" id="username" name="username" value="${username}">
+                    <input type="text" placeholder="输入用户名查找" id="key" name="key" value="${key}">
                     <span>&nbsp;</span>
                     <button class="btn btn-default" id="search">
                         <span>搜索</span>
@@ -97,6 +105,7 @@
                             <td><a href="" class="white-text templatemo-sort-by">联系电话<span class="caret"></span></a></td>
                             <td>删除</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${users.rows}" var="user" varStatus="num">
                             <tr>
                                 <td id="uid">${user.uid}</td>
@@ -109,7 +118,6 @@
                                 <td><button class="templatemo-delete-btn" onclick="deleteByUid(this)" value="${user.uid}">删除</button></td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

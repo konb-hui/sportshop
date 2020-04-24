@@ -24,4 +24,6 @@ public interface BaseService<T> {
 	public Collection<T> getEntries();
 	
 	public Set<T> getEntriesByIds(Serializable[] ids);
+	
+	public PageResult<T> findPageResultByKey(final BaseQuery baseQuery);
 }

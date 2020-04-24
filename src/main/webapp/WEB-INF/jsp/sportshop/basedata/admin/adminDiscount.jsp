@@ -139,16 +139,16 @@
                             <td>删除</td>
                             <td>编辑</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${discounts}" var="discount" varStatus="num">
                             <tr>
                                 <td id="did">${discount.did}</td>
                                 <td id="fullprice">${discount.fullprice}</td>
                                 <td id="reduceprice">${discount.reduceprice}</td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
-                                <td><button class="templatemo-delete-btn" name="update">编辑</button></td>
+                                <td><button class="templatemo-edit-btn" name="update">编辑</button></td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

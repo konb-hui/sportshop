@@ -11,6 +11,8 @@ import com.zph.sportshop.base.service.impl.BaseServiceImpl;
 import com.zph.sportshop.basedata.dao.MyorderDao;
 import com.zph.sportshop.basedata.service.MyorderService;
 import com.zph.sportshop.domain.basedata.Myorder;
+import com.zph.sportshop.query.BaseQuery;
+import com.zph.sportshop.query.PageResult;
 
 @Service("myorderService")
 public class MyorderServiceImpl extends BaseServiceImpl<Myorder> implements MyorderService{
@@ -28,5 +30,6 @@ public class MyorderServiceImpl extends BaseServiceImpl<Myorder> implements Myor
 		// TODO Auto-generated method stub
 		return this.myorderDao.listOrderByUid(uid);
 	}
+
 
 }

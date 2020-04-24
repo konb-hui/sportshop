@@ -41,8 +41,16 @@ var SportShopUtils = {
 				 * this为当前的按钮
 				 */
 				var currentPage = $(this).attr("param");
-				var url = $("body").data("url");
-				window.location.href = url+"?currentPage="+currentPage;
+				var url = $("body").data("url") + "?";
+				if(map.size != 0){
+					for (var [key, value] of map) {
+					     url = url + key + "=" + value + "&";
+					}
+					window.location.href = url+"currentPage="+currentPage;
+				}else{
+					window.location.href = url+"currentPage="+currentPage;
+				}
+
 			}
 		},
 		/**
@@ -109,8 +117,15 @@ var SportShopUtils = {
 				if(currentPage < 1 || currentPage > totalPages){
 					alert("请输入正确的页数");
 				}else{
-					var url = $("body").data("url");
-					window.location.href = url+"?currentPage="+currentPage;
+					var url = $("body").data("url") + "?";
+					if(map.size != 0){
+						for (var [key, value] of map) {
+						     url = url + key + "=" + value + "&";
+						}
+						window.location.href = url+"currentPage="+currentPage;
+					}else{
+						window.location.href = url+"currentPage="+currentPage;
+					}
 				}
 			});
 		}

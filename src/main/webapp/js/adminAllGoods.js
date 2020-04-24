@@ -118,4 +118,42 @@ var adminAllGoods = {
 			}
 		});
 	},
+	changecategory:function(){
+		$("#changecategory").change(function(){
+			var cid = $(this).val();
+			var bid = $("#changebrand").val();
+			if(cid != "选择"){
+				if(bid != "选择"){
+					window.location.href = $("body").data("url") + "?cid=" + cid + "&bid=" + bid;
+				}else{
+					window.location.href = $("body").data("url") + "?cid=" + cid;
+				}
+			}else{
+				window.location.href = $("body").data("url");
+			}
+		});
+	},
+	changebrand:function(){
+		$("#changebrand").change(function(){
+			var bid = $(this).val();
+			var cid = $("#changecategory").val();
+			if(bid != "选择"){
+				if(cid != "选择"){
+					window.location.href = $("body").data("url") + "?cid=" + cid + "&bid=" + bid;
+				}else{
+					window.location.href = $("body").data("url") + "?bid=" + bid;
+				}
+			}else{
+				window.location.href = $("body").data("url");
+			}
+		});
+	},
+	search:function(){
+		$("#search").click(function() {
+			var key = $("#key").val();
+			if(key.trim() != ""){
+				window.location.href = $("body").data("url") + "?key=" + key;
+			}
+		});
+	},
 };

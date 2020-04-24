@@ -51,6 +51,16 @@
            })
 	   });
    });
+   function check(obj) {
+	if($(obj).val() < 1){
+		alert("至少购买一个月！");
+		$(obj).val(1);
+	}
+	if($(obj).val() > 12){
+		alert("每次最多购买12个月！");
+		$(obj).val(12);
+	}
+}
 </script>
 <body>
 <div id="main" class="container">
@@ -60,9 +70,12 @@
     </div>
     <h1 style="color:red">成为VIP，购物享优惠，更有购物积分换换取礼品,每月只需30元</h1>
     <c:if test="${!isVip }">
-    购买<input type="number" value="1" name="monthnum1" id="monthnum1">月<button style="background: white;color: red" id="buy" name="buy">点击购买</button>
+    购买<input type="number" value="1" name="monthnum1" id="monthnum1" onchange="check(this)">月<button style="background: white;color: red" id="buy" name="buy">点击购买</button>
     </c:if>
   <c:if test="${isVip }">
+  <script type="text/javascript">
+  
+  </script>
   您的VIP到
                                                                           <time datetime="${user.endTime}">
                                                                             ${user.endTime.year+1900}年
@@ -70,7 +83,7 @@
                                                                             ${user.endTime.date}日
                                                                         </time>到期
                                                                         <br/>
-    续费<input type="number" value="1" name="monthnum2" id="monthnum2">月<button style="background: white;color: red" id="renew" name="renew">点击购买</button>
+    续费<input type="number" value="1" name="monthnum2" id="monthnum2" onchange="check(this)">月<button style="background: white;color: red" id="renew" name="renew">点击购买</button>
     <button style="background: red;color: black">前往兑换商品</button>
     </c:if>
 </div>

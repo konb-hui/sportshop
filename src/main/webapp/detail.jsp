@@ -46,6 +46,9 @@
 				  $('#shopsize').val($(this).val());
 				  flag2 = 1;
 				});
+			  $("#gotoorder").click(function(){
+				  window.location.href="shopCartAction_goCart";
+			  });
 			  $("#buy").click(function(){
 				  if(flag1 == 0 || flag2 == 0){
 					  alert("请选择颜色和尺码");
@@ -94,8 +97,9 @@
 								if(result == "请登录"){
 									window.location.href="loginAction_login";
 								}else{
-									alert(result);
-									history.go(0) ;
+									$("#cart-jump").modal({
+							            backdrop:'static'
+							        });
 								}
 	                      },
 	                      error:function () {
@@ -226,6 +230,22 @@
 </head>
 
 <body>
+<div class="modal fade" id="cart-jump" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+				<span>添加成功!</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">继续购物</button>
+                <button type="button" class="btn btn-primary" id="gotoorder" >去购物车</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--zoom elavator area one start-->
 <div class="elavator_area">
     <div class="container">

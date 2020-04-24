@@ -126,15 +126,15 @@
                             <td>删除</td>
                             <td>编辑</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${sizes}" var="size" varStatus="num">
                             <tr>
                                 <td id="sid">${size.sid}</td>
                                 <td id="sname">${size.sname}</td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
-                                <td><button class="templatemo-delete-btn" name="update">编辑</button></td>
+                                <td><button class="templatemo-edit-btn" name="update">编辑</button></td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

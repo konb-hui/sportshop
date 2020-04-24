@@ -76,15 +76,30 @@ public class AdminAction extends BaseAction<Admin>{
 	}
 	@PrivilegeInfo(name="管理员管理")
 	public String listAdmin() {
+		if(this.getKey() != null) listAdminByKey();
+		else {
+			baseQuery.setCurrentPage(this.getCurrentPage());
+			baseQuery.setPageSize(6);
+			baseQuery.setRid(this.rid);
+			baseQuery.setSex(this.getModel().getSex());
+			ActionContext.getContext().put("rid", this.rid);
+			PageResult<Admin> admins = this.adminService.findPageResult(baseQuery);
+			List<Role> roles = this.roleService.findAll();
+			ActionContext.getContext().put("admins", admins);
+			ActionContext.getContext().put("roles", roles);
+		}
+		return "listAdmin";
+	}
+	@PrivilegeInfo(name="管理员管理")
+	public void listAdminByKey() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setPageSize(6);
-		baseQuery.setRid(this.rid);
-		baseQuery.setSex(this.getModel().getSex());
-		PageResult<Admin> admins = this.adminService.findPageResult(baseQuery);
+		baseQuery.setKey(this.getKey());
+		ActionContext.getContext().put("key", this.getKey());
+		PageResult<Admin> admins = this.adminService.findPageResultByKey(baseQuery);
 		List<Role> roles = this.roleService.findAll();
 		ActionContext.getContext().put("admins", admins);
-		ActionContext.getContext().put("roles", roles);
-		return "listAdmin";
+		ActionContext.getContext().put("roles", roles);	
 	}
 	@PrivilegeInfo(name="管理员管理")
 	public String updateAdmin() {

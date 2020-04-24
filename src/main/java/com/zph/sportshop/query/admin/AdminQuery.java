@@ -8,6 +8,12 @@ import com.zph.sportshop.query.BaseQuery;
 
 public class AdminQuery extends BaseQuery{
 	
+	public AdminQuery() {
+		// TODO Auto-generated constructor stub
+		this.getSearchColum().add("adminName");
+		this.getSearchColum().add("trueName");
+	}
+	
 	private String sex;
 	private Long rid;
 

@@ -34,12 +34,25 @@
 <script type="text/javascript">
 	$().ready(function(){
 		//设置分页要跳转到的url
-		$("body").data("url","userAction_userManage.action");
+		$("body").data("url","adminAction_listAdmin");
+		map = new Map();
+		if($("#changesex").val() != "选择"){
+			map.set("sex",$("#changesex").val())
+		}
+		if($("#changerole").val() != "选择"){
+			map.set("role",$("#changerole").val())
+		}
+		if($("#key").val().trim() != ""){
+			map.set("key",$("#key").val())
+		}
 		//声明分页的事件
 		SportShopUtils.basedata.initEvent();
 		adminManage.updateAdmin();
 		adminManage.addAdmin();
 		adminManage.deleteAdmin();
+		adminManage.changesex();
+		adminManage.changerole();
+		adminManage.search();
 	});
 </script>
 
@@ -50,7 +63,7 @@
         <div class="modal-content" id="parentModal">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">修改管理员</h4>
+                <h4 class="modal-title" id="myModalLabel">修改角色</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="update-form" name="update-form" method="post">
@@ -154,12 +167,34 @@
         <div class="templatemo-top-nav-container">
             <div class="row">
                 <nav class="templatemo-top-nav col-lg-12 col-md-12">
+                	<ul class="text-uppercase">
+                        <li><a href="adminAction_listAdmin" class="active">全部管理员</a></li>
+                    </ul>
                     <ul class="text-uppercase">
                         <li><a href="#" class="active" id="add">添加管理员</a></li>
                     </ul>
                     <ul class="text-uppercase">
                         <li><a href="roleAction_listRole" class="active">管理角色</a></li>
                     </ul>
+                    <span>&nbsp;</span>
+                    <select name="changesex" id="changesex">
+                    	<option value="选择">选择性别</option>
+                    	<option value="男" ${sex == "男" ?"selected":"" }>男</option>
+                    	<option value="女" ${sex == "女" ?"selected":"" }>女</option>
+                    </select>
+                    <span>&nbsp;</span>
+                    <select id="changerole" name="changerole">
+                    <option value="选择">选择角色</option>
+                          <c:forEach items="${roles}" var="role">
+                           <option value="${role.rid}" ${rid == role.rid ?"selected":"" }>${role.rname}</option>
+                           </c:forEach>
+                    </select>
+                    <span>&nbsp;</span>
+                    <input type="text" placeholder="用户名或真实姓名" id="key" name="key" value="${key}">
+                    <span>&nbsp;</span>
+                    <button class="btn btn-default" id="search">
+                        <span>搜索</span>
+                    </button>
                 </nav>
             </div>
         </div>
@@ -179,8 +214,9 @@
                             <td><a href="" class="white-text templatemo-sort-by">添加时间<span class="caret"></span></a></td>
                             <td>查看操作日志</td>
                             <td>删除</td>
-                            <td>编辑</td>
+                            <td>修改角色</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${admins.rows}" var="admin" varStatus="num">
                             <tr>
                                 <td id="adminId">${admin.adminId}</td>
@@ -193,12 +229,11 @@
                                 <td id="regTime">${admin.regTime}</td>
                                 <td><a href="infoAction_listInfo?adminId=${admin.adminId}" class="templatemo-link">查看操作日志</a></td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
-                                <td><button class="templatemo-delete-btn" name="update">修改角色</button>
+                                <td><button class="templatemo-edit-btn" name="update">修改角色</button>
                                 	<input type="hidden" id="adminRid" value="${admin.role.rid}">
                                 </td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 public class Category implements Serializable{
-	private int cid;
+	private Long cid;
 	private String cname;
 	private Set<Good> goods;
 	public Set<Good> getGoods() {
@@ -13,10 +13,10 @@ public class Category implements Serializable{
 	public void setGoods(Set<Good> goods) {
 		this.goods = goods;
 	}
-	public int getCid() {
+	public Long getCid() {
 		return cid;
 	}
-	public void setCid(int cid) {
+	public void setCid(Long cid) {
 		this.cid = cid;
 	}
 	public String getCname() {

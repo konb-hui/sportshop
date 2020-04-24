@@ -34,7 +34,11 @@
 <script type="text/javascript">
 	$().ready(function(){
 	    //设置分页要跳转到的url
-		$("body").data("url","categoryAction_listCategory.action");
+		$("body").data("url","brandAction_listBrand.action");
+		map = new Map();
+	    if($("#key").val().trim()!=""){
+	    	map.set("key",$("#key").val())
+	    }
 		//声明分页的事件
 		SportShopUtils.basedata.initEvent();
 		adminBrand.updateBrand();
@@ -115,7 +119,7 @@
                         <li><a href="#" class="active" id="add">添加品牌</a></li>
                     </ul>
                     <span>&nbsp;</span>
-                    <input type="text" placeholder="输入品牌名查找" id="bname" name="bname" value="${bname}">
+                    <input type="text" placeholder="输入关键词查找" id="key" name="key" value="${key}">
                     <span>&nbsp;</span>
                     <button class="btn btn-default" id="search">
                         <span>搜索</span>
@@ -134,15 +138,15 @@
                             <td>删除</td>
                             <td>编辑</td>
                         </tr>
+                        </thead>
                         <c:forEach items="${brands.rows}" var="brand" varStatus="num">
                             <tr>
                                 <td id="bid">${brand.bid}</td>
                                 <td id="bname">${brand.bname}</td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
-                                <td><button class="templatemo-delete-btn" name="update">编辑</button></td>
+                                <td><button class="templatemo-edit-btn" name="update">编辑</button></td>
                             </tr>
                         </c:forEach>
-                        </thead>
                     </table>
                 </div>
             </div>

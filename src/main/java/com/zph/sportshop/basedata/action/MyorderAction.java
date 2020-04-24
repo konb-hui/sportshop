@@ -193,9 +193,20 @@ public class MyorderAction extends BaseAction<Myorder>{
 	public String listOrderForAdmin() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setPageSize(6);
-		if(this.getModel().getStatus() == null) baseQuery.setStatus("未发货");
-		else
-		baseQuery.setStatus(this.getModel().getStatus());
+		if(this.getModel().getStatus() == null) {
+			baseQuery.setStatus("未发货");
+			ActionContext.getContext().put("status","未发货");
+		}
+		else {
+			if(this.getModel().getStatus() == "已发货") {
+				listReceivedOrder();
+			}else if(this.getModel().getStatus() == "已完成") {
+				listCompletedOrder();
+			}
+			baseQuery.setStatus(this.getModel().getStatus());
+			ActionContext.getContext().put("status", this.getModel().getStatus());
+		}
+		if(this.getModel().getOid() != null) baseQuery.setOid(this.getModel().getOid());
 		PageResult<Myorder> orders = this.myorderService.findPageResult(baseQuery);
 		List<Logistics> logisticses = this.logisticsService.findAll();
 		ActionContext.getContext().put("logisticses", logisticses);
@@ -213,24 +224,31 @@ public class MyorderAction extends BaseAction<Myorder>{
 		this.myorderService.updateEntry(order);
 		return SUCCESS;
 	}
+	@PrivilegeInfo(name="订单管理")
 	public String listReceivedOrder() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setPageSize(6);
 		baseQuery.setStatus("已发货");
+		ActionContext.getContext().put("status", "已发货");
+		if(this.getModel().getOid() != null) baseQuery.setOid(this.getModel().getOid());
 		PageResult<Myorder> orders = this.myorderService.findPageResult(baseQuery);
 		ActionContext.getContext().put("orders", orders);
 		return "listReceivedOrder";
 	}
+	@PrivilegeInfo(name="订单管理")
 	public String completedOrder() {
 		Myorder myorder = this.myorderService.getEntry(this.getModel().getOid());
 		myorder.setStatus("已收货");
 		this.myorderService.updateEntry(myorder);
 		return SUCCESS;
 	}
+	@PrivilegeInfo(name="订单管理")
 	public String listCompletedOrder() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setPageSize(6);
 		baseQuery.setStatus("已收货");
+		ActionContext.getContext().put("status", "已收货");
+		if(this.getModel().getOid() != null) baseQuery.setOid(this.getModel().getOid());
 		PageResult<Myorder> orders = this.myorderService.findPageResult(baseQuery);
 		ActionContext.getContext().put("orders", orders);
 		return "listCompletedOrder";

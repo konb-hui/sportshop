@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 public class Brand implements Serializable{
-	private int bid;
+	private Long bid;
 	private String bname;
 	private Set<Good> goods;
 	public Set<Good> getGoods() {
@@ -13,10 +13,11 @@ public class Brand implements Serializable{
 	public void setGoods(Set<Good> goods) {
 		this.goods = goods;
 	}
-	public int getBid() {
+	
+	public Long getBid() {
 		return bid;
 	}
-	public void setBid(int bid) {
+	public void setBid(Long bid) {
 		this.bid = bid;
 	}
 	public String getBname() {

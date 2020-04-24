@@ -33,6 +33,10 @@
 <script type="text/javascript">
 	$().ready(function(){
 	    //设置分页要跳转到的url
+	    map = new Map();
+	    if($("#cid").val() != ""){
+	    	map.set("cid",$("#cid").val());
+	    }
 		$("body").data("url","goodAction_findGoodByCid.action");
 		//声明分页的事件
 		SportShopUtils.basedata.initEvent();
@@ -48,6 +52,7 @@
             <div class="">
                 <h3>
                     类别><span style="color: red;">${cate}</span>
+                    <input type="hidden" id="cid" value="${cid}">
                 </h3>
                 <hr>
             </div>

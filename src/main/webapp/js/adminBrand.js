@@ -40,9 +40,9 @@ var adminBrand = {
 	},
 	searchForName:function(){
 		$('#search').click(function(){
-			var bname = $('#bname').val();
-			if(bname != ""){
-				 window.location.href = "brandAction_listBrand?bname=" + bname;
+			var key = $('#key').val();
+			if(key.trim() != ""){
+				 window.location.href = "brandAction_listBrand?key=" + key;
 			}
 		});
 	},

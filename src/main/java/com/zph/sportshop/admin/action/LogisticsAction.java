@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.zph.sportshop.admin.service.LogisticsService;
 import com.zph.sportshop.base.action.BaseAction;
@@ -31,7 +30,14 @@ public class LogisticsAction extends BaseAction<Logistics>{
 	public String listLogistics() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
 		baseQuery.setPageSize(6);
-		PageResult<Logistics> logisticses = this.logisticsService.findPageResult(baseQuery);
+		PageResult<Logistics> logisticses;
+		if(this.getKey() != null) {
+			baseQuery.setKey(this.getKey());
+			logisticses = this.logisticsService.findPageResultByKey(baseQuery);
+			ActionContext.getContext().put("key", this.getKey());
+		}else {
+			logisticses = this.logisticsService.findPageResult(baseQuery);
+		}
 		ActionContext.getContext().put("logisticses", logisticses);
 		return "listLogistics";
 	}

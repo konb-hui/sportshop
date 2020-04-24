@@ -21,6 +21,14 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 	private T t;
 	@Resource(name="infoService")
 	private InfoService infoService;
+	//模糊查询关键词
+	private String key;
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 	public BaseAction() {
 		ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
 		this.classt = (Class) type.getActualTypeArguments()[0];
