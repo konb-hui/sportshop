@@ -24,4 +24,10 @@ public class SizeDaoImpl extends BaseDaoImpl<Size> implements SizeDao{
 		return null;
 	}
 
+	public Size getByGidAndName(Long gid, String sname) {
+		// TODO Auto-generated method stub
+		Size size = (Size) this.hibernateTemplate.find("from Size where gid=? and sname=?",gid,sname).get(0);
+		return size;
+	}
+
 }

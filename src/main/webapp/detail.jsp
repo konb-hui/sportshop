@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>淘一淘-商品详情</title>
+    <title>体育商城-商品详情</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
     <!-- style css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dialogue.css">
 
     <link href="${pageContext.request.contextPath}/css/shopdetail.css" rel="stylesheet">
     <!-- <script src="./detail/js/jquery.js"></script> -->
@@ -44,6 +45,7 @@
 				  $(this).attr("class","btn btn-default btn-lg active");
 				  $(this).siblings().attr("class","btn btn-default btn-lg");
 				  $('#shopsize').val($(this).val());
+				  $('#sizenum').text($(this).attr("num"));
 				  flag2 = 1;
 				});
 			  $("#gotoorder").click(function(){
@@ -52,6 +54,8 @@
 			  $("#buy").click(function(){
 				  if(flag1 == 0 || flag2 == 0){
 					  alert("请选择颜色和尺码");
+				  }else if ($('#goodsnum').val()>$('#sizenum').text()){
+					  alert("库存不足！");
 				  }else{
 					  var shopcolor = $('#shopcolor').val();
 					  var shopsize = $('#shopsize').val();
@@ -78,6 +82,8 @@
 			  $("#addCart").click(function(){
 				  if(flag1 == 0 || flag2 == 0){
 					  alert("请选择颜色和尺码");
+				  }else if ($("#goodsnum").val()>$('#sizenum').text()){
+					  alert("库存不足！");
 				  }else{
 					  var shopcolor = $('#shopcolor').val();
 					  var shopsize = $('#shopsize').val();
@@ -181,7 +187,7 @@
                             if(result == "未登陆"){
                                 location.href = "./loginAction_login";
                             }else{
-                            	$('#favorite').text("取消收藏");
+                            	$('#favorite').text("已收藏");
                             	isChangeBtn = true;
                             }
                         },
@@ -247,8 +253,18 @@
     </div>
 </div>
 <!--zoom elavator area one start-->
-<div class="elavator_area">
     <div class="container">
+            <div class="dialogue-wrapper">
+     	<div id="btn_open" class="dialogue-support-btn" onclick="CustomerService()">
+         <i class="dialogue-support-icon"></i>
+         <i class="dialogue-support-line"></i>
+         <span class="dialogue-support-text">联系客服</span>
+     	</div>
+     	<script type="text/javascript">
+     		function CustomerService() {
+     			window.location.href = "chatAction_chatCustomerService";
+			}
+     	</script>
         <jsp:include page="header.jsp"/>
         <div class="shop_menu shop_menu_2 main-detail-div">
             <ul class="cramb_area cramb_area_5 main-detail-nav">
@@ -306,8 +322,11 @@
     							<c:if test="${status.index % 4 == 0}">
         						<br /> <!-- 是表格就加个<tr></tr> -->
     							</c:if>
-    							<button value="${size.sname}" class="btn btn-default btn-lg">${size.sname}</button>
+    							<button value="${size.sname}" class="btn btn-default btn-lg" num="${size.num}">${size.sname}</button>
 								</c:forEach>
+                            </span>
+                            <span class="sku_wrapper big-font" id="size">
+                            库存:					<span id="sizenum"></span>
                             </span>
                     </div>
 
@@ -318,8 +337,7 @@
                                         <span class="span-block">
                                          <c:forEach var="discount" items="${good.discounts}" varStatus="status">
     										<button class="quan-item" id="discount" value="${discount.did}">满${discount.fullprice}减${discount.reduceprice}</button>
-								</c:forEach>
-                                            
+								</c:forEach>      
                                         </span>
                                     </c:if>
                                 <c:if test="${empty good.discounts}">
@@ -357,6 +375,10 @@
                 				if($(obj).val()<1){
                 					$(obj).val(1);
                 					alert("最少为1！");
+                				}
+                				if($(obj).val()>$('#sizenum').text()){
+                					$(obj).val($(obj).val() - 1);
+                					alert("库存不足！");
                 				}
                 			}
                             </script>

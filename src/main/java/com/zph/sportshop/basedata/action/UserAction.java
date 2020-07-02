@@ -14,11 +14,16 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.zph.sportshop.base.action.BaseAction;
+import com.zph.sportshop.basedata.service.AddressService;
+import com.zph.sportshop.basedata.service.HistoryService;
+import com.zph.sportshop.basedata.service.MyorderService;
+import com.zph.sportshop.basedata.service.ShopCartService;
 import com.zph.sportshop.basedata.service.UserService;
 import com.zph.sportshop.domain.basedata.Address;
 import com.zph.sportshop.domain.basedata.User;
 import com.zph.sportshop.domain.good.Discount;
 import com.zph.sportshop.domain.privilege.annotation.PrivilegeInfo;
+import com.zph.sportshop.good.service.CommentService;
 import com.zph.sportshop.good.service.DiscountService;
 import com.zph.sportshop.good.service.GoodService;
 import com.zph.sportshop.query.PageResult;
@@ -35,6 +40,16 @@ public class UserAction extends BaseAction<User>{
 	private GoodService goodService;
 	@Resource(name="discountService")
 	private DiscountService discountService;
+	@Resource(name="addressService")
+	private AddressService addressService;
+	@Resource(name="historyService")
+	private HistoryService historyService;
+	@Resource(name="myorderService")
+	private MyorderService myorderService;
+	@Resource(name="shopCartService")
+	private ShopCartService shopCartService;
+	@Resource(name="commentService")
+	private CommentService commentService;
 	private Integer monthnum;
 	private String result;
 	private Long did;
@@ -102,6 +117,7 @@ public class UserAction extends BaseAction<User>{
 	public String address() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
+		if(user == null) return action2action;
 		Collection<Address> addressList = userService.getEntry(user.getUid()).getAddresses();
 		ActionContext.getContext().put("addressList", addressList);
 		return "address";
@@ -189,10 +205,16 @@ public class UserAction extends BaseAction<User>{
 	}
 	@PrivilegeInfo(name="用户管理")
 	public String deleteByUid() {
-		User user = this.userService.getEntry(this.getModel().getUid());
+		Long uid = this.getModel().getUid();
+		User user = this.userService.getEntry(uid);
 		String content = "删除了用户：" + user.getUsername();
 		this.addInfo(content);
-		userService.deleteEntryById(this.getModel().getUid());
+		this.shopCartService.deleteByForeignId(uid, "uid");
+		this.addressService.deleteByForeignId(uid, "uid");
+		this.commentService.deleteByForeignId(uid, "uid");
+		this.historyService.deleteByForeignId(uid, "uid");
+		this.myorderService.deleteByForeignId(uid, "uid");
+		userService.deleteEntryById(uid);
 		return SUCCESS;
 	}
 }

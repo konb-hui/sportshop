@@ -13,9 +13,12 @@
 			<result name="listorder2">WEB-INF/jsp/sportshop/basedata/user/list2.jsp</result>
 			<result name="listorder3">WEB-INF/jsp/sportshop/basedata/user/list3.jsp</result>
 			<result name="listorder4">WEB-INF/jsp/sportshop/basedata/user/list4.jsp</result>
+			<result name="listorder5">WEB-INF/jsp/sportshop/basedata/user/list5.jsp</result>
+			<result name="listorder6">WEB-INF/jsp/sportshop/basedata/user/list6.jsp</result>
 			<result name="listOrderForAdmin">WEB-INF/jsp/sportshop/basedata/admin/adminAllOrder.jsp</result>
 			<result name="listReceivedOrder">WEB-INF/jsp/sportshop/basedata/admin/adminReceivedOrder.jsp</result>
 			<result name="listCompletedOrder">WEB-INF/jsp/sportshop/basedata/admin/adminCompletedOrder.jsp</result>
+			<result name="listRefundOrder">WEB-INF/jsp/sportshop/basedata/admin/adminRefundOrder.jsp</result>
 		</action>
 	</package>
 </struts>

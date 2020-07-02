@@ -12,13 +12,6 @@ public class Address implements Serializable{
 	private String conname;
 	private String contel;
 	private User user; 
-	private Set<Myorder> myorders;
-	public Set<Myorder> getMyorders() {
-		return myorders;
-	}
-	public void setMyorders(Set<Myorder> myorders) {
-		this.myorders = myorders;
-	}
 	public Long getAid() {
 		return aid;
 	}

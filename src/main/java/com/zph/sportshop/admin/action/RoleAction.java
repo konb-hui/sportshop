@@ -86,9 +86,15 @@ public class RoleAction extends BaseAction<Role>{
 	}
 	@PrivilegeInfo(name="管理员管理")
 	public String deleteRole() {
-		String content = "更新了角色：" + this.getModel().getRid();
+		Long rid = this.getModel().getRid();
+		String content = "更新了角色：" + rid;
 		this.addInfo(content);
-		this.roleService.deleteEntryById(this.getModel().getRid());
+		try {
+			this.roleService.deleteEntryById(rid);
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.result.put("deleteInfo", "删除失败");
+		}
 		return SUCCESS;
 	}
 	public String findPrivilegeByRole() {

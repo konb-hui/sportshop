@@ -80,7 +80,12 @@ public class CategoryAction extends BaseAction<Category>{
 	public String deleteCategory() {
 		String content = "删除了商品类别：" + this.getModel().getCid();
 		this.addInfo(content);
-		categoryService.deleteEntryById(this.getModel().getCid());
+		try {
+			this.categoryService.deleteEntryById(this.getModel().getCid());
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.result = "删除失败";
+		}
 		return SUCCESS;
 	}
 }

@@ -8,4 +8,5 @@ import com.zph.sportshop.domain.good.Size;
 public interface SizeService extends BaseService<Size>{
 	public List<Size> findSizeByGid(Long gid);
 	public Size findBySname(String sname);
+	public Size getByGidAndName(Long gid,String sname);
 }

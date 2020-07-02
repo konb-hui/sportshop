@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!doctype html>
 
 <html lang="en">
@@ -152,8 +151,8 @@
                                             <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="250px" height="250px" alt=""/>
                                             </a>
                                         </div>
-                                        <p class="text-right">
-                                            <a  href="goodAction_showDetail?gid=${good.gid}" style="font-size:15px">${fn:substring(good.gname,0,18)}</a>
+                                        <p style="width: 250px;overflow: hidden;  white-space: nowrap;  text-overflow: ellipsis;">
+                                            <a  href="goodAction_showDetail?gid=${good.gid}" style="font-size:15px">${good.gname}</a>
                                         </p>
                                         <div class="text-right">
                                             <b>普通价：￥${good.price}</b>

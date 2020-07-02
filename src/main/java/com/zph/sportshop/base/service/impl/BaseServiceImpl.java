@@ -58,4 +58,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	public PageResult<T> findPageResultByKey(BaseQuery baseQuery){
 		return this.getbaseDao().findPageResultByKey(baseQuery);
 	}
+	public Integer deleteByForeignId(Long id,String idName) {;
+		return this.getbaseDao().deleteByForeignId(id, idName);
+	}
 }

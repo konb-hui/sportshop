@@ -19,6 +19,7 @@ import com.zph.sportshop.domain.privilege.Role;
 import com.zph.sportshop.domain.privilege.annotation.PrivilegeInfo;
 import com.zph.sportshop.query.PageResult;
 import com.zph.sportshop.query.admin.AdminQuery;
+import com.zph.sportshop.system.service.InfoService;
 import com.zph.sportshop.util.encryption.EncryptionPsw;
 
 @Controller("adminAction")
@@ -29,6 +30,8 @@ public class AdminAction extends BaseAction<Admin>{
 	private AdminService adminService;
 	@Resource(name="roleService")
 	private RoleService roleService;
+	@Resource(name="infoService")
+	private InfoService infoService;
 	private Long rid;
 	private AdminQuery baseQuery = new AdminQuery();
 	private String result;
@@ -135,13 +138,16 @@ public class AdminAction extends BaseAction<Admin>{
 	}
 	@PrivilegeInfo(name="管理员管理")
 	public String deleteAdmin() {
-		String content = "删除了管理员：" + this.getModel().getAdminId();
+		Long adminId = this.getModel().getAdminId();
+		String content = "删除了管理员：" + adminId;
 		this.addInfo(content);
-		this.adminService.deleteEntryById(this.getModel().getAdminId());
+		this.infoService.deleteByForeignId(adminId, "adminId");
+		this.adminService.deleteEntryById(adminId);
 		return SUCCESS;
 	}
 	public String adminLogout() {
-		ActionContext.getContext().getSession().clear(); 
+		ActionContext.getContext().getSession().put("admin", null); 
+		ActionContext.getContext().getSession().put("functions", null); 
 		return "login";
 	}
 	public String showSelf() {

@@ -26,4 +26,6 @@ public interface BaseService<T> {
 	public Set<T> getEntriesByIds(Serializable[] ids);
 	
 	public PageResult<T> findPageResultByKey(final BaseQuery baseQuery);
+	
+	public Integer deleteByForeignId(final Long id,final String idName);
 }

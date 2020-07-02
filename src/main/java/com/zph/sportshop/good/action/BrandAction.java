@@ -74,9 +74,15 @@ public class BrandAction extends BaseAction<Brand>{
 	}
 	@PrivilegeInfo(name="品牌管理")
 	public String deleteBrand() {
-		String content = "删除了品牌：" + this.getModel().getBid();
+		Long bid = this.getModel().getBid();
+		String content = "删除了品牌：" + bid;
 		this.addInfo(content);
-		this.brandService.deleteEntryById(this.getModel().getBid());
+		try {
+			this.brandService.deleteEntryById(bid);
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.result = "删除失败";
+		}
 		return SUCCESS;
 	}
 }

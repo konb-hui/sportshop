@@ -25,8 +25,10 @@ import com.zph.sportshop.domain.basedata.Myorder;
 import com.zph.sportshop.domain.basedata.ShopCart;
 import com.zph.sportshop.domain.basedata.User;
 import com.zph.sportshop.domain.good.Good;
+import com.zph.sportshop.domain.good.Size;
 import com.zph.sportshop.domain.privilege.annotation.PrivilegeInfo;
 import com.zph.sportshop.good.service.GoodService;
+import com.zph.sportshop.good.service.SizeService;
 import com.zph.sportshop.query.PageResult;
 import com.zph.sportshop.query.basedata.MyorderQuery;
 
@@ -46,6 +48,8 @@ public class MyorderAction extends BaseAction<Myorder>{
 	private LogisticsService logisticsService;
 	@Resource(name="goodService")
 	private GoodService goodService;
+	@Resource(name="sizeService")
+	private SizeService sizeService;
 	private MyorderQuery baseQuery = new MyorderQuery();
 	private Integer totalPrice;
 	private Long aid;
@@ -77,9 +81,17 @@ public class MyorderAction extends BaseAction<Myorder>{
 	public String confirmOrder() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
+		//更新购物车每个商品的库存
+		List<ShopCart> shopCarts = this.shopCartService.getShopCartsByUid(user.getUid());
+		for (Iterator iterator = shopCarts.iterator(); iterator.hasNext();) {
+			ShopCart shopCart = (ShopCart) iterator.next();
+			Size size = this.sizeService.getByGidAndName(shopCart.getGood().getGid(), shopCart.getShopsize());
+			size.setNum(size.getNum() - shopCart.getGoodsnum());
+			this.sizeService.updateEntry(size);
+		}
 		ActionContext.getContext().put("totalPrice", this.getTotalPrice());
 		ActionContext.getContext().put("newPrice", this.getTotalPrice());
-		ActionContext.getContext().put("shopcarts", this.shopCartService.getShopCartsByUid(user.getUid()));
+		ActionContext.getContext().put("shopcarts", shopCarts);
 		return "confirmorder";
 	}
 	public String addOrder() {
@@ -101,11 +113,15 @@ public class MyorderAction extends BaseAction<Myorder>{
 			h.setShopcolor(shopCart.getShopcolor());
 			h.setShopsize(shopCart.getShopsize());
 			h.setUser(user);
+			h.setIscomment("否");
 			historyService.saveEntry(h);
 			histories.add(h);
 		}
 		Address address = addressService.getEntry(this.getAid());
-		myorder.setAddress(address);
+		String addr = address.getProvince() + address.getCity() + address.getCounty() + address.getDetailaddr();
+		myorder.setAddress(addr);
+		myorder.setConsignee(address.getConname());
+		myorder.setPhone(address.getContel());
 		myorder.setHistories(histories);
 		myorder.setUser(user);
 		myorder.setPrice(this.getModel().getPrice());
@@ -127,9 +143,13 @@ public class MyorderAction extends BaseAction<Myorder>{
 	public String addBuyOrder() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
+		if(user == null) return "login";
 		Set<History> histories = new HashSet<History>();
 		Myorder myorder = new Myorder();
 		ShopCart shopCart = (ShopCart) map.get("shopcart");
+		Size size = this.sizeService.getByGidAndName(shopCart.getGood().getGid(), shopCart.getShopsize());
+		size.setNum(size.getNum() - shopCart.getGoodsnum());
+		this.sizeService.updateEntry(size);
 		History history = new History();
 		Good good = shopCart.getGood();
 		Integer sv = good.getSalesvolume();
@@ -141,10 +161,14 @@ public class MyorderAction extends BaseAction<Myorder>{
 		history.setShopcolor(shopCart.getShopcolor());
 		history.setShopsize(shopCart.getShopsize());
 		history.setUser(user);
+		history.setIscomment("否");
 		this.historyService.saveEntry(history);
 		histories.add(history);
 		Address address = addressService.getEntry(this.getAid());
-		myorder.setAddress(address);
+		String addr = address.getProvince() + address.getCity() + address.getCounty() + address.getDetailaddr();
+		myorder.setAddress(addr);
+		myorder.setConsignee(address.getConname());
+		myorder.setPhone(address.getContel());
 		myorder.setHistories(histories);
 		myorder.setUser(user);
 		myorder.setPrice(this.getModel().getPrice());
@@ -189,6 +213,22 @@ public class MyorderAction extends BaseAction<Myorder>{
 		ActionContext.getContext().put("orderList", orderList);
 		return "listorder4";
 	}
+	public String listOrder5() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		if(user == null) return "login";
+		List<Myorder> orderList = myorderService.listOrderByUid(user.getUid());
+		ActionContext.getContext().put("orderList", orderList);
+		return "listorder5";
+	}
+	public String listOrder6() {
+		Map map = ActionContext.getContext().getSession();
+		User user = (User) map.get("user");
+		if(user == null) return "login";
+		List<Myorder> orderList = myorderService.listOrderByUid(user.getUid());
+		ActionContext.getContext().put("orderList", orderList);
+		return "listorder6";
+	}
 	@PrivilegeInfo(name="订单管理")
 	public String listOrderForAdmin() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
@@ -224,6 +264,22 @@ public class MyorderAction extends BaseAction<Myorder>{
 		this.myorderService.updateEntry(order);
 		return SUCCESS;
 	}
+	public String refund() {
+		Myorder order = this.myorderService.getEntry(this.getModel().getOid());
+		order.setStatus("退款中");
+		this.myorderService.updateEntry(order);
+		return SUCCESS;
+	}
+	public String cancelrefund() {
+		Myorder order = this.myorderService.getEntry(this.getModel().getOid());
+		if(order.getLogistics() != null) {
+			order.setStatus("已发货");
+		}else {
+			order.setStatus("未发货");
+		}
+		this.myorderService.updateEntry(order);
+		return SUCCESS;
+	}
 	@PrivilegeInfo(name="订单管理")
 	public String listReceivedOrder() {
 		baseQuery.setCurrentPage(this.getCurrentPage());
@@ -253,12 +309,34 @@ public class MyorderAction extends BaseAction<Myorder>{
 		ActionContext.getContext().put("orders", orders);
 		return "listCompletedOrder";
 	}
+	@PrivilegeInfo(name="订单管理")
+	public String listRefundOrder() {
+		baseQuery.setCurrentPage(this.getCurrentPage());
+		baseQuery.setPageSize(6);
+		baseQuery.setStatus("退款中");
+		ActionContext.getContext().put("status", "退款中");
+		if(this.getModel().getOid() != null) baseQuery.setOid(this.getModel().getOid());
+		PageResult<Myorder> orders = this.myorderService.findPageResult(baseQuery);
+		ActionContext.getContext().put("orders", orders);
+		return "listRefundOrder";
+	}
+	@PrivilegeInfo(name="订单管理")
+	public String agreeRefund() {
+		Myorder order = this.myorderService.getEntry(this.getModel().getOid());
+		order.setStatus("退款成功");
+		this.myorderService.updateEntry(order);
+		return SUCCESS;
+	}
 	public String deleteOrder() {
 		List<History> histories = this.historyService.findByOid(this.getModel().getOid());
+		Myorder order = this.myorderService.getEntry(this.getModel().getOid());
 		for (Iterator iterator = histories.iterator(); iterator.hasNext();) {
 			History history = (History) iterator.next();
-			history.setMyorder(null);
-			this.historyService.updateEntry(history);
+			this.historyService.deleteEntryById(history.getHid());
+		}
+		if(order.getLogistics() != null) {
+			order.setLogistics(null);
+			this.myorderService.updateEntry(order);
 		}
 		this.myorderService.deleteEntryById(this.getModel().getOid());
 		return SUCCESS;

@@ -116,7 +116,7 @@
                         <li><a href="brandAction_listBrand" class="active">所有品牌</a></li>
                     </ul>
                     <ul class="text-uppercase">
-                        <li><a href="#" class="active" id="add">添加品牌</a></li>
+                        <li><a href="javascript:void(0)" class="active" id="add">添加品牌</a></li>
                     </ul>
                     <span>&nbsp;</span>
                     <input type="text" placeholder="输入关键词查找" id="key" name="key" value="${key}">

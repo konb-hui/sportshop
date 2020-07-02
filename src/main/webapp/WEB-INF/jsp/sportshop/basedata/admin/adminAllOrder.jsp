@@ -73,7 +73,7 @@ $().ready(function(){
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="saveSend" >保存</button>
+                <button type="button" class="btn btn-primary" id="saveSend" >确定</button>
             </div>
         </div>
     </div>
@@ -126,9 +126,9 @@ $().ready(function(){
                                                     <td>${order.user.uid}</td>
                                                     <td>￥${order.price}</td>
                                                     <td>￥${order.newprice}</td>
-                                                    <td>${order.address.conname}</td>
-                                                    <td>${order.address.province} ${order.address.city} ${order.address.county} ${order.address.detailaddr}</td>
-                                                    <td>${order.address.contel}</td>
+                                                    <td>${order.consignee}</td>
+                                                    <td>${order.address}</td>
+                                                    <td>${order.phone}</td>
                                                     <td>${order.time}</td>
                                                 </tr>
 

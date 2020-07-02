@@ -26,6 +26,7 @@
 			一般字段
 		 -->
 		<property name="sname" length="10"></property>
+		<property name="num" type="java.lang.Integer"></property>
 		<many-to-one name="good" column="gid" class="com.zph.sportshop.domain.good.Good"></many-to-one>
 	</class>
 </hibernate-mapping>

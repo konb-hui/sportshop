@@ -171,7 +171,7 @@
                         <li><a href="adminAction_listAdmin" class="active">全部管理员</a></li>
                     </ul>
                     <ul class="text-uppercase">
-                        <li><a href="#" class="active" id="add">添加管理员</a></li>
+                        <li><a href="javascript:void(0)" class="active" id="add">添加管理员</a></li>
                     </ul>
                     <ul class="text-uppercase">
                         <li><a href="roleAction_listRole" class="active">管理角色</a></li>

@@ -2,22 +2,26 @@ var adminSize = {
 	updateSize:function(){
 		var sid;
 		var sname;
+		var num;
 		$("[name='update']").click(function(){
 	        $("#update-size").modal({
 	            backdrop:'static'
 	        });
 	        $("#updatesid").text($(this).parent().siblings('#sid').text());
 	        $("#updatesname").val($(this).parent().siblings('#sname').text());
+	        $("#updatenum").val($(this).parent().siblings('#num').text());
 	        sid = $(this).parent().siblings('#sid').text();
 		});
 		$("#saveUpdate").click(function(){
 			sname = $("#updatesname").val();
+			num = $("#updatenum").val();
 	        $.ajax({
 		        url: "sizeAction_updateSize",
 		        type: "post",
 		        data: {
 		        	sid:sid,
 		        	sname:sname,
+		        	num:num,
 		        },
 	            success: function(result){
 	                if (result!="更新成功")
@@ -26,10 +30,8 @@ var adminSize = {
 	                }
 	                else {
 	                    $("#update-size").modal('hide');
-	                    swal("修改成功", "", "success");
-	                    $("button").click(function (){
-	                        location.reload();
-	                    });
+	                    swal("修改成功");
+	                    location.reload();
 	                }
 	            },
 	            error:function (){
@@ -45,6 +47,7 @@ var adminSize = {
 		        });
 				$("#saveAdd").click(function(){
 					var sname = $('#addsname').val();
+					var num = $('#addnum').val();
 					var gid = $(this).siblings('#gid').val();
 			        $.ajax({
 				        url: "sizeAction_addSize",
@@ -52,6 +55,7 @@ var adminSize = {
 				        data: {
 				        	sname:sname,
 				        	gid:gid,
+				        	num:num,
 				        },
 			            success: function(result){
 			                if (result!="添加成功")

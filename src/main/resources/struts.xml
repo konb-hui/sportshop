@@ -6,6 +6,7 @@
 <struts>
 	<constant name="struts.ui.theme" value="simple"></constant>
 	<constant name="struts.devMode" value="true"/>
+	<constant name="struts.action.excludePattern" value="/ws/bitcoinServer" /> 
 		
       <!--
 	   	拦截器
@@ -87,6 +88,10 @@
 	   	info
 	   -->
 	   <include file="com/zph/sportshop/struts/system/struts-info.xml"></include>
+	   <!--
+	   	chat
+	   -->
+	   <include file="com/zph/sportshop/struts/chat/struts-chat.xml"></include>
 
 </struts>
 	

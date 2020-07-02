@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="chat" namespace="/" extends="struts-default,json-default">
+		<action name="chatAction_*" method="{1}" class="chatAction">
+			<result name="chatCustomerService">chat.jsp</result>
+			<result name="chatUser">WEB-INF/jsp/sportshop/basedata/admin/adminChat.jsp</result>
+			<result name="login">login.jsp</result>
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+</struts>

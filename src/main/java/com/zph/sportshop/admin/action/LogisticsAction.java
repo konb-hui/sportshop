@@ -73,7 +73,12 @@ public class LogisticsAction extends BaseAction<Logistics>{
 	public String deleteLogistics() {
 		String content = "更新了物流：" + this.getModel().getLid();
 		this.addInfo(content);
-		this.logisticsService.deleteEntryById(this.getModel().getLid());
+		try {
+			this.logisticsService.deleteEntryById(this.getModel().getLid());
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.result = "删除失败";
+		}
 		return SUCCESS;
 	}
 }

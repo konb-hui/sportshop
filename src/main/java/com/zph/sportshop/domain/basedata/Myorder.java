@@ -14,7 +14,9 @@ public class Myorder implements Serializable{
 	private User user;
 	private Set<History> histories;
 	private String status;
-	private Address address;
+	private String address;
+	private String consignee;
+	private String phone;
 	private Logistics logistics;
 	public Logistics getLogistics() {
 		return logistics;
@@ -27,12 +29,6 @@ public class Myorder implements Serializable{
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
 	}
 	public Set<History> getHistories() {
 		return histories;
@@ -70,4 +66,23 @@ public class Myorder implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getConsignee() {
+		return consignee;
+	}
+	public void setConsignee(String consignee) {
+		this.consignee = consignee;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
 }

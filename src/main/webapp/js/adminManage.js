@@ -7,6 +7,7 @@ var adminManage = {
 	            backdrop:'static'
 	        });
 	        $("#updaterole").val($(this).siblings('#adminRid').val());
+	        $("#updateadminId").text($(this).parent().siblings('#adminId').text());
 	        adminId = $(this).parent().siblings('#adminId').text();
 		});
 		$("#saveUpdate").click(function(){

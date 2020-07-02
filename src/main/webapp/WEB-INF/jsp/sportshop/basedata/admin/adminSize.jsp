@@ -61,6 +61,12 @@
                             <input type="text" class="form-control" name="updatesname" id="updatesname">
                         </div>
                     </div>
+                    <div class="form-group">
+                    <label for="num" class="col-sm-2 control-label">库存</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="updatenum" id="updatenum">
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -83,6 +89,12 @@
                         <label for="sname" class="col-sm-2 control-label">尺寸</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="addsname" id="addsname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <label for="num" class="col-sm-2 control-label">库存</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="addnum" id="addnum">
                         </div>
                     </div>
                 </form>
@@ -110,7 +122,7 @@
                         <li>${good.gname}</li>
                     </ul>
                     <ul class="text-uppercase">
-                        <li><a href="#" class="active" id="add">添加尺寸</a></li>
+                        <li><a href="javascript:void(0)" class="active" id="add">添加尺寸</a></li>
                     </ul>
                 </nav>
             </div>
@@ -123,6 +135,7 @@
                         <tr>
                             <td><a href="" class="white-text templatemo-sort-by">id<span class="caret"></span></a></td>
                             <td><a href="" class="white-text templatemo-sort-by">尺寸<span class="caret"></span></a></td>
+                            <td><a href="" class="white-text templatemo-sort-by">库存<span class="caret"></span></a></td>
                             <td>删除</td>
                             <td>编辑</td>
                         </tr>
@@ -131,6 +144,7 @@
                             <tr>
                                 <td id="sid">${size.sid}</td>
                                 <td id="sname">${size.sname}</td>
+                                <td id="num">${size.num}</td>
                                 <td><button class="templatemo-delete-btn" name="delete">删除</button></td>
                                 <td><button class="templatemo-edit-btn" name="update">编辑</button></td>
                             </tr>

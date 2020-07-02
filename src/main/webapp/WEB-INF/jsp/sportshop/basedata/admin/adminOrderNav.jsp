@@ -7,6 +7,7 @@
                 <li><a href="myorderAction_listOrderForAdmin">未发货</a></li>
                 <li><a href="myorderAction_listReceivedOrder">已发货</a></li>
                 <li><a href="myorderAction_listCompletedOrder">已完成</a></li>
+                <li><a href="myorderAction_listRefundOrder">退款中</a></li>
             </ul>
          <span>&nbsp;</span>
               <input type="text" placeholder="输入订单号查找" id="oid" name="oid" value="${oid}">

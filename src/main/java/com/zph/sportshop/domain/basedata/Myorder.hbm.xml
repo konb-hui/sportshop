@@ -28,11 +28,13 @@
 		<property name="price" type="java.lang.Double"></property>
 		<property name="status" length = "10"></property>
 		<property name="newprice" type="java.lang.Double"></property>
+		<property name="address" length = "30"></property>
+		<property name="consignee" length = "10"></property>
+		<property name="phone" length = "11"></property>
 		<property name="time" length="20">
 			<column name="time" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
 		</property>
 		<many-to-one name="user" column="uid" class="com.zph.sportshop.domain.basedata.User"></many-to-one>
-		<many-to-one name="address" column="aid" class="com.zph.sportshop.domain.basedata.Address"></many-to-one>
 		<many-to-one name="logistics" column="lid" class="com.zph.sportshop.domain.admin.Logistics"></many-to-one>
 		<set name="histories" inverse="true" order-by="hid asc">
 			<key>

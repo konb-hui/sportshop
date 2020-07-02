@@ -100,9 +100,9 @@ $().ready(function(){
                                                     <td>${order.user.uid}</td>
                                                     <td>￥${order.price}</td>
                                                     <td>￥${order.newprice}</td>
-                                                    <td>${order.address.conname}</td>
-                                                    <td>${order.address.province} ${order.address.city} ${order.address.county} ${order.address.detailaddr}</td>
-                                                    <td>${order.address.contel}</td>
+                                                    <td>${order.consignee}</td>
+                                                    <td>${order.address}</td>
+                                                    <td>${order.phone}</td>
                                                     <td>${order.logistics.lname}</td>
                                                     <td>${order.time}</td>
                                                 </tr>

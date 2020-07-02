@@ -30,6 +30,9 @@
 <!-- Left column -->
 <div class="templatemo-flex-row">
     <jsp:include page="sidebar.jsp"></jsp:include>
+    <!-- Main content -->
+    <div class="templatemo-content col-1 light-gray-bg">
+ </div>
 </div>
 </body>
 </html>

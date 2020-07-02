@@ -268,11 +268,26 @@ public class BaseDaoImpl<T> implements BaseDao<T>{
 				int maxResults = baseQuery.getPageSize();
 				//用hibernate的方式设置分页
 				query.setFirstResult(firstResult).setMaxResults(maxResults);
-				//返回枫叶的结果集
+				//返回分页的结果集
 				List<T> rows = query.list();
 				//把结果是指到pageResult里
 				pageResult.setRows(rows);
 				return pageResult;
+			}
+		});
+	}
+	public Integer deleteByForeignId(final Long id,final String idName) {
+		// TODO Auto-generated method stub
+		return this.hibernateTemplate.execute(new HibernateCallback<Integer>() {
+
+			public Integer doInHibernate(Session session) throws HibernateException, SQLException {
+				// TODO Auto-generated method stub
+				StringBuffer hql = new StringBuffer();
+				hql.append("delete from " + classt.getSimpleName());
+				hql.append(" where " + idName);
+				hql.append("=" + id);
+				Query query = session.createQuery(hql.toString());
+				return query.executeUpdate();
 			}
 		});
 	}

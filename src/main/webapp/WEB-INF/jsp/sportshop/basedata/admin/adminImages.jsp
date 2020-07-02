@@ -60,7 +60,7 @@
                         <input type="file" id="add">
                         <input type="hidden" id="gid" value="${good.gid}">
                         </li>
-                        <li><input type="button" id="upimage" value="上传"></li>
+                        <li><input type="button" class="btn btn-default" id="upimage" value="上传"></li>
                     </ul>
                 </nav>
             </div>

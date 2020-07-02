@@ -52,7 +52,7 @@
         <div class="modal-content" id="parentModal">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">配置权限</h4>
+                <h4 class="modal-title" id="myRoleModalLabel"></h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="updateprivilege-form" name="updateprivilege-form" method="post">
@@ -70,6 +70,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="saveUpdateprivilege" >保存</button>
+                <input type="hidden" value="" id="hiderid">
             </div>
         </div>
     </div>
@@ -140,7 +141,7 @@
                         <li><a href="adminAction_listAdmin" class="active">返回管理员页面</a></li>
                     </ul>
                     <ul class="text-uppercase">
-                        <li><a href="#" class="active" id="add">添加角色</a></li>
+                        <li><a href="javascript:void(0)" class="active" id="add">添加角色</a></li>
                     </ul>
                 </nav>
             </div>

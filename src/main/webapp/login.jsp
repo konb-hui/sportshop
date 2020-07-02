@@ -92,7 +92,7 @@
 								<div class="col-sm-offset-2 col-sm-10">
 									<input type="submit" class="btn btn-primary login-input" value="登录"
 										name="submit">
-									<a href="" style="margin-left:10px;">忘记密码?</a>
+									<a href="registerAction_register" style="margin-left:10px;">没有账号?去注册</a>
 									<div class="error">
 										${errorMsg}
 									</div>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.zph.sportshop.base.action.BaseAction;
+import com.zph.sportshop.chat.service.ChatService;
 import com.zph.sportshop.domain.basedata.User;
 import com.zph.sportshop.login.service.LoginService;
 import com.zph.sportshop.util.encryption.EncryptionPsw;
@@ -24,6 +25,8 @@ public class LoginAction extends BaseAction<User>{
 	
 	@Resource(name="loginService")
 	private LoginService loginService;
+	@Resource(name="chatService")
+	private ChatService chatService;
 	private String confirmlogo;
 	
 	public String getConfirmlogo() {
@@ -52,6 +55,8 @@ public class LoginAction extends BaseAction<User>{
 			}else {
 			     Map session = ActionContext.getContext().getSession();  
 			     session.put("user", user);
+			     Integer num = this.chatService.getUnreadNum(user.getUid());
+			     session.put("chatnum", num);
 				return "homepage";
 			}
 		}
@@ -77,7 +82,7 @@ public class LoginAction extends BaseAction<User>{
 		return "login";
 	}
 	public String logout() {
-		ActionContext.getContext().getSession().clear(); 
+		ActionContext.getContext().getSession().put("user", null); 
 		return "login";
 	}
 }

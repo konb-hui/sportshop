@@ -63,10 +63,10 @@
                                     </c:if>
 									<c:forEach items="${shopcarts.shopcart}" var="item">
 									<tr>
-										<td class="product-remove product-remove_2"><button class="glyphicon glyphicon-trash btn btn-default" value="${item.scid}" onclick="deleteCartGoods(this)"></button></td>
-										<td class="product-thumbnail product-thumbnail-2"><a href="goodAction_showDetail?gid="+${item.good.gid}"><img src="/sportshop/${item.good.images}/1.jpg"/></a></td>
-										<td class="product-name product-name_2"><a href="goodAction_showDetail?gid="+${item.good.gid}">${item.good.gname}</a></td>
-										<td class="product-color"><span class="amount-list amount-list-2">${item.shopcolor}</span></td>
+										<td class="product-remove product-remove_2"><span class="glyphicon glyphicon-trash btn btn-default" value="${item.scid}" onclick="deleteCartGoods(this)"></span></td>
+										<td class="product-thumbnail product-thumbnail-2"><a href="goodAction_showDetail?gid=${item.good.gid}"><img src="/sportshop/${item.good.images}/1.jpg"/></a></td>
+										<td class="product-name product-name_2"><a href="goodAction_showDetail?gid=${item.good.gid}">${item.good.gname}</a></td>
+										<td class="product-color"><span class="amount-list amount-list-4">${item.shopcolor}</span></td>
 										<td class="product-size"><span class="amount-list amount-list-2">${item.shopsize}</span></td>
 										<c:if test="${shopcarts.vip eq '否'}">
 										<td class="product-price"><span class="amount-list amount-list-2">普通价￥${item.good.price}</span></td>
@@ -76,6 +76,8 @@
 										</c:if>
 										<td class="product-stock-status"><div class="latest_es_from_2"><input class="num" type="number" value="${item.goodsnum}" onchange="updateCart(this)">
 											<input type="hidden" id="scid" value="${item.scid}">
+											<input type="hidden" id="gid" value="${item.good.gid}">
+											<input type="hidden" id="sname" value="${item.shopsize}">
 										</div></td>
 										<c:if test="${shopcarts.vip eq '否'}">
 										<td class="product-price"><span class="amount-list amount-list-2">￥${item.good.price*item.goodsnum}</span></td>

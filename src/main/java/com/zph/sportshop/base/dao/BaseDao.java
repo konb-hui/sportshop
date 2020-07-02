@@ -40,4 +40,7 @@ public interface BaseDao<T> {
 	
 	//模糊查询某张表的记录
 	public PageResult<T> findPageResultByKey(final BaseQuery baseQuery);
+	
+	//通过表中的一个外键删除多条记录
+	public Integer deleteByForeignId(final Long id,final String idName);
 }

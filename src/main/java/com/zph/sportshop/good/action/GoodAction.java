@@ -22,7 +22,10 @@ import com.zph.sportshop.domain.good.Good;
 import com.zph.sportshop.domain.privilege.annotation.PrivilegeInfo;
 import com.zph.sportshop.good.service.BrandService;
 import com.zph.sportshop.good.service.CategoryService;
+import com.zph.sportshop.good.service.ColorService;
+import com.zph.sportshop.good.service.DiscountService;
 import com.zph.sportshop.good.service.GoodService;
+import com.zph.sportshop.good.service.SizeService;
 import com.zph.sportshop.query.PageResult;
 import com.zph.sportshop.query.good.GoodQuery;
 import com.zph.sportshop.util.copy.FileCopy;
@@ -40,6 +43,12 @@ public class GoodAction extends BaseAction<Good>{
 	private BrandService brandService;
 	@Resource(name="userService")
 	private UserService userService;
+	@Resource(name="colorService")
+	private ColorService colorService;
+	@Resource(name="sizeService")
+	private SizeService sizeService;
+	@Resource(name="discountService")
+	private DiscountService discountService;
 	private GoodQuery baseQuery = new GoodQuery();
 	private Long cid;
 	private Long bid;
@@ -202,17 +211,22 @@ public class GoodAction extends BaseAction<Good>{
 	@PrivilegeInfo(name="商品管理")
 	public String updateImage() {
 		String filepath1 = "/" + this.path;
+		//获得修改的文件
 		File file1 = new File(filepath1);
-		String filepath2 = filepath1.replace(file1.getName(), "1.jpg");
-		File file2 = new File(filepath2);
 		Good good = goodService.getEntry(this.getModel().getGid());
 		//获取项目路径
 		String classpath = this.getClass().getResource("/").getPath().replaceAll("WEB-INF/classes/", "");
 		//获得每个商品的图片的绝对路径
 		classpath = classpath+good.getImages();
-		new File(classpath + "/" + file1.getName()).renameTo(new File(classpath + "/abc.jpg"));
-		new File(classpath + "/" + file2.getName()).renameTo(new File(classpath + "/" + file1.getName()));
-		new File(classpath + "/abc.jpg").renameTo(new File(classpath + "/" + file2.getName()));
+		if (new File(classpath + "/1.jpg").exists()) {//有封面图
+			System.out.println("aaa1");
+			new File(classpath + "/" + file1.getName()).renameTo(new File(classpath + "/abc.jpg"));
+			new File(classpath + "/1.jpg").renameTo(new File(classpath + "/" + file1.getName()));
+			new File(classpath + "/abc.jpg").renameTo(new File(classpath + "/1.jpg"));
+		}else {//没有封面图
+			System.out.println("bbb1");
+			new File(classpath + "/" + file1.getName()).renameTo(new File(classpath + "/1.jpg"));
+		}
 		return SUCCESS;
 	}
 	@PrivilegeInfo(name="商品管理")
@@ -255,7 +269,7 @@ public class GoodAction extends BaseAction<Good>{
 	@PrivilegeInfo(name="商品管理")
 	public String updateGood() {
 			Good good2 = this.goodService.getEntry(this.getModel().getGid());
-			String content = "更新了商品：" + good2.getGname();
+			String content = "更新了商品：" + good2.getGid();
 			this.addInfo(content);
 			Brand brand = this.brandService.getEntry(this.bid);
 			Category category = this.categoryService.getEntry(this.cid);
@@ -294,9 +308,23 @@ public class GoodAction extends BaseAction<Good>{
 	}
 	@PrivilegeInfo(name="商品管理")
 	public String deleteGood() {
-		String content = "删除了商品：" + this.getModel().getGid();
+		Long gid = this.getModel().getGid();
+		String content = "删除了商品：" + gid;
 		this.addInfo(content);
-		this.goodService.deleteEntryById(this.getModel().getGid());
+		this.colorService.deleteByForeignId(gid, "gid");
+		this.sizeService.deleteByForeignId(gid, "gid");
+		Good good = this.goodService.getEntry(gid);
+		//获取项目路径
+		String classpath = this.getClass().getResource("/").getPath().replaceAll("WEB-INF/classes/", "");
+		//获得每个商品的图片的绝对路径
+		classpath = classpath+good.getImages();
+		File file = new File(classpath);
+		for (int i = 0; i < file.listFiles().length; i++) {
+			file.listFiles()[i].delete();
+		}
+		if(file.listFiles().length == 0) file.delete();
+		this.discountService.deleteByForeignId(gid, "gid");
+		this.goodService.deleteEntryById(gid);
 		return SUCCESS;
 	}
 	public String searchGood() {

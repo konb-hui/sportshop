@@ -110,7 +110,7 @@
                         <li>${good.gname}</li>
                     </ul>
                     <ul class="text-uppercase">
-                        <li><a href="#" class="active" id="add">添加颜色</a></li>
+                        <li><a href="javascript:void(0)" class="active" id="add">添加颜色</a></li>
                     </ul>
                 </nav>
             </div>

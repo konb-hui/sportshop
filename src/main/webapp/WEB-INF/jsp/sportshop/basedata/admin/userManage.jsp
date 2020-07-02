@@ -47,7 +47,6 @@
 		        	uid:uid
 		        },
 		        success: function (result) {
-					alert(result);
 					location.reload();
 		        },
 		        error: function (result) {

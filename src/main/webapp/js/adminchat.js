@@ -1,461 +1,250 @@
-/*
-/!**
- * Created by 文辉 on 2017/7/26.
- *!/
-var client;
-var clientID;
-$(window).on('beforeunload',function(){
-    client=null;
-    window.opener.document.getElementById("flag").value="0";
-});
-$(document).ready(function() {
-    clientID=$('#sendId').text();
-    client = new Messaging.Client('127.0.0.1',61614,clientID);
-    client.onConnectionLost = function(){
-        alert("连接已断开");
-    };
-    //收到消息
-    client.onMessageArrived = function(message){
+ $(document).ready(function(){
+     var websocket = null;
+     //存储联系人
+     var user = [];
+     //存储未读消息数
+     var num = [];
+     //定位
+     var i = 0;
+     $(".chat-input").hide();
+     $.ajax({
+	        url: "chatAction_getData",
+	        type: "post",
+	        data: {},
+      success: function(result){
+    	  $.each(result.userdata,function(key,values){
+    			  user[i] = values[1];
+    			  num[i] = values[2];
+    			  var str = values[0] + "";
+    			  $(".text-uppercase").prepend('<li><a href="javascript:void(0)" value="' + values[0] + '" flag="' + values[1] +'" class="active" onclick="showMsg(this)" id="'+ str + '">' + values[1] + '(' + values[2] + ')</a></li>');
+    		  i++;
+    	  })
+      },
+      error:function (){
+          alert("初始化失败");
+      }
+  });
+                //判断当前浏览器是否支持WebSocket
+                if ('WebSocket' in window) {
+                    websocket = new WebSocket("ws://localhost:8080/sportshop/ws/bitcoinServer");
 
-        var userid = $("#receiveId").text();
-        clientID = $('#sendId').text();
-        var msgObj=jQuery.parseJSON(message.payloadString);
-        // $('#toID').val(msgObj.from);
-        // debugger
-        if (msgObj.to===clientID&&msgObj.from===userid){
-            // debugger;
-            var element = '<div class="chat-message1 chat-message"> <div class="chat-message-content1"><div class="info-content"> ' + msgObj.body + '</div> </div> </div>';
-            var element_float = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element, element_float);
-            /!*$('#message').append("<font color=red>"+msgObj.from+":"+msgObj.body+"</font></br>");*!/
-        }
-    };
-    //建立连接和订阅
-    client.connect({onSuccess:function(){
-        //订阅topic
-        client.subscribe("topic");
-        // alert("连接成功");
-    }});
-    //var loadMessage = setInterval(receive,1000);
-    //var loadList = setInterval(refreshList,1000);
-    //receive();
-    // refreshList();
-    //点击发送按钮
-    $("#send-message").click(function() {
-
-        var message = $("#input-message").val();
-        if (message !== '') {
-
-            clientID=$('#sendId').text();
-            var msg={};
-            msg.from=clientID;
-            msg.to=$('#receiveId').text();
-            msg.body=message;
-            message = new Messaging.Message(JSON.stringify(msg));
-            message.destinationName = "topic";
-            client.send(message);
-
-            $("#input-message").val('');
-            var element = '<div class="chat-message2 chat-message"> <div class="chat-message-content2  animated slideInRight"><div class="info-content"> ' + msg.body + '</div> </div> </div>';
-            var element_float = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element, element_float);
+                    //连接成功建立的回调方法
+                    websocket.onopen = function () {
+                    	var array = new Array();
+                    	array[0] = "-2";
+                        websocket.send(array);
+                    }
+                    $("#send-message").click(function() {
+                    	var mydate = new Date();
+        				var t=mydate.toLocaleString('chinese', { hour12: false });
+            			var sendMsg = $("#input-message").val();
+            			if(sendMsg.trim != ""){
+            	            var element = '<div class="chat-message2 chat-message"> <div class="chat-message-content2  animated slideInRight">' + t + '<br/><div class="info-content"> ' + sendMsg + '</div> </div> </div>';
+            	            var element_float = '<div class="clear-float"></div>';
+            	            $(".chat-content-body").append(element, element_float);
 
 
-            //始终保持滚动条滚动到最下方
-            $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
+            	            //始终保持滚动条滚动到最下方
+            	            $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
+            	            var array = new Array();
+            	        	array[0] = $("#sendId").text();
+            	        	array[1] = $("#receiveId").text();
+            	        	array[2] = sendMsg;
+            	        	websocket.send(array);
+            			}
+            			$("#input-message").val("");
+            		});
+                    //接收到消息的回调方法
+                    websocket.onmessage = function (event) {
+                    	var mydate = new Date();
+        				var t=mydate.toLocaleString('chinese', { hour12: false });
+                    	var strs = event.data.split(",",3);
+                    	//判断是否为第一个联系人
+                    	if(i == 0){
+                    		user[i] = strs[1];
+                    		num[i] = 0;
+                    		i++;
+                    		$(".text-uppercase").append('<li><a href="javascript:void(0)" value="' + parseInt(strs[0]) + '" flag="' + strs[1] +  '" class="active" onclick="showMsg(this)" id="'+ strs[0] + '">' + strs[1] + '</a></li>');
+                    	}else{
+                    		var flag = true;
+                    		for(var j = 0; j < user.length;j++){
+                    			if(user[j] == strs[1]){
+                    				flag = false;
+                    				num[j]++;
+                    				break;
+                    			}
+                    		}
+                			//是新增联系人就添加
+                			if(flag){
+                				user[i] = strs[1];
+                				num[i] = 1;
+                				i++;
+                				$(".text-uppercase").append('<li><a href="javascript:void(0)" value="' + parseInt(strs[0]) + '" flag="' + strs[1] +  '" class="active" onclick="showMsg(this)" id="'+ strs[0] + '">' + strs[1] + '</a></li>');
+                			}
+                    	}
+                    	if($("#receiveId").text().trim() != ""){
+                    		if(strs[0] != $("#receiveId").text().trim()){
+                    			//遍历user找到当前user的未读消息数
+                    			var a = 0;
+                    			for(var j = 0; j < user.length;j++){
+                    				if(user[j] == strs[1]){
+                    					a = j;
+                    					break;
+                    				}
+                    			}
+                    			$("#" + strs[0]).text(strs[1] + "(" + num[a] +  ")");
+                    		}
+                    	}else{
+                    		var a = 0;
+                			for(var j = 0; j < user.length;j++){
+                				if(user[j] == strs[1]){
+                					a = j;
+                					break;
+                				}
+                			}
+                			$("#" + strs[0]).text(strs[1] + "(" + num[a] +  ")");
+                			add(parseInt(strs[0]),parseInt($("#sendId").text()),strs[2],0,t);
+                    	}
+                    	if(strs[0] == $("#receiveId").text().trim()){
+                            var element = '<div class="chat-message1 chat-message"> <div class="chat-message-content1">' + t + '<br/><div class="info-content"> ' + strs[2] + '</div> </div> </div>';
+                            var element_float = '<div class="clear-float"></div>';
+                            $(".chat-content-body").append(element, element_float);
 
-            $.ajax({
-                url: "/shop/sendMessage/", //把表单数据发送到ajax.jsp
-                type: "POST",
-                data: {
-                    senduser: clientID,
-                    receiveuser: msg.to,
-                    msgcontent: msg.body
-                },
-                error: function(request) {
-                    alert("保存消息失败");
-                },
-                success: function(data) {
-                    // alert("success!"); //将返回的结果显示到ajaxDiv中
+                            //始终保持滚动条滚动到最下方
+                            $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
+                    	}
+                    }
+                    
+                    //连接发生错误的回调方法
+                    websocket.onerror = function () {
+                    };
+
+                   //连接关闭的回调方法
+                    websocket.onclose = function () {
+                    }
+
+                    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+                    window.onbeforeunload = function () {
+                        closeWebSocket();
+                    }
+                    
                 }
-            });
-
-        }
-    });
-
-    //回车
-    $(document).keypress(function(e) {
-        if (e.which == 13) {
-            e.preventDefault();
-            jQuery("#send-message").click();
-        }
-    });
-
-    $('.a-card').click(function() {
-        $('.a-card').css("background","#FFFFFF")
-        $(this).css("background","#F8F8F8");
-        var userid = $(this).attr("data-userid");
-        var username = $(this).children(".card").text();
-        $("#receive").text(username);
-        $("#receiveId").text(userid);
-
-        //发异步请求查聊天消息
-        $.ajax({
-            url: "/shop/getMessage/", //把表单数据发送到ajax.jsp
-            type: "POST",
-            data: {
-                senduser: $("#sendId").text(),
-                receiveuser: userid,
-            },
-            error: function(request) {
-                alert("保存消息失败");
-            },
-            success: function(result) {
-                $('.chat-content-body').empty();
-                showMessage(result.info.message);
-                // alert("success!"); //将返回的结果显示到ajaxDiv中
-            }
-        });
-    });
-
-    $('.chat-list').hover(function() {
-        $(this).css("overflow-y","auto");
-    }, function() {
-        $(this).css("overflow-y","hidden");
-    });
-
-});
-
-
-function showMessage(message) {
-    // $("#input-message").val('');
-    var receiveId = $('#receiveId').text();
-
-    $.each(message, function (index,item) {
-        if (item.senduser == receiveId) {
-            var element = '<div class="chat-message1 chat-message"> <div class="chat-message-content1"><div class="info-content"> ' + item.msgcontent + '</div> </div> </div>';
-            var element_float = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element, element_float);
-        } else {
-            var element1 = '<div class="chat-message2 chat-message"> <div class="chat-message-content2"><div class="info-content"> ' + item.msgcontent + '</div> </div> </div>';
-            var element_float1 = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element1, element_float1);
-        }
-    });
-
-    //始终保持滚动条滚动到最下方
-    $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
-
-}
-
-*/
-
-
-var client;
-var clientID;
-$(window).on('beforeunload', function () {
-    client = null;
-    window.opener.document.getElementById("flag").value = "0";
-});
-$(document).ready(function () {
-
-    console.log(getChatList(2));
-    reGetChatUser($("#receiveId").text());
-
-    clientID = $('#sendId').text();
-    client = new Messaging.Client('127.0.0.1', 61614, clientID);
-    client.onConnectionLost = function () {
-        alert("连接已断开");
-    };
-    //收到消息
-    client.onMessageArrived = function (message) {
-        clientID = $('#sendId').text();
-        var userid = $("#receiveId").text();
-        var msgObj = jQuery.parseJSON(message.payloadString);
-        // $('#toID').val(msgObj.from);
-        // debugger
-        if (msgObj.to === clientID && msgObj.from === userid) {
-            // debugger;
-            var element = '<div class="chat-message1 chat-message"> <div class="chat-message-content1"><div class="info-content"> ' + msgObj.body + '</div> </div> </div>';
-            var element_float = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element, element_float);
-
-            //始终保持滚动条滚动到最下方
-            $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
-            /*$('#message').append("<font color=red>"+msgObj.from+":"+msgObj.body+"</font></br>");*/
-        } else if (msgObj.to === clientID && !getChatList(msgObj.from)) {
-            //重新获取聊天列表
-            reGetChatUser(msgObj.from);
-            // reGetChatUser(null);
-            /* var chatlistitem = '<a class="a-card" data-userid="' + msgObj.from + '"> <div class="card">' + msgObj.from + '</div> </a>';
-             $('.a-far').prepend(chatlistitem);*/
-        }
-    };
-    //建立连接和订阅
-    client.connect({
-        onSuccess: function () {
-            //订阅topic
-            client.subscribe("topic");
-            // alert("连接成功");
-        }
-    });
-    //var loadMessage = setInterval(receive,1000);
-    //var loadList = setInterval(refreshList,1000);
-    //receive();
-    // refreshList();
-    //点击发送按钮
-    $("#send-message").click(function () {
-
-        var message = $("#input-message").val();
-        if (message !== '') {
-
-            clientID = $('#sendId').text();
-            var msg = {};
-            msg.from = clientID;
-            msg.to = $('#receiveId').text();
-            msg.body = message;
-            message = new Messaging.Message(JSON.stringify(msg));
-            message.destinationName = "topic";
-            client.send(message);
-
-            $("#input-message").val('');
-            var element = '<div class="chat-message2 chat-message"> <div class="chat-message-content2  animated slideInRight"><div class="info-content"> ' + msg.body + '</div> </div> </div>';
-            var element_float = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element, element_float);
-
-
-            //始终保持滚动条滚动到最下方
-            $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
-
-            $.ajax({
-                url: "/shop/sendMessage/", //把表单数据发送到ajax.jsp
-                type: "POST",
-                data: {
-                    senduser: clientID,
-                    receiveuser: msg.to,
-                    msgcontent: msg.body
-                },
-                error: function (request) {
-                    alert("保存消息失败");
-                },
-                success: function (data) {
-                    // alert("success!"); //将返回的结果显示到ajaxDiv中
+                else {
+                    alert('当前浏览器 Not support websocket')
                 }
+
+
+                //关闭WebSocket连接
+                function closeWebSocket() {
+                	if($("#receiveId").text().trim() != ""){
+                		var s = $("#receiveId").text();
+            			$.ajax({
+            		        url: "chatAction_changeStatus",
+            		        type: "post",
+            		        data: {
+            		        	senduser:s,
+            		        },
+            		     success: function(result){
+            		     },
+            		     error:function (){
+            		         alert("发送失败");
+            		     }
+            		 });
+                	}
+                    websocket.close();
+                }
+                
             });
-            var receive = $("#receiveId").text();
-            /*$.post("servlet/ChatServlet", {
-             message: message,
-             time: new Date(),
-             receiveId: receive
-             });
-             receive();
-             refreshList();*/
-            /*$.get("servlet/ChatServlet", {
-             message: message,
-             time: new Date(),
-             receiveId: receive
-             },
-             function(data,status){
-             alert("数据: \n" + data + "\n状态: " + status);
-             });*/
-        }
-    });
-
-    //回车
-    $(document).keypress(function (e) {
-        if (e.which == 13) {
-            e.preventDefault();
-            jQuery("#send-message").click();
-        }
-    });
-
-    $('.a-card').click(function () {
-        $('.a-card').css("background", "#FFFFFF")
-        $(this).css("background", "#F8F8F8");
-        var userid = $(this).attr("data-userid");
-        var username = $(this).children(".card").text();
-        $("#receive").text(username);
-        $("#receiveId").text(userid);
-
-        //发异步请求查聊天消息
-        $.ajax({
-            url: "/shop/getMessage/", //把表单数据发送到ajax.jsp
-            type: "POST",
-            data: {
-                senduser: $("#sendId").text(),
-                receiveuser: userid,
-            },
-            error: function (request) {
-                alert("保存消息失败");
-            },
-            success: function (result) {
-                $('.chat-content-body').empty();
-                showMessage(result.info.message);
-                // alert("success!"); //将返回的结果显示到ajaxDiv中
-            }
-        });
-    });
-    /*function hitList(){
-     $('.list-item').css("background","#FAFAFA");
-     $(this).css("background","#EBEBEC");
-     var name = $(this).children("#user-name").text();
-     var number = $(this).children("#user-no").text();
-     $("#receive").text(name);
-     $("#receiveId").text(number);
-
-     }*/
-
-    $('.chat-list').hover(function () {
-        $(this).css("overflow-y", "auto");
-    }, function () {
-        $(this).css("overflow-y", "hidden");
-    });
-    //refreshList();
-
-});
-
-function userListClick() {
-
-    //发异步请求查聊天消息
-    $.ajax({
-        url: "/shop/getMessage/", //把表单数据发送到ajax.jsp
-        type: "POST",
+ function showMsg(obj) {
+	 if($("#receiveId").text().trim() != ""){
+		 var s = $("#receiveId").text();
+			$.ajax({
+		        url: "chatAction_changeStatus",
+		        type: "post",
+		        data: {
+		        	senduser:s,
+		        },
+		     success: function(result){
+		     },
+		     error:function (){
+		         alert("发送失败");
+		     }
+		 });
+	 }
+	$(".chat-input").show();
+	$(".chat-content-body").children().remove();
+	var senduser = $(obj).attr("value");
+	var receiveuser = $("#sendId").text();
+	$("#receiveId").text($(obj).attr("value"));
+	$("#receive").text($(obj).attr("flag"));
+	$("#" + $(obj).attr("value")).text($(obj).attr("flag") + "(0)");
+	$.ajax({
+        url: "chatAction_getUnreadMsg",
+        type: "post",
         data: {
-            senduser: $("#sendId").text(),
-            receiveuser: $("#receiveId").text(),
+        	senduser:senduser,
+        	receiveuser:receiveuser,
         },
-        error: function (request) {
-            alert("保存消息失败");
-        },
-        success: function (result) {
-            $('.chat-content-body').empty();
-            showMessage(result.info.message);
-            // alert("success!"); //将返回的结果显示到ajaxDiv中
-        }
-    });
+     success: function(result){
+    	 var history = '<a href="javascript:void(0)" id="record" onclick="showRecordMsg(this)">点击获取聊天记录</a>';
+		 $(".chat-content-body").prepend(history);
+    	 $.each(result.unread,function(key,values){
+    		 if(values.senduser == senduser){
+    			 var element = '<div class="chat-message1 chat-message"> <div class="chat-message-content1">' + values.msgtime + '<br/><div class="info-content"> ' + values.msgcontent + '</div> </div> </div>';
+                 var element_float = '<div class="clear-float"></div>';
+                 $(".chat-content-body").append(element, element_float);
+
+                 //始终保持滚动条滚动到最下方
+                 $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
+    		 }else{
+    			 var element = '<div class="chat-message2 chat-message"> <div class="chat-message-content2  animated slideInRight">' + values.msgtime + '<br/><div class="info-content"> ' + values.msgcontent + '</div> </div> </div>';
+  	            var element_float = '<div class="clear-float"></div>';
+  	            $(".chat-content-body").append(element, element_float);
+
+
+  	            //始终保持滚动条滚动到最下方
+  	            $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
+    		 }
+    		 
+    	 })
+     },
+     error:function (){
+         alert("发送失败");
+     }
+ });
 }
-
-/*function receive(){
- var sendUser = $('#receiveId').text();
- $.post("servlet/ReceiveServlet", {
- sendId: sendUser,
- },
- function(data, status){
- //alert(JSON.stringify(data));
- // alert(typeof(data));
- //var arr = eval(data);
- //console.log(data.MsgContent);
- //alert(data);
- $(".chat-content-body").html('');
- for (var i = 0; i < data.length; i++) {
- showMessage(data[i].User1,data[i].MsgContent);
- }
- },"json");
- }*/
-
-
-function showMessage(message) {
-    // $("#input-message").val('');
-    var receiveId = $('#receiveId').text();
-
-    $.each(message, function (index, item) {
-        if (item.senduser == receiveId) {
-            var element = '<div class="chat-message1 chat-message"> <div class="chat-message-content1"><div class="info-content"> ' + item.msgcontent + '</div> </div> </div>';
-            var element_float = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element, element_float);
-        } else {
-            var element1 = '<div class="chat-message2 chat-message"> <div class="chat-message-content2"><div class="info-content"> ' + item.msgcontent + '</div> </div> </div>';
-            var element_float1 = '<div class="clear-float"></div>';
-            $(".chat-content-body").append(element1, element_float1);
-        }
-    });
-
-    //始终保持滚动条滚动到最下方
-    $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
-
-}
-
-//获取所有聊天列表
-function getChatList(id) {
-    var chatList = [];
-    $('.a-far>a').each(function () {
-        chatList.push($(this).attr("data-userid"));
-    });
-    console.log(chatList);
-    for (var i = 0; i < chatList.length; i++) {
-        if (chatList[i] == id) {
-            return true;
-        }
-    }
-    return false;
-
-    /*$('.a-far').children().each(function(index,item){
-     alert(item.attr("data-userid"));
-     })*/
-
-}
-
-//重新获取列表
-function reGetChatUser(sendto) {
-    $.ajax({
-        url: "/shop/adminchat/", //把表单数据发送到ajax.jsp
-        type: "POST",
+ function showRecordMsg(obj) {
+	$(obj).remove();
+	var senduser = $("#receiveId").text().trim();
+	$.ajax({
+        url: "chatAction_getReadMsg",
+        type: "post",
         data: {
-            sendto: sendto
+        	senduser:senduser,
         },
-        error: function (request) {
-            alert(result.msg);
-        },
-        success: function (result) {
-            $('.a-far').empty();
-            showChatList(result.info.userlist);
-        }
-    });
+     success: function(result){
+    	 $.each(result.read,function(key,values){
+    		 if(values.senduser == senduser){
+    			 var element = '<div class="chat-message1 chat-message"> <div class="chat-message-content1">' + values.msgtime + '<br/><div class="info-content"> ' + values.msgcontent + '</div> </div> </div>';
+                 var element_float = '<div class="clear-float"></div>';
+                 $(".chat-content-body").prepend(element, element_float);
+
+                 //始终保持滚动条滚动到最下方
+                 $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight); 
+    		 }else{
+    			var element = '<div class="chat-message2 chat-message"> <div class="chat-message-content2  animated slideInRight">' + values.msgtime + '<br/><div class="info-content"> ' + values.msgcontent + '</div> </div> </div>';
+ 	            var element_float = '<div class="clear-float"></div>';
+ 	            $(".chat-content-body").prepend(element, element_float);
+
+
+ 	            //始终保持滚动条滚动到最下方
+ 	            $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
+    		 }
+    	 })
+     },
+     error:function (){
+         alert("发送失败");
+     }
+ });
 }
-
-function showChatList(userlist) {
-    $.each(userlist, function (index, item) {
-        var chatlistitemA = $("<a></a>").addClass("a-card").attr("data-userid", item.userid).attr("data-username", item.username);
-        var chatlistitem = chatlistitemA.addClass("card").append(item.username);
-        chatlistitemA.click(function () {
-            $('.a-card').css("background", "#FFFFFF")
-            $(this).css("background", "#F8F8F8");
-            var userid = $(this).attr("data-userid");
-            // var username = $(this).children(".card").text();
-            var username = $(this).attr("data-username");
-            $("#receive").text(username);
-            $("#receiveId").text(userid);
-            userListClick();
-        });
-
-        /* <div class="card">' + item.username + '</div>
-         *!/*/
-        $('.a-far').prepend(chatlistitem);
-    });
-}
-
-
-/*
- function refreshList() {
- $.post("servlet/RefreshServlet",
- function(data, status){
- //alert(JSON.stringify(data));
- // alert(typeof(data));
- //var arr = eval(data);
- //console.log(data.MsgContent);
- //alert(data);
- //$(".chat-list").html('');
- for (var i = 0; i < data.length; i++) {
- // showList(data[i].UserId,data[i].Name);
- $('#list-item'+i).children("#user-name").text(data[i].Name);
- $('#list-item'+i).children("#user-no").text(data[i].UserId);
- $('#list-item'+i).css("display","block");
- }
- },"json");
- }
-
- function showList(id,name) {
- var item = '<div class="list-item"><h3 id="user-name">'+name+'</h3><span id="user-no">'+id+'</span></div>';
- $('.chat-list').append(item);
- }*/
-
+           

@@ -75,7 +75,7 @@ $(document).ready(function () {
             $(".chat-content").scrollTop($(".chat-content")[0].scrollHeight);
 
             $.ajax({
-                url: "/shop/sendMessage/", //把表单数据发送到ajax.jsp
+                url: "chatAction_sendMessage", //把表单数据发送到ajax.jsp
                 type: "POST",
                 data: {
                     senduser: clientID,

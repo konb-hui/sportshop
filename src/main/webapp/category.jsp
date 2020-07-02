@@ -51,7 +51,7 @@
         <div class="module">
             <div class="">
                 <h3>
-                    类别><span style="color: red;">${cate}</span>
+                    类别><span>${cate}</span>
                     <input type="hidden" id="cid" value="${cid}">
                 </h3>
                 <hr>
@@ -66,8 +66,8 @@
                                     <a href="goodAction_showDetail?gid=${good.gid}"> <img src="${pageContext.request.contextPath}/${good.images}/1.jpg" width="250px" height="250px" alt=""/>
                                     </a>
                                 </div>
-                                <p class="text-right">
-                                    <a href="goodAction_showDetail/detail?gid=${good.gid}" style="font-size:15px">${fn:substring(good.gname,0,18)}</a>
+                                <p style="width: 250px;overflow: hidden;  white-space: nowrap;  text-overflow: ellipsis;">
+                                    <a href="goodAction_showDetail/detail?gid=${good.gid}" style="font-size:15px">${good.gname}</a>
                                 </p>
                                 <div class="text-right">
                                 	<b>普通价：￥${good.price}</b>

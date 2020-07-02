@@ -90,8 +90,12 @@ var adminLogistics = {
 			        	lid:lid
 			        },
 			        success: function (result) {
-						swal("删除成功！");
-						location.reload();
+			        	if(result == "删除失败"){
+			        		alert("删除失败");
+			        	}else{
+							swal("删除成功！");
+							location.reload();
+			        	}
 			        },
 			        error: function (result) {
 			            swal("删除失败");

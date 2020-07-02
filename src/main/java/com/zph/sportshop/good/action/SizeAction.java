@@ -49,6 +49,7 @@ public class SizeAction extends BaseAction<Size>{
 	public String updateSize() {
 			Size size2 = this.sizeService.getEntry(this.getModel().getSid());
 			size2.setSname(this.getModel().getSname());
+			size2.setNum(this.getModel().getNum());
 			sizeService.updateEntry(size2);
 			this.result = "更新成功";
 		return SUCCESS;
@@ -57,6 +58,7 @@ public class SizeAction extends BaseAction<Size>{
 	public String addSize() {
 			Size size2 = new Size();
 			size2.setSname(this.getModel().getSname());
+			size2.setNum(this.getModel().getNum());
 			Good good = this.goodService.getEntry(this.gid);
 			size2.setGood(good);
 			sizeService.saveEntry(size2);

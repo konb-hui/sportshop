@@ -32,11 +32,5 @@
 		<property name="conname" length="10"></property>
 		<property name="contel" length="12"></property>
 		<many-to-one name="User" column="uid" class="com.zph.sportshop.domain.basedata.User"></many-to-one>
-		<set name="myorders" inverse="true" order-by="oid asc">
-			<key>
-				<column name="aid"></column>
-			</key>
-			<one-to-many class="com.zph.sportshop.domain.basedata.Myorder"/>
-		</set>
 	</class>
 </hibernate-mapping>

@@ -34,4 +34,9 @@ public class SIzeServiceImpl extends BaseServiceImpl<Size> implements SizeServic
 		return this.sizeDao.findBySname(sname);
 	}
 
+	public Size getByGidAndName(Long gid, String sname) {
+		// TODO Auto-generated method stub
+		return this.sizeDao.getByGidAndName(gid, sname);
+	}
+
 }

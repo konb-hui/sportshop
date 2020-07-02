@@ -82,8 +82,12 @@ var adminRole = {
 			        	rid:rid
 			        },
 			        success: function (result) {
-						swal("删除成功！");
-						location.reload();
+			        	if(result.deleteInfo == "删除失败"){
+			        		alert("存在是该角色的管理员，请先删除管理员在删除角色");
+			        	}else{
+			        		swal("删除成功！");
+							location.reload();	
+			        	}
 			        },
 			        error: function (result) {
 			            swal("删除失败");
@@ -96,10 +100,12 @@ var adminRole = {
 	},
 	updateprivilege:function(){
 		$("[name='updateprivilege']").click(function(){
+			$("#myRoleModalLabel").text("配置权限：" + $(this).parent().siblings("#rname").text());
 			$("#updateprivilege-role").modal({
 	            backdrop:'static'
 	        });
 			var rid = $(this).parent().siblings("#rid").text();
+			$("#hiderid").val(rid);
 	        $.ajax({
 		        url: "roleAction_findPrivilegeByRole",
 		        type: "post",
@@ -108,6 +114,7 @@ var adminRole = {
 		        },
 	            success: function(result){
 	            	var list = result.list;
+	                $("input[type='checkbox']").prop("checked", false);
 	                for(var i = 0; i < list.length;i++){
 	                	$("#"+list[i].pid).prop("checked",true);
 	                }
@@ -116,27 +123,28 @@ var adminRole = {
 	                alert("加载失败");
 	            }
 	        });
-	        $("#saveUpdateprivilege").click(function(){
-	        	var pid = "";
-	        	$('input[name="privilege"]:checked').each(function(){
-	        		pid = pid + $(this).val() + ",";
-	        	});
-		        $.ajax({
-			        url: "roleAction_updatePrivilege",
-			        type: "post",
-			        data: {
-			        	pid:pid,
-			        	rid:rid,
-			        },
-		            success: function(result){
-		            	swal(result);
-		            	location.reload();
-		            },
-		            error:function (){
-		                alert("配置失败");
-		            }
-		        });
-	        });
 		});
+        $("#saveUpdateprivilege").click(function(){
+        	var pid = "";
+        	$('input[name="privilege"]:checked').each(function(){
+        		pid = pid + $(this).val() + ",";
+        	});
+        	var rid = $("#hiderid").val();
+	        $.ajax({
+		        url: "roleAction_updatePrivilege",
+		        type: "post",
+		        data: {
+		        	pid:pid,
+		        	rid:rid,
+		        },
+	            success: function(result){
+	            	swal(result);
+	            	location.reload();
+	            },
+	            error:function (){
+	                alert("配置失败");
+	            }
+	        });
+        });
 	},
 };

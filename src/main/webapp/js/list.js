@@ -20,6 +20,48 @@ $(document).ready(function (){
 			return false;//如果返回的是false,则表单不提交
 		}
    });
+   $("[name='refund']").click(function (){
+       var oid = $(this).siblings("#oid").val();
+		if(window.confirm("您确认申请退款吗?")){
+		    $.ajax({
+		        url: "myorderAction_refund",
+		        type: "post",
+		        data: {
+		        	oid:oid
+		        },
+		        success: function (result) {
+					swal("申请成功");
+					location.reload();
+		        },
+		        error: function (result) {
+		            swal("申请失败");
+		        }
+		    });
+		}else{
+			return false;//如果返回的是false,则表单不提交
+		}
+   });
+   $("[name='cancelrefund']").click(function (){
+       var oid = $(this).siblings("#oid").val();
+		if(window.confirm("您确认取消申请退款吗?")){
+		    $.ajax({
+		        url: "myorderAction_cancelrefund",
+		        type: "post",
+		        data: {
+		        	oid:oid
+		        },
+		        success: function (result) {
+					swal("取消成功");
+					location.reload();
+		        },
+		        error: function (result) {
+		            swal("取消失败");
+		        }
+		    });
+		}else{
+			return false;//如果返回的是false,则表单不提交
+		}
+   });
 
     $("[name='finishList']").click(function (){
         var oid=$(this).siblings("#oid").val();

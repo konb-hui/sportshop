@@ -21,6 +21,7 @@ import com.zph.sportshop.domain.basedata.User;
 import com.zph.sportshop.domain.good.Discount;
 import com.zph.sportshop.domain.good.Good;
 import com.zph.sportshop.good.service.GoodService;
+import com.zph.sportshop.good.service.SizeService;
 
 @Controller("shopCartAction")
 @Scope("prototype")
@@ -32,6 +33,8 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 	private GoodService goodService;
 	@Resource(name="userService")
 	private UserService userService;
+	@Resource(name="sizeService")
+	private SizeService sizeService;
 	private Long gid;
 	private Map<String, Object> cart = new HashMap<String, Object>();
 	private String result;
@@ -111,6 +114,7 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 	public String confirmBuy() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
+		if(user == null) return "login";
 		ShopCart shopCart = (ShopCart) map.get("shopcart");
 		ActionContext.getContext().put("shopcart", shopCart);
 		ActionContext.getContext().put("user", this.userService.getEntry(user.getUid()));
@@ -119,20 +123,17 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 	public String showShopCart() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
-		System.out.println("a");
 		this.cart.put("shopcart", this.shopCartService.getShopCartsByUid(user.getUid()));
-		System.out.println("b");
 		this.cart.put("vip", user.getIsvip());
-		System.out.println("c");
 		return "showcart";
 	}
 	public String goCart() {
 		Map map = ActionContext.getContext().getSession();
 		User user = (User) map.get("user");
+		if(user == null) return "login";
 		this.cart.put("shopcart", this.shopCartService.getShopCartsByUid(user.getUid()));
 		this.cart.put("vip", user.getIsvip());
 		ActionContext.getContext().put("shopcarts", cart);
-		if(user == null) return "login";
 		return "gocart";
 	}
 	public String updateNum() {
@@ -143,6 +144,10 @@ public class ShopCartAction extends BaseAction<ShopCart>{
 	}
 	public String deleteCart() {
 		shopCartService.deleteEntryById(this.getModel().getScid());
+		return SUCCESS;
+	}
+	public String getNum() {
+		this.result = this.sizeService.getByGidAndName(this.gid, this.getModel().getShopsize()).getNum().toString();
 		return SUCCESS;
 	}
 }

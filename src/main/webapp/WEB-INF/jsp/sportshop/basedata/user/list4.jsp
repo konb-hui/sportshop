@@ -133,7 +133,9 @@
             <span class="mdl-layout-title"><a href="myorderAction_listOrder">未付款</a></span>&nbsp;&nbsp;&nbsp;
             <span class="mdl-layout-title"><a href="myorderAction_listOrder2">未发货</a></span>&nbsp;&nbsp;&nbsp;
             <span class="mdl-layout-title"><a href="myorderAction_listOrder3">已发货</a></span>&nbsp;&nbsp;&nbsp;
-            <span class="mdl-layout-title"><a href="myorderAction_listOrder4">已完成</a></span>
+            <span class="mdl-layout-title"><a href="myorderAction_listOrder4">已完成</a></span>&nbsp;&nbsp;&nbsp;
+            <span class="mdl-layout-title"><a href="myorderAction_listOrder5">退款中</a></span>&nbsp;&nbsp;&nbsp;
+            <span class="mdl-layout-title"><a href="myorderAction_listOrder6">退款成功</a></span>
             <div class="mdl-layout-spacer"></div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
                 <%-- <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -201,15 +203,17 @@
                                                     ${order.time.date} 日
                                                 &nbsp;
                                                 收货地址:
-                                                    ${order.address.province}
-                                                    ${order.address.city}
-                                                    ${order.address.county}
+                                                    ${order.address}
                                     </td>
                                      <td  class="no-border col-lg-3">
-                                        收货人: ${order.address.conname}
+                                        收货人: ${order.consignee}
                                         <tr>
                                     <td  class="no-border col-lg-3">
                                         原价:${order.price}&nbsp;&nbsp;&nbsp;实付款:${order.newprice}
+                                        &nbsp;&nbsp;&nbsp; 物流：${order.logistics.lname}
+                                    </td>
+                                     <td  class="no-border col-lg-3">
+                                                       联系电话：${order.phone}
                                     </td>
                                     </tr>
                                         </tbody>

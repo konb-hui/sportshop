@@ -18,18 +18,18 @@ $(document).ready(function () {
 });*/
 
 function deleteCartGoods(obj) {
-	var scid = $(obj).val();
+	var scid = $(obj).attr("value");
     $.ajax({
         url: "shopCartAction_deleteCart",
+        type: "post",
         data: {
-        	scid:scid
+        	scid:scid,
         },
-        method: "post",
-        success: function (result) {
+        success: function(result){
         	location.reload();
         },
-        error:function () {
-            swal("删除失败");
+        error:function (result){
+        	swal("删除失败");
         }
     });
 }
@@ -40,21 +40,42 @@ function updateCart(obj) {
 		$(obj).val(1);
 		alert("最少为一件");
 	}else{
-	    var goodsnum = $(obj).val();
-	    var scid = $(obj).siblings("#scid").val();
-	    $.ajax({
-	        url: "shopCartAction_updateNum",
+		var gid = $(obj).siblings("#gid").val();
+		var shopsize = $(obj).siblings("#sname").val();
+		$.ajax({
+	        url: "shopCartAction_getNum",
 	        data: {
-	            scid: scid,
-	            goodsnum:goodsnum,
+	            gid: gid,
+	            shopsize:shopsize,
 	        },
 	        method: "post",
 	        success: function (result) {
-	        	location.reload();
+	        	var goodsnum = $(obj).val();
+	        	if(result < goodsnum){
+	        		$(obj).val($(obj).val() - 1);
+	        		alert("库存不足！");
+	        	}else{
+	        		$.ajax({
+		    	        url: "shopCartAction_updateNum",
+		    	        data: {
+		    	            scid: scid,
+		    	            goodsnum:goodsnum,
+		    	        },
+		    	        method: "post",
+		    	        success: function (result) {
+		    	        	location.reload();
+		    	        },
+		    	        error: function (result) {
+		    	            swal("更新购物车失败");
+		    	        }
+		    	    });
+	        	}
 	        },
 	        error: function (result) {
+	    		var scid = $(obj).siblings("#scid").val();
 	            swal("更新购物车失败");
 	        }
 	    });
+	    
 	}
 }

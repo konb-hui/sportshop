@@ -116,7 +116,7 @@
                         <li><a href="categoryAction_listCategory" class="active">所有类别</a></li>
                     </ul>
                     <ul class="text-uppercase">
-                        <li><a href="#" class="active" id="add">添加类别</a></li>
+                        <li><a href="javascript:void(0)" class="active" id="add">添加类别</a></li>
                     </ul>
                     <span>&nbsp;</span>
                     <input type="text" placeholder="输入关键字查找" id="key" name="key" value="${key}">
